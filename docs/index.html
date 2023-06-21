@@ -12,21 +12,30 @@
      crossorigin="anonymous"></script>
   </head>
   <body>
-      <div class="controls">
-      <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
-    <label class="auto">
-      Auto
-      <input type="checkbox" checked />
-    </label>
-      <div class="instrument-selector">
-          <select id="instrument-select" onchange="changeInstrument()">
-              <option value="guitar">Guitar</option>
-              <option value="bass">Bass Guitar</option>
-              <option value="ukulele">Ukulele</option>
-          </select>
-      </div>
-      <button class="toggle-slider" onclick="toggleSlider()">Show/Hide Fretboards</button>
-    </div>
+	<div class="controls">
+	    <div class="controls-menu">
+		<div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
+		<div class="auto">
+		    <label>Auto
+		      <input type="checkbox" checked />
+		      <span></span>
+		    </label>
+		</div>
+		<div class="instrument-selector">
+		    <select id="instrument-select" onchange="changeInstrument()">
+		        <option value="guitar">Guitar</option>
+		        <option value="bass">Bass Guitar</option>
+		        <option value="ukulele">Ukulele</option>
+		    </select>
+		</div>
+		<div class="toggle-slider">
+		    <label>Show/Hide Fretboards
+		      <input type="checkbox" onclick="toggleSlider()" />
+		      <span></span>
+		    </label>
+		</div>
+	    </div>
+</div>
     <canvas class="frequency-lines"></canvas>
     <div class="meter">
       <div id="tunedArea" class="meter-scale-tuned"></div>
@@ -75,7 +84,7 @@
 	      // If no images are displayed, hide the container
 	      sliderContainer.style.display = 'none';
 	    }
-}
+	}
 
 	function changeInstrument() {
 	    var selector = document.getElementById('instrument-select');
