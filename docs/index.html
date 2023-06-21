@@ -12,6 +12,21 @@
      crossorigin="anonymous"></script>
   </head>
   <body>
+      <div class="controls">
+      <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
+    <label class="auto">
+      Auto
+      <input type="checkbox" checked />
+    </label>
+      <div class="instrument-selector">
+          <select id="instrument-select" onchange="changeInstrument()">
+              <option value="guitar">Guitar</option>
+              <option value="bass">Bass Guitar</option>
+              <option value="ukulele">Ukulele</option>
+          </select>
+      </div>
+      <button class="toggle-slider" onclick="toggleSlider()">Show/Hide Fretboards</button>
+    </div>
     <canvas class="frequency-lines"></canvas>
     <div class="meter">
       <div id="tunedArea" class="meter-scale-tuned"></div>
@@ -24,11 +39,11 @@
         <span>Hz</span>
       </div>
     </div>
-    <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
-    <label class="auto">
-      Auto
-      <input type="checkbox" checked />
-    </label>
+    <div class="slider-container">
+	    <img id="guitar-image" class="fretboard-image" src="guitar.png" alt="Guitar Fretboard">
+	    <img id="bass-image" class="fretboard-image" src="bass.png" alt="Bass Guitar Fretboard">
+	    <img id="ukulele-image" class="fretboard-image" src="ukulele.png" alt="Ukulele Fretboard">
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/aubiojs@0.1.1/build/aubio.min.js"></script>
     <script src="tuner.js"></script>
@@ -36,15 +51,53 @@
     <script src="frequency-line.js"></script>
     <script src="notes.js"></script>
     <script src="app.js"></script>
+    <script>
+    var currentInstrument = 'guitar'; // Default instrument
+
+    window.onload = function() {
+        document.getElementById('bass-image').style.display = 'none';
+        document.getElementById('ukulele-image').style.display = 'none';
+    };
+
+	function toggleSlider() {
+	    var sliderContainer = document.querySelector('.slider-container');
+	    var slider = document.getElementById(currentInstrument + '-image');
+	    slider.style.display = slider.style.display === 'none' ? 'block' : 'none';
+
+	    // If any of the images are displayed, make the container visible too
+	    if (
+	      document.getElementById('guitar-image').style.display === 'block' ||
+	      document.getElementById('bass-image').style.display === 'block' ||
+	      document.getElementById('ukulele-image').style.display === 'block'
+	    ) {
+	      sliderContainer.style.display = 'block';
+	    } else {
+	      // If no images are displayed, hide the container
+	      sliderContainer.style.display = 'none';
+	    }
+}
+
+	function changeInstrument() {
+	    var selector = document.getElementById('instrument-select');
+	    currentInstrument = selector.value;
+	    
+	    document.getElementById('guitar-image').style.display = 'none';
+	    document.getElementById('bass-image').style.display = 'none';
+	    document.getElementById('ukulele-image').style.display = 'none';
+	    
+	    document.getElementById(currentInstrument + '-image').style.display = 'block';
+	}
+    </script>
+    
     <!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 
 	  gtag('config', 'G-ZJQ4QQXGDS');
-	</script>
+  </script>
   </body>
 </html>
 
