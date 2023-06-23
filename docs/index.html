@@ -6,13 +6,17 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=no"
     />
-    <title>StringTune Online Tuner</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<head>
+  <title>StringTune Online Tuner - Best Online String Instrument Tuner</title>
+   <meta name="description" content="Tune your guitar, bass, ukulele, or any other string instrument with our free, easy-to-use online tuner.">
+</head>
     <link rel="stylesheet" href="style.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679955917317735"
      crossorigin="anonymous"></script>
   </head>
   <body>
-    <canvas class="frequency-lines"></canvas>
+    <canvas class="frequency-lines higher-canvas"></canvas>
     <div class="meter">
       <div id="tunedArea" class="meter-scale-tuned"></div>
       <div class="meter-dot"></div>
@@ -29,6 +33,11 @@
       Auto
       <input type="checkbox" checked />
     </label>
+	<div class="fretboard-container">
+	    <img id="guitar-fretboard" class="fretboard" src="guitar-fretboard.png" alt="Guitar Fretboard" />
+	    <img id="ukulele-fretboard" class="fretboard" src="ukulele-fretboard.png" alt="Ukulele Fretboard" style="display: none;" />
+	    <img id="bass-fretboard" class="fretboard" src="bass-fretboard.png" alt="Bass Fretboard" style="display: none;" />
+	</div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdn.jsdelivr.net/npm/aubiojs@0.1.1/build/aubio.min.js"></script>
     <script src="tuner.js"></script>
@@ -36,6 +45,21 @@
     <script src="frequency-line.js"></script>
     <script src="notes.js"></script>
     <script src="app.js"></script>
+    <script>
+    var fretboards = ['guitar', 'ukulele', 'bass']; // Array to hold the fretboard sequence
+
+	document.querySelectorAll('.fretboard').forEach((fretboard, index) => {
+	    fretboard.addEventListener('click', function() {
+		// Hide all fretboards
+		document.querySelectorAll('.fretboard').forEach(f => f.style.display = 'none');
+
+		// Show next fretboard in sequence
+		var nextFretboard = fretboards[(index + 1) % fretboards.length];
+		document.getElementById(nextFretboard + '-fretboard').style.display = 'block';
+	    });
+	});
+	
+    </script>
     <!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
 	<script>
@@ -45,6 +69,29 @@
 
 	  gtag('config', 'G-ZJQ4QQXGDS');
 	</script>
+	<footer>
+	  <h2>About this Tuner</h2>
+	  <p>
+	    Welcome to StringTune, the easiest-to-use online tuner. To start, allow accees to the microphone. Play each string one at a time. The tuner will automatically detect the pitch of the note being played and indicate whether it's sharp or flat. Keep adjusting until the tuner points directly to the center. Click on the fretboard to change instruments. Happy tuning!
+	  </p>
+	  
+	      <a href="javascript:window.external.AddFavorite(window.location.href,document.title);" class="btn">Bookmark</a>
+      <div class="social-profiles">
+        <a href="https://facebook.com/YourProfile" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/YourProfile" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+
+
+	  <div class="language-selector">
+	    <label for="language-select">Language:</label>
+	    <select id="language-select" onchange="changeLanguage()">
+	      <option value="en">English</option>
+	      <option value="fr">Français</option>
+	      <option value="es">Español</option>
+	      <option value="de">Deutsch</option>
+	    </select>
+	  </div>
+</footer>
   </body>
 </html>
 
