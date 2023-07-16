@@ -64,7 +64,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: stringtune
+          path: stringtune/publi
 
   # Deployment job
   deploy:
