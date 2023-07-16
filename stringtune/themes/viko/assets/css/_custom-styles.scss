@@ -175,12 +175,21 @@ html {
 }
 
 @media (max-width: 768px) {
+  .tuner {
+    width: 100vw;
+    height: auto;
+    margin: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
 
   .tuner .meter {
     top: 10%;
     width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: none; /* remove translation */
   }
 
   .tuner .notes {
