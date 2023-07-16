@@ -41,6 +41,7 @@ Application.prototype.start = function () {
       document.getElementById("startButton").style.display = "none";
     } catch (error) {
       console.error('Microphone initialization failed:', error);
+
       let button = document.getElementById("startButton");
       button.style.backgroundColor = "#808080"; // change to grey
       button.textContent = "Error starting mic";
