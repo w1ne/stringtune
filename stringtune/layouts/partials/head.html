@@ -1,11 +1,11 @@
         {{ $options := (dict "outputStyle" "compressed") }}
 {{ $css := resources.Get "css/main.scss" | toCSS $options }}
-{{ $js := resources.Get "js/main.js" | resources.Fingerprint "md5" }}
+{{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
 
 {{ if hugo.IsProduction }}
     <!-- Purge unused css and minify it -->
     {{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
-    {{ $css = $css | minify | resources.Fingerprint "md5" }}
+    {{ $css = $css | minify | resources.Fingerprint "sha256" }}
 {{ end }}
 
 <title>
