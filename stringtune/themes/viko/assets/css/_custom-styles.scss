@@ -40,8 +40,8 @@ html {
 }
 
 .tuner .notes {
-  position: absolute;
-  top: 72%;
+  position: relative;
+  top: 25%;
   margin: auto;
   left:0;
   right:0;
@@ -169,12 +169,13 @@ html {
 
 .tuner .frequency-lines {
   position: absolute;
-  top: 10%;
+  top: 15%;
 }
 
 @media (max-width: 768px) {
 
   .tuner .meter {
+    top: 10%;
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -216,8 +217,8 @@ html {
 }
 
 .about {
-  bottom: 60%;
-  padding: 20px;
+  bottom: 50%;
+  padding: 50px 10px;
   max-width: 800px;
   margin: auto;
   color: #B0BEC5;  /* Light blue-grey text */
