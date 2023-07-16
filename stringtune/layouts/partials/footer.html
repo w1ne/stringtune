@@ -58,25 +58,9 @@
         <div class="columns">
         <div class="column">
     	<div class="language-selection">
-	<a href="/en/" class="btn">English</a>
-	<a href="/es/" class="btn">Español</a>
-	<a href="/fr/" class="btn">Français</a>
-	<a href="/de/" class="btn">Deutsch</a>
-	<a href="/zh/" class="btn">中文</a>
-	<a href="/it/" class="btn">Italiano</a>
-	<a href="/pt/" class="btn">Português</a>
-	<a href="/ja/" class="btn">日本語</a>
-	<a href="/ar/" class="btn">العربية</a>
-	<a href="/pl/" class="btn">Polski</a>
-	<a href="/uk/" class="btn">Українська</a>
-	<a href="/nl/" class="btn">Nederlands</a>
-	<a href="/ko/" class="btn">한국어</a>
-	<a href="/tr/" class="btn">Türkçe</a>
-	<a href="/el/" class="btn">Ελληνικά</a>
-	<a href="/sv/" class="btn">Svenska</a>
-	<a href="/no/" class="btn">Norsk</a>
-	<a href="/da/" class="btn">Dansk</a>
-	<a href="/fi/" class="btn">Suomi</a>
+		{{ range $.AllTranslations }}
+			<a class='{{if eq .Lang $.Lang}} selected {{end}}' href='{{.RelPermalink}}'> {{ .Language.LanguageName }} </a>
+		{{ end }}
 	</div>
 	</div>
 	</div>
