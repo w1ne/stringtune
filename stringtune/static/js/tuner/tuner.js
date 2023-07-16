@@ -158,6 +158,8 @@ Tuner.prototype.init = function () {
     );
     self.startRecord();
   });
+
+  return stream.getTracks()[0];
 };
 
 /**
