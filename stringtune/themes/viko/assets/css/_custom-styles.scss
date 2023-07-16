@@ -111,6 +111,7 @@ html {
 
 .tuner .meter {
   position: absolute;
+  display: flex;
   height: 400px;
   bottom: 0%;
   right: 50%;
@@ -170,6 +171,7 @@ html {
 .tuner .frequency-lines {
   position: absolute;
   top: 15%;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -216,12 +218,44 @@ html {
   color: #4CAF50; /* Material Green for in-tune notes */
 }
 
+.tuner #startButton {
+  display: block;
+  align-items: center;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  padding: 10px;
+  background-color: #4CAF50; 
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-width: 2px;
+  z-index: 9999;
+}
+
+.tuner #startButton img {
+  width: 40px;
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tuner #startButton p {
+  margin-left: 5px;
+}
+
 .about {
   bottom: 50%;
   padding: 50px 10px;
   max-width: 800px;
   margin: auto;
-  color: #B0BEC5;  /* Light blue-grey text */
+  color: #B0BEC5;
   text-align: justify;
 }
 
@@ -241,20 +275,20 @@ html {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: #121212;  /* dark background */
-  color: #B0BEC5;  /* Light blue-grey text */
+  background-color: #121212; 
+  color: #B0BEC5;
   text-align: center;
-  padding: 0px 0; /* This gives some space above and below the text */
+  padding: 0px 0; 
   font-family: sans-serif;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap; /* to wrap items into next row if space is not enough */
+  flex-wrap: wrap;
 }
 
 .footer a:hover {
-  background-color: #B0BEC5; /* Light blue-grey background when hovering */
-  color: #121212; /* Dark text color when hovering */
+  background-color: #B0BEC5;
+  color: #121212;
 }
 
 .button {

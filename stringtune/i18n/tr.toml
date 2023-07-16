@@ -17,3 +17,5 @@ other = "Ekranı Açık Tut"
 [auto]
 other = "Oto"
 
+[clickmic]
+other = "Ayarlamayı başlatmak için mikrofona basın"

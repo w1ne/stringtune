@@ -17,3 +17,5 @@ other = "Houd scherm aan"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Druk op de microfoon om te beginnen met stemmen"

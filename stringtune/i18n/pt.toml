@@ -17,3 +17,5 @@ other = "Manter ecrã ligado"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Pressione o microfone para começar a sintonizar"

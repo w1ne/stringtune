@@ -17,3 +17,5 @@ other = "Bildschirm anlassen"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Drücken Sie das Mikrofon, um das Stimmen zu starten"

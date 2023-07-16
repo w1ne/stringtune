@@ -17,3 +17,5 @@ other = "Pidä näyttö päällä"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Paina mikrofonia aloittaaksesi virityksen"

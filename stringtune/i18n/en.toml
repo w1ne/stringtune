@@ -17,3 +17,5 @@ other = "Keep Screen On"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Press microphone to start tuning"

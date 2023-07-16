@@ -17,3 +17,5 @@ other = "Garder l'écran allumé"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Appuyez sur le microphone pour commencer l'accordage"

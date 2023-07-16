@@ -17,3 +17,5 @@ other = "画面をオンに保つ"
 [auto]
 other = "自動"
 
+[clickmic]
+other = "マイクを押してチューニングを開始します"

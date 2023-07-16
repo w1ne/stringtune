@@ -17,3 +17,5 @@ other = "화면 켜기"
 [auto]
 other = "자동"
 
+[clickmic]
+other = "마이크를 눌러 튜닝을 시작하십시오"

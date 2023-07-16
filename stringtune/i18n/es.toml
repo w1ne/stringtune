@@ -17,3 +17,5 @@ other = "Mantener la pantalla encendida"
 [auto]
 other = "Automático"
 
+[clickmic]
+other = "Presiona el micrófono para empezar a afinar"

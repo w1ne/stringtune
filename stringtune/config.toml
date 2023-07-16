@@ -51,7 +51,6 @@ twitter_handle = "@stringtune"
 # Used for twitter:creator field in the twitter cards
 author_twitter_handle = "@stringtune"
 facebook_url = "https://www.facebook.com/onlinestringtuner/"
-instagram_url = "https://www.instagram.com/acme/"
 
 [languages]
   [languages.en]

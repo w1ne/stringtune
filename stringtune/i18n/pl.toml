@@ -17,3 +17,5 @@ other = "Nie wyłączaj ekranu"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Naciśnij mikrofon, aby rozpocząć strojenie"

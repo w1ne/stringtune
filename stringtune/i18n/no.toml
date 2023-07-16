@@ -17,3 +17,5 @@ other = "Hold skjermen på"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Trykk på mikrofonen for å starte tuning"

@@ -17,3 +17,5 @@ other = "Håll skärmen på"
 [auto]
 other = "Auto"
 
+[clickmic]
+other = "Tryck på mikrofonen för att starta stämningen"

@@ -32,9 +32,20 @@ Application.prototype.start = function () {
     }
   };
 
-  swal.fire("Welcome to online tuner! Please enable access to the mic to continue.").then(function () {
-    self.tuner.init();
-    self.frequencyData = new Uint8Array(self.tuner.analyser.frequencyBinCount);
+  document.getElementById("startButton").addEventListener("click", function () {
+    try {
+      self.tuner.init();
+      self.frequencyData = new Uint8Array(self.tuner.analyser.frequencyBinCount);
+  
+      // If successful, hide the button
+      document.getElementById("startButton").style.display = "none";
+    } catch (error) {
+      console.error('Microphone initialization failed:', error);
+      let button = document.getElementById("startButton");
+      button.style.backgroundColor = "#808080"; // change to grey
+      button.textContent = "Error starting mic";
+      button.disabled = true; // disable the button
+    }
   });
 
   this.$a4.addEventListener("click", function () {

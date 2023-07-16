@@ -17,3 +17,5 @@ other = "保持屏幕开启"
 [auto]
 other = "自动"
 
+[clickmic]
+other = "按下麦克风开始调音"

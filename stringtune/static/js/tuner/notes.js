@@ -82,7 +82,7 @@ Notes.prototype.clearActive = function () {
 Notes.prototype.update = function (note) {
   if (note.value in this.$notesMap) {
     this.active(this.$notesMap[note.value]);
-    this.$frequency.textContent = parseFloat(
+    this.$frequency.childNodes[0].textContent = parseFloat(
       note.frequency
     ).toFixed(1);
   }
