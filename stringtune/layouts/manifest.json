@@ -1,0 +1,26 @@
+{
+  "short_name": "{{ .Site.Params.short_name }}",
+  "name": "{{ .Site.Params.name }}",
+  "description": "{{ .Site.Params.description }}",
+  "icons": [
+    {
+      "src": "{{ .Site.BaseURL }}/path/to/icon/lowres.webp",
+      "sizes": "64x64",
+      "type": "image/webp"
+    },
+    {
+      "src": "{{ .Site.BaseURL }}/path/to/icon/lowres",
+      "sizes": "64x64"
+    },
+    {
+      "src": "{{ .Site.BaseURL }}/path/to/icon/hd_hi",
+      "sizes": "128x128"
+    }
+  ],
+  "start_url": "{{ .Site.BaseURL }}/index.html",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "{{ .Site.BaseURL }}/app/",
+  "theme_color": "#3367D6"
+}
+

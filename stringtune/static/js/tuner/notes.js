@@ -82,7 +82,11 @@ Notes.prototype.clearActive = function () {
 Notes.prototype.update = function (note) {
   if (note.value in this.$notesMap) {
     this.active(this.$notesMap[note.value]);
-    document.getElementById("freqValue").textContent = parseFloat(note.frequency).toFixed(1);
+    if (this.$frequency) {
+      this.$frequency.textContent = parseFloat(note.frequency).toFixed(1);
+    } else {
+      console.warn("this.$frequency element not found");
+    }
   }
 };
 

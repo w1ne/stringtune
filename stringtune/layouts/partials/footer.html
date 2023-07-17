@@ -9,83 +9,83 @@
 {{ $facebook_url := .Site.Params.social.facebook_url }}
 
 <footer class="footer">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-3">
-                <h2 class="title is-5"><a href="{{ $home }}">Stringtune</a></h2>
-                <div class="buttons vk-amp-buttons is-centered">
-                    {{ if eq ($.Scratch.Get "output-format") "amp" }}
-                    <a class="button vk-amp-button" href="{{ $twitter_url }}">
-                        <amp-img src="/images/icons/twitter.svg" width="20" height="20" alt="Twitter logo"></amp-img>
-                    </a>
-                    <a class="button vk-amp-button" href="{{ $facebook_url }}">
-                        <amp-img src="/images/icons/facebook-f.svg" width="20" height="20" alt="Facebook logo"></amp-img>
-                    </a>
-                    {{ else }}
-                    <a class="button" href="{{ $twitter_url }}">
-                        <img src="/images/icons/twitter.svg" width="20" height="20" alt="Twitter logo" />
-                    </a>
-                    <a class="button" href="{{ $facebook_url }}">
-                        <img src="/images/icons/facebook-f.svg" width="20" height="20" alt="Facebook logo" />
-                    </a>
-                    {{ end }}
-                </div>
-            </div>
-	<div class="column">
-	<!--
-	    <h3 class="title is-6">Tools</h3>
-	    <ul>
-		{{ range .Site.Menus.product }}
-		{{ if eq .Page.Lang $.Lang }}
-		    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-		{{ end }}
-		{{ end }}
-	    </ul>
-	-->
-	</div>
-	<div class="column">
-	    <h3 class="title is-6">About us</h3>
-	    <ul>
-		{{ range .Site.Menus.company }}
-		{{ if eq .Page.Lang $.Lang }}
-		    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-		{{ end }}
-		{{ end }}
-	    </ul>
-	</div>
-	</div>
-        <div class="container">
-        <div class="columns">
-        <div class="column">
-    	<div class="language-selection">
-		{{ range $.AllTranslations }}
-			<a class='{{if eq .Lang $.Lang}} selected {{end}}' href='{{.RelPermalink}}'> {{ .Language.LanguageName }} </a>
-		{{ end }}
-	</div>
-	</div>
-	</div>
-    	</div>
-        
-        <div class="columns">
-            <div class="column">
-                {{ range .Site.Menus.legal }}
-                    <a class="mr-5" href="{{ .URL }}">{{ .Name }}</a>
-                {{ end }}
-            </div>
-          <div class="column has-text-right-tablet">
-                <p class="subtitle is-6">{{ partial "copyright" . }}</p>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-    <!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+	<div class="container">
+		<div class="columns">
+			<div class="column is-3">
+				<h2 class="title is-5"><a href="{{ $home }}">Stringtune</a></h2>
+				<div class="buttons vk-amp-buttons is-centered">
+					{{ if eq ($.Scratch.Get "output-format") "amp" }}
+					<a class="button vk-amp-button" href="{{ $twitter_url }}">
+						<amp-img src="/images/icons/twitter.svg" width="20" height="20" alt="Twitter logo"></amp-img>
+					</a>
+					<a class="button vk-amp-button" href="{{ $facebook_url }}">
+						<amp-img src="/images/icons/facebook-f.svg" width="20" height="20"
+							alt="Facebook logo"></amp-img>
+					</a>
+					{{ else }}
+					<a class="button" href="{{ $twitter_url }}">
+						<img src="/images/icons/twitter.svg" width="20" height="20" alt="Twitter logo" />
+					</a>
+					<a class="button" href="{{ $facebook_url }}">
+						<img src="/images/icons/facebook-f.svg" width="20" height="20" alt="Facebook logo" />
+					</a>
+					{{ end }}
+				</div>
+			</div>
+			<div class="column">
+				<!--
+			<h3 class="title is-6">Tools</h3>
+			<ul>
+			{{ range .Site.Menus.product }}
+			{{ if eq .Page.Lang $.Lang }}
+				<li><a href="{{ .URL }}">{{ .Name }}</a></li>
+			{{ end }}
+			{{ end }}
+	    	</ul>
+	           -->
+			</div>
+			<div class="column">
+				<h3 class="title is-6">About us</h3>
+				<ul>
+					{{ range .Site.Menus.company }}
+					{{ if eq .Page.Lang $.Lang }}
+					<li><a href="{{ .URL }}">{{ .Name }}</a></li>
+					{{ end }}
+					{{ end }}
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+			<div class="columns">
+				<div class="column">
+					<div class="language-selection">
+						{{ range $.AllTranslations }}
+						<a class='{{if eq .Lang $.Lang}} selected {{end}} language-link' data-lang="{{ .Lang }}"
+							data-link="{{ .RelPermalink }}" href='{{.RelPermalink}}'> {{ .Language.LanguageName }} </a>
+						{{ end }}
+					</div>
+				</div>
+			</div>
+		</div>
 
-	  gtag('config', 'G-ZJQ4QQXGDS');
-	</script>
+		<div class="columns">
+			<div class="column">
+				{{ range .Site.Menus.legal }}
+				<a class="mr-5" href="{{ .URL }}">{{ .Name }}</a>
+				{{ end }}
+			</div>
+			<div class="column has-text-right-tablet">
+				<p class="subtitle is-6">{{ partial "copyright" . }}</p>
+			</div>
+		</div>
+		<div id="container">
+			{{ partial "installapp.html" . }}
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
 </footer>

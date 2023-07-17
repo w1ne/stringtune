@@ -18,14 +18,3 @@ const releaseWakeLock = async () => {
         wakeLock = null;
     }
 };
-
-window.onload = function() {
-    const checkbox = document.querySelector('#screenLock');
-    checkbox.addEventListener('change', (event) => {
-        if (event.target.checked) {
-            requestWakeLock();
-        } else {
-            releaseWakeLock();
-        }
-    });
-}

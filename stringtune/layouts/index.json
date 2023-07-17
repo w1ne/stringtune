@@ -1,0 +1,12 @@
+{{ $options := (dict "outputStyle" "compressed") }}
+{{ $css := resources.Get "css/main.scss" | toCSS $options }}
+{{ $js := resources.Get "js/main.js" | resources.Fingerprint "md5" }}
+
+{{ if hugo.IsProduction }}
+    <!-- Purge unused css and minify it -->
+    {{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
+    {{ $css = $css | minify | resources.Fingerprint "md5" }}
+{{ end }}
+
+{{- $manifest := slice "/" "/index.html" $css.RelPermalink $js.RelPermalink "/js/tuner/aubio.min.js" "/js/tuner/screenlock.js" "/js/tuner/tuner.js" "/js/tuner/meter.js" "/js/tuner/frequency-line.js" "/js/tuner/notes.js" "/js/tuner/application.js" -}}
+{{- $manifest | jsonify -}}

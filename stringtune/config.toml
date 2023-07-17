@@ -13,6 +13,9 @@ theme = "viko"
     # Needed for analytics
     facebook_app_id = "123456789"
 
+[outputs]
+  home = ["HTML", "JSON"]
+
 # Text that appears on the home page
 [params.home]
 title = "strintune.com"
@@ -114,7 +117,7 @@ facebook_url = "https://www.facebook.com/onlinestringtuner/"
     contentDir = "content/pl"
 
   [languages.uk]
-    title = "Онлайн-тюнер StringTune - Найкращий онлайн-тюнер для інструментів з мікрофоном"
+    title = "Онлайн-тюнер StringTune - Найкращий онлайн-тюнер для інструментів з використанням мікрофону"
     description = "Налаштуйте вашу гітару, бас-гітару, укулеле або будь-який інший струнний інструмент за допомогою нашого безкоштовного, простого в користуванні онлайн-тюнера, який показує частоту ноти. Оптимізовано для мобільних пристроїв!"
     languageName = "Українська"
     contentDir = "content/uk"

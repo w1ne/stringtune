@@ -1,11 +1,11 @@
 .button:hover {
-    filter: brightness(95%);
+  filter: brightness(95%);
 }
 
 .icon.is-small.is-right {
-    position: absolute;
-    right: 10px;
-    color: grey;
+  position: absolute;
+  right: 10px;
+  color: grey;
 }
 
 html {
@@ -43,8 +43,8 @@ html {
   position: relative;
   top: 25%;
   margin: auto;
-  left:0;
-  right:0;
+  left: 0;
+  right: 0;
   width: 100%;
   text-align: center;
 }
@@ -59,7 +59,8 @@ html {
 }
 
 .tuner .note.active {
-  color: #F48FB1; /* Active note color to pink */
+  color: #F48FB1;
+  /* Active note color to pink */
 }
 
 .tuner .notes-list {
@@ -70,16 +71,14 @@ html {
   transform: translateX(-50%);
   -ms-overflow-style: none;
   white-space: nowrap;
-  -webkit-mask-image: -webkit-linear-gradient(
-    left,
-    rgba(0, 0, 0, 0),
-    #121212,
-    rgba(0, 0, 0, 0)
-  );
+  -webkit-mask-image: -webkit-linear-gradient(left,
+      rgba(0, 0, 0, 0),
+      #121212,
+      rgba(0, 0, 0, 0));
 }
 
 .tuner .notes-list .note-octave {
-	top: 50%;
+  top: 50%;
 }
 
 .tuner .notes-list::-webkit-scrollbar {
@@ -91,7 +90,8 @@ html {
   right: 0.25em;
   font-size: 40%;
   font-weight: normal;
-  color: #78909C; /* Dark blue-grey for note span */
+  color: #78909C;
+  /* Dark blue-grey for note span */
 }
 
 .tuner .frequency {
@@ -121,7 +121,8 @@ html {
 .tuner .meter-pointer {
   width: 2px;
   height: 100%;
-  background: #B0BEC5; /* Light blue-grey */
+  background: #B0BEC5;
+  /* Light blue-grey */
   transform: rotate(45deg);
   transform-origin: bottom;
   transition: transform 0.5s;
@@ -132,7 +133,8 @@ html {
 .tuner .meter-dot {
   width: 10px;
   height: 10px;
-  background: #B0BEC5; /* Light blue-grey */
+  background: #B0BEC5;
+  /* Light blue-grey */
   border-radius: 50%;
   position: absolute;
   bottom: -5px;
@@ -146,7 +148,8 @@ html {
   transform-origin: bottom;
   transition: transform 0.2s;
   box-sizing: border-box;
-  border-top: 10px solid #B0BEC5; /* Light blue-grey */
+  border-top: 10px solid #B0BEC5;
+  /* Light blue-grey */
   position: absolute;
   right: 50%;
 }
@@ -158,14 +161,17 @@ html {
 
 .tuner .meter-scale-tuned {
   width: 16px;
-  height: 10%; 
+  height: 10%;
   background: #4CAF50;
   position: absolute;
-  bottom: 92%;  
-  right: 50%; 
-  margin-right: -7px;  /* centering adjustment */
-  box-shadow: 0 0 10px #4CAF50, 0 0 10px #4CAF50;  /* glow effect */
-  transform: rotate(0deg);  /* set rotation to 0 to place it at the top */
+  bottom: 92%;
+  right: 50%;
+  margin-right: -7px;
+  /* centering adjustment */
+  box-shadow: 0 0 10px #4CAF50, 0 0 10px #4CAF50;
+  /* glow effect */
+  transform: rotate(0deg);
+  /* set rotation to 0 to place it at the top */
 }
 
 .tuner .frequency-lines {
@@ -184,38 +190,41 @@ html {
   }
 
   .tuner .notes {
-    width: 100%;
+    width: 80%;
   }
 }
 
 .tuner .swal-button {
-  background: #B0BEC5; /* Light blue-grey */
+  background: #B0BEC5;
+  /* Light blue-grey */
 }
 
 .tuner .a4 {
   position: absolute;
   top: 1.5em;
-  left: 16px;
+  left: 5px;
 }
 
 .tuner .a4 span {
-  color: #F48FB1; /* Pink */
+  color: #F48FB1;
+  /* Pink */
 }
 
 .tuner .screen {
   position: absolute;
   top: 1.5em;
-  right: 16px;
+  right: 5px;
 }
 
 .tuner .auto {
   position: absolute;
   top: 3em;
-  right: 16px;
+  right: 5px;
 }
 
 .tuner .note.in-tune {
-  color: #4CAF50; /* Material Green for in-tune notes */
+  color: #4CAF50;
+  /* Material Green for in-tune notes */
 }
 
 .tuner #startButton {
@@ -227,7 +236,7 @@ html {
   width: 150px;
   height: 150px;
   padding: 5px;
-  background-color: #4CAF50; 
+  background-color: #4CAF50;
   color: white;
   cursor: pointer;
   position: absolute;
@@ -259,10 +268,15 @@ html {
   text-align: justify;
 }
 
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-    color: #F48FB1;
-    font-weight: 600;
-    line-height: 1.125;
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  color: #F48FB1;
+  font-weight: 600;
+  line-height: 1.125;
 }
 
 .about ul {
@@ -275,10 +289,10 @@ html {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: #121212; 
+  background-color: #121212;
   color: #B0BEC5;
   text-align: center;
-  padding: 0px 0; 
+  padding: 0px 0;
   font-family: sans-serif;
   display: flex;
   justify-content: space-around;
@@ -294,4 +308,82 @@ html {
 .button {
   background-color: #007bff;
   transition: background-color 0.3s ease;
+}
+
+/* Install Prompt */
+#install-app-prompt,
+#install-app-prompt-ios {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 10000;
+  background:  #4CAF50;
+  border-top: 1px solid  #4CAF50;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+}
+
+.install-app-content {
+  text-align: left;
+  padding: 10px;
+  height: 50px;
+}
+
+.footer .column.has-text-right-tablet {
+  margin-bottom: 50px;
+}
+
+#install-button,
+#install-button-ios {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  background: none;
+  color: #000000;
+  border-radius: 4px;
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  transform: translate(0, -50%);
+  width: calc(100% - 20px);
+}
+
+#install-app-instructions-ios {
+  display: none;
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background:  #4CAF50;
+  width: calc(100% - 20px);
+  padding: 15px 15px;
+  text-align: center;
+  z-index: 10000;
+  font-size: 18px;
+  line-height: 1.6em;
+  border-radius: 10px;
+}
+
+#install-app-instructions-ios::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  border: 10px solid  #4CAF50;
+  border-color:  #000000; 
+  transform: translate(-50%, 0);
+}
+
+#install-app-screen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
 }

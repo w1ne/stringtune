@@ -1,8 +1,9 @@
-    <div class="tuner">
+{{ $micpng := resources.Get "/images/mic.png" }}
+	<div class="tuner">
 	    <div class="meter">
 	      <div id="tunedArea" class="meter-scale-tuned"></div>
 		  <button id="startButton">
-			<img src="/images/mic.png" alt="mic">
+			<img src="{{ $micpng.RelPermalink }}" alt="mic">
 			<p>{{ i18n "clickmic" }}</p>
 		  </button>
 	      <div class="meter-dot"></div>
@@ -27,7 +28,7 @@
 	    </label>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/aubiojs@0.1.1/build/aubio.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/aubio.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/tuner/screenlock.js"></script>
 <script src="{{ .Site.BaseURL }}js/tuner/tuner.js"></script>
 <script src="{{ .Site.BaseURL }}js/tuner/meter.js"></script>
