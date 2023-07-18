@@ -7,6 +7,7 @@
 {{ $home := $.Site.BaseURL }}
 {{ $twitter_url := .Site.Params.social.twitter_url }}
 {{ $facebook_url := .Site.Params.social.facebook_url }}
+{{ $feedback_url := .Site.Params.social.feedback_url }}
 
 <footer class="footer">
 	<div class="container">
@@ -52,6 +53,7 @@
 					<li><a href="{{ .URL }}">{{ .Name }}</a></li>
 					{{ end }}
 					{{ end }}
+					<a href="{{ $feedback_url }}"> Ideas 💡 + Bugs 🪲 </a> 
 				</ul>
 			</div>
 		</div>

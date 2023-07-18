@@ -59,6 +59,7 @@ twitter_handle = "@stringtune"
 # Used for twitter:creator field in the twitter cards
 author_twitter_handle = "@stringtune"
 facebook_url = "https://www.facebook.com/onlinestringtuner/"
+feedback_url = "https://strungtune.canny.io/"
 
 [languages]
   [languages.en]
