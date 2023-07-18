@@ -19,7 +19,14 @@ self.addEventListener('fetch', function(event) {
           return response;
         }
         // Not in cache, return from network
-        return fetch(event.request);
+        return fetch(event.request)
+          .catch(function() {
+            // Handle any errors from the fetch
+            return new Response("Request failed due to network issues or ad-blocker.", {
+              status: 502,
+              statusText: 'Bad Gateway'
+            });
+          });
       })
   );
 });
