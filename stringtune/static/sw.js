@@ -1,12 +1,23 @@
 self.addEventListener('install', function(event) {
   event.waitUntil(
-    fetch('./index.json')
-      .then(response => response.json())
-      .then(files =>
-        caches.open('stringtune-tuner-cache').then(function(cache) {
-          return cache.addAll(files);
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== 'stringtune-tuner-cache') {
+            console.log('Deleting out of date cache:', cacheName);
+            return caches.delete(cacheName);
+          }
         })
-      )
+      );
+    }).then(function() {
+      return fetch('./index.json')
+        .then(response => response.json())
+        .then(files =>
+          caches.open('stringtune-tuner-cache').then(function(cache) {
+            return cache.addAll(files);
+          })
+        );
+    })
   );
 });
 
