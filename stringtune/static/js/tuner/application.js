@@ -39,6 +39,12 @@ Application.prototype.start = function () {
   
       // If successful, hide the button
       document.getElementById("startButton").style.display = "none";
+      // Send a Google Analytics event
+      gtag('event', 'click', {
+        'event_category': 'StartTunerButton',
+        'event_label': 'Button Clicked',
+        'value': '1'
+    });
     } catch (error) {
       console.error('Microphone initialization failed:', error);
 
