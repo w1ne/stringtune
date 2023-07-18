@@ -1,6 +1,6 @@
 [Intro]
 other = """
-Bienvenido 🤲 a StringTune, el afinador online más fácil de usar. Para comenzar, permite el acceso al micrófono. Toca cada cuerda una a una. El afinador detectará automáticamente el tono de la nota que se está tocando e indicará si está aguda o plana. Sigue ajustando hasta que el afinador apunte directamente al centro. Aquí tienes algunos patrones de afinación comunes para varios instrumentos de cuerda:
+Bienvenido   a StringTune, el afinador online más fácil de usar. Para comenzar, permite el acceso al micrófono. Toca cada cuerda una a una. El afinador detectará automáticamente el tono de la nota que se está tocando e indicará si está aguda o plana. Sigue ajustando hasta que el afinador apunte directamente al centro. Aquí tienes algunos patrones de afinación comunes para varios instrumentos de cuerda:
 
 - 🎸 Afinación estándar de guitarra: 🎵 E - A - D - G - B - E
 - Afinación estándar de bajo: 🎵 E - A - D - G
