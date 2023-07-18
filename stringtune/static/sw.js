@@ -12,21 +12,15 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        // Not in cache, return from network
-        return fetch(event.request)
-          .catch(function() {
-            // Handle any errors from the fetch
-            return new Response("Request failed due to network issues or ad-blocker.", {
-              status: 502,
-              statusText: 'Bad Gateway'
-            });
-          });
+    fetch(event.request)
+      .then(response => {
+        // Network was successful, update cache
+        caches.open('stringtune-tuner-cache').then(cache => cache.put(event.request, response.clone()));
+        return response;
+      })
+      .catch(() => {
+        // Network request failed, try the cache
+        return caches.match(event.request);
       })
   );
 });
