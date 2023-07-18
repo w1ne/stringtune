@@ -6,6 +6,11 @@ DefaultContentLanguage = "en"
 disableKinds = ["taxonomy", "taxonomyTerm"]
 theme = "viko"
 
+[minify]
+  enable = true
+  minifyCSS = true
+  minifyJS = true
+
 [params]
     copyright = "Copyright {year}, Stringtune.com"
     author = "strintune.com"
