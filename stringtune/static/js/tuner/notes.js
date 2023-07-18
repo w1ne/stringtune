@@ -3,7 +3,7 @@ const Notes = function (selector, tuner) {
   this.isAutoMode = true;
   this.$root = document.querySelector(selector);
   this.$notesList = this.$root.querySelector(".notes-list");
-  this.$frequency = this.$root.querySelector(".frequency");
+  this.$frequency = this.$root.querySelector("#freqValue");
   this.$notes = [];
   this.$notesMap = {};
   this.createNotes();
