@@ -22,6 +22,12 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
+  if (event.request.method !== 'GET') {
+    // If it's not a GET request, just handle it normally and don't cache it.
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
@@ -37,3 +43,4 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
+``
