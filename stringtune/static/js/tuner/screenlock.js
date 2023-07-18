@@ -19,10 +19,23 @@ const releaseWakeLock = async () => {
     }
 };
 
-document.getElementById('screenLock').addEventListener('change', (event) => {
+const screenLockCheckbox = document.getElementById('screenLock');
+
+screenLockCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
         requestWakeLock();
+        localStorage.setItem('screenLock', 'true');
     } else {
         releaseWakeLock();
+        localStorage.setItem('screenLock', 'false');
     }
 });
+
+// Check local storage and update checkbox state accordingly
+const screenLockState = localStorage.getItem('screenLock');
+if (screenLockState === 'true') {
+    screenLockCheckbox.checked = true;
+    requestWakeLock();
+} else {
+    screenLockCheckbox.checked = false;
+}
