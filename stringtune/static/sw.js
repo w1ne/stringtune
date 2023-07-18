@@ -25,8 +25,10 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Network was successful, update cache
-        caches.open('stringtune-tuner-cache').then(cache => cache.put(event.request, response.clone()));
+        let clone = response.clone();
+        event.waitUntil(
+          caches.open('stringtune-tuner-cache').then(cache => cache.put(event.request, clone))
+        );
         return response;
       })
       .catch(() => {
