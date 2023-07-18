@@ -19,3 +19,6 @@ other = "自动"
 
 [clickmic]
 other = "按下麦克风开始调音"
+
+[install_app]
+  other = "安装应用"

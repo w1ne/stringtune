@@ -1,4 +1,4 @@
-        {{ $options := (dict "outputStyle" "compressed") }}
+{{ $options := (dict "outputStyle" "compressed") }}
 {{ $css := resources.Get "css/main.scss" | toCSS $options }}
 {{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
 

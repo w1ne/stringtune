@@ -19,3 +19,6 @@ other = "Auto"
 
 [clickmic]
 other = "Appuyez sur le microphone pour commencer l'accordage"
+
+[install_app]
+  other = "Installer l'application"

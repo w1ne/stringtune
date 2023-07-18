@@ -19,3 +19,6 @@ other = "Auto"
 
 [clickmic]
 other = "Naciśnij mikrofon, aby rozpocząć strojenie"
+
+[install_app]
+  other = "Zainstaluj aplikację"

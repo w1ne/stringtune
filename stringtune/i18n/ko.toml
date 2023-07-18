@@ -19,3 +19,6 @@ other = "자동"
 
 [clickmic]
 other = "마이크를 눌러 튜닝을 시작하십시오"
+
+[install_app]
+  other = "앱 설치"

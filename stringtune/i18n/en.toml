@@ -20,3 +20,6 @@ other = "Auto"
 
 [clickmic]
 other = "Press microphone to start tuning"
+
+[install_app]
+  other = "Install APP"

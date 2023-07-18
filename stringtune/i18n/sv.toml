@@ -19,3 +19,6 @@ other = "Auto"
 
 [clickmic]
 other = "Tryck på mikrofonen för att starta stämningen"
+
+[install_app]
+  other = "Installera app"

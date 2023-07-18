@@ -19,3 +19,6 @@ other = "自動"
 
 [clickmic]
 other = "マイクを押してチューニングを開始します"
+
+[install_app]
+  other = "アプリをインストールする"

@@ -19,3 +19,6 @@ other = "Oto"
 
 [clickmic]
 other = "Ayarlamayı başlatmak için mikrofona basın"
+
+[install_app.tr]
+  other = "Uygulamayı yükle"

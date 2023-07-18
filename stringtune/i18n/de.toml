@@ -19,3 +19,6 @@ other = "Auto"
 
 [clickmic]
 other = "Drücken Sie das Mikrofon, um das Stimmen zu starten"
+
+[install_app]
+  other = "App installieren"

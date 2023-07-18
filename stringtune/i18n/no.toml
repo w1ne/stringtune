@@ -19,3 +19,6 @@ other = "Auto"
 
 [clickmic]
 other = "Trykk på mikrofonen for å starte tuning"
+
+[install_app]
+  other = "Installer app"

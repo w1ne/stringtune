@@ -19,3 +19,6 @@ other = "Automático"
 
 [clickmic]
 other = "Presiona el micrófono para empezar a afinar"
+
+[install_app]
+  other = "Instalar la aplicación"
