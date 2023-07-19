@@ -40,7 +40,7 @@ Application.prototype.start = function () {
       // If successful, hide the button
       document.getElementById("startButton").style.display = "none";
       // Send a Google Analytics event
-      gtag('event', 'click', {
+      gtag('event', 'click-mic-button', {
         'event_category': 'StartTunerButton',
         'event_label': 'Button Clicked',
         'value': '1'
