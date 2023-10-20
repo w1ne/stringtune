@@ -51,7 +51,7 @@ Application.prototype.start = function () {
         'event_category': 'StartTunerError',
         'event_label': 'Mic error',
         'value': error,
-      });
+      
       let button = document.getElementById("startButton");
       button.style.backgroundColor = "#808080"; // change to grey
       button.textContent = "Error starting mic";
