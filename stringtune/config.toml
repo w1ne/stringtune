@@ -53,11 +53,11 @@ display = ""
 
 # Footer
 [params.social]
-twitter_url = "https://twitter.com/stringtune"
+twitter_url = "https://twitter.com/AndriiShylenko"
 # Used for twitter:site field in the twitter cards
-twitter_handle = "@stringtune"
+twitter_handle = "@andriishylenko"
 # Used for twitter:creator field in the twitter cards
-author_twitter_handle = "@stringtune"
+author_twitter_handle = "@AndriiShylenko"
 facebook_url = "https://www.facebook.com/onlinestringtuner/"
 feedback_url = "https://strungtune.canny.io/"
 
