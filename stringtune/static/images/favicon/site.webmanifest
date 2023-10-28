@@ -19,13 +19,13 @@
     "start_url": "/",
     "screenshots": [
         {
-            "src": "/path/to/desktop-screenshot.png",
+            "src": "/images/desktop-screenshot.png",
             "sizes": "1024x768",
             "type": "image/png",
             "form_factor": "wide"
         },
         {
-            "src": "/path/to/mobile-screenshot.png",
+            "src": "/images/mobile-screenshot.png",
             "sizes": "640x480",
             "type": "image/png"
         }
