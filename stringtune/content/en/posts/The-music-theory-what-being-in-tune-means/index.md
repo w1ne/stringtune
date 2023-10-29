@@ -19,7 +19,7 @@ Pitch plays a pivotal role in music. It refers to the highness or lowness of a m
 
 Pitches are quantified into specific frequencies. For instance, middle C on a piano has a frequency of 261.6 Hz. The octave above middle C rings in at 523.3 Hz - precisely double the frequency. This exemplifies the direct link between pitch and frequency.
 
-![Vector illustration of a piano keyboard stretching across the canvas. Above the keys are floating musical notes, some producing harmonious waves (indi](images/Vector_illustration_of_a_piano_keyboard_stretching_across_the_canvas._Above_the_keys_are_floating_musical_notes,_some_producing_harmonious_waves_(indi.webp#center)
+![Vector illustration of a piano keyboard stretching across the canvas. Above the keys are floating musical notes, some producing harmonious waves indi](images/Vector_illustration_of_a_piano_keyboard_stretching_across_the_canvas._Above_the_keys_are_floating_musical_notes,_some_producing_harmonious_waves_indi.webp#center)
 
 Our perception of pitch allows us to differentiate between notes and melodies. Tunes and harmonies are formed by combining pitches in certain ways. When pitches align and complement each other, it creates the pleasing sensation of being "in tune." 
 
