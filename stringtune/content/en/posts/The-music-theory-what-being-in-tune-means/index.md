@@ -19,6 +19,8 @@ Pitch plays a pivotal role in music. It refers to the highness or lowness of a m
 
 Pitches are quantified into specific frequencies. For instance, middle C on a piano has a frequency of 261.6 Hz. The octave above middle C rings in at 523.3 Hz - precisely double the frequency. This exemplifies the direct link between pitch and frequency.
 
+![Vector illustration of a piano keyboard stretching across the canvas. Above the keys are floating musical notes, some producing harmonious waves (indi](images/Vector_illustration_of_a_piano_keyboard_stretching_across_the_canvas._Above_the_keys_are_floating_musical_notes,_some_producing_harmonious_waves_(indi.webp#center)
+
 Our perception of pitch allows us to differentiate between notes and melodies. Tunes and harmonies are formed by combining pitches in certain ways. When pitches align and complement each other, it creates the pleasing sensation of being "in tune." 
 
 Conversely, notes that clash and compete can sound "out of tune." This dissonance occurs when frequencies do not synchronize mathematically. The overtones and harmonics between notes interfere, rather than fuse.
@@ -34,6 +36,8 @@ Ultimately, being "in tune" means notes relate to each other through simple freq
 Tuning refers to adjusting the pitch of a musical instrument to align with a reference pitch. For instruments like guitars or pianos that can play multiple notes, tuning involves adjusting each string or key so that it produces the correct pitch for that note. 
 
 Proper tuning is essential for playing in tune. When an instrument is tuned, the fundamental frequencies of each note match the preset standard frequencies. For example, standard tuning for a guitar is E at 329 Hz, A at 440 Hz, D at 587 Hz and so on for each string. Tune diverges when the pitch wavers from those frequencies.
+
+![Illustration of a musician's workspace. In the center, a guitar is propped up, with floating labels indicating the pitch and frequency for each string](images/Illustration_of_a_musician's_workspace._In_the_center,_a_guitar_is_propped_up,_with_floating_labels_indicating_the_pitch_and_frequency_for_each_string.webp#center)
 
 There are a few main methods for tuning instruments:
 
@@ -69,6 +73,8 @@ The instruments musicians play have an important role in achieving and maintaini
 
 For example, string instruments like violins or guitars rely on the length and tension of their strings to produce pitches. Longer, looser strings create lower notes, while shorter, tighter strings produce higher notes. Turning the tuning pegs on string instruments tightens or loosens the strings, changing the pitch. Players have to continuously fine-tune their instruments to compensate for factors like changes in temperature and humidity that cause the strings to drift out of tune. The flexibility of strings also means they can be intentionally adjusted to play in different tuning systems like just intonation.
 
+![Illustration of a split scene. On one side, a violin with its strings lengthened and loosened, emanating deep, low-frequency waves, symbolizing lower ](images/Illustration_of_a_split_scene._On_one_side,_a_violin_with_its_strings_lengthened_and_loosened,_emanating_deep,_low-frequency_waves,_symbolizing_lower_.webp#center)
+
 Instruments like brass and woodwinds depend on the length of their tubing or pipes to produce different notes. Like with strings, longer pipes and tubes equate to lower pitches. Keywork mechanisms on the instruments are used to change the effective length of tubing. Tuning slides on brass instruments can also adjust pitches by lengthening the tubing. Woodwinds use reeds, whose hardness also impacts tuning. Players adjust embouchure and airflow to center the pitch.
 
 Percussion instruments also have tuning challenges. The heads of drums can be tuned by tightening or loosening rods around the rim. While tunable to a degree, drum heads will naturally go out of tune over time due to factors like weather and use. Pitched percussion like xylophones requires adjusting mallets and tube lengths to produce the desired notes.
@@ -88,6 +94,8 @@ Staying in tune also requires adapting to outside factors like temperature, humi
 # The Science Behind Being in Tune
 
 Tuning and being in tune relies on the physics of sound waves and how our brains process these waves. Sound is created by vibrations traveling through a medium like air or water in the form of waves. The frequency of these waves determines the pitch we hear. Higher frequency waves make higher pitched sounds. When musicians tune their instruments to each other, they are matching the frequencies of the sound waves their instruments produce. 
+
+![Illustration of a vibrant, multi-layered musical universe. The foreground showcases a guitarist and a violinist, their instruments emitting waves symb](images/Illustration_of_a_vibrant,_multi-layered_musical_universe._The_foreground_showcases_a_guitarist_and_a_violinist,_their_instruments_emitting_waves_symb.png#center)
 
 Equal temperament, the most common tuning system used today, spaces the notes on the musical scale at set frequencies. The A above middle C is set at 440 Hz. Each octave higher doubles this frequency to 880 Hz, 1760 Hz etc. The other notes of the scale are spaced apart by set ratios from this A. Instruments are built and tuned to align with these precise frequencies.
 
