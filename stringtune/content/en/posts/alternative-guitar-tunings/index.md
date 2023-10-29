@@ -8,7 +8,7 @@ Deviating from standard tuning jumps start inspiration. Modified tunings transfo
 
 Retuning remaps the fretboard's possibilities. New tunings unlock unexplored frequencies, textures, emotions. Alternative tunings stretch scopes. Outside the standard's boundaries, players discover richer ranges. Deviant tunings reveal the guitar's still untapped potential. They urges axeslingers toward innovative, idiosyncratic expressions.
 
-# The Role of Tuning in Musical Expression (300 words)
+# The Role of Tuning in Musical Expression
 
 - How Tuning Influences Sound and Playing Style
 
@@ -20,8 +20,7 @@ Tuning also affects the physical feel of the guitar and the technique required. 
 
 Alternative tunings have greatly impacted guitar music by offering new textures and capabilities. Songwriters use tunings to create specific moods, like the haunting sound of open D minor in many Led Zeppelin acoustic tracks. Jazz guitarists have embraced non-standard tunings to voice more complex chords. Performers may switch tunings mid-concert to adapt to different songs. Overall, alternative tunings allow guitarists to expand their musical repertoire and craft unique tones for specific pieces. However, they can also present challenges live when quick tuning changes are required. To maximize their potential, most guitarists combine standard tuning with a few alternate tunings particularly suited to their style. Rather than limiting their options, alternative tunings offer access to an array of new sounds.
 
-# Popular Alternative Tunings (600 words)
-
+# Popular Alternative Tunings
 ## Drop D Tuning
 
 Drop D tuning is one of the most common and easy-to-use alternative tunings for guitar. It involves tuning the low E string down to D while leaving the other strings in standard tuning. This gives the guitar a deeper, fuller sound and allows the player to utilize the open D string as a pedal tone. 
@@ -104,7 +103,7 @@ Switching from standard to alternative tunings can feel daunting at first. Here 
 
 Approaching alternative tunings with an open mind will make the transition process more enjoyable. Don't get discouraged—with regular practice, the new chord shapes will soon feel natural.
 
-# Practical Applications of Alternative Tunings (350 words)
+# Practical Applications of Alternative Tunings
 
 Alternative guitar tunings have found practical use across many genres and styles of music. Certain tunings lend themselves well to particular sounds, allowing guitarists to expand their creative palette. Here are some of the most common real-world applications of alternative tunings:
 
