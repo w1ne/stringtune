@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Bem-vindo ao StringTune, o afinador online mais fácil de usar. Para começar, permita o acesso ao microfone. Toque cada corda uma de cada vez. O afinador irá detectar automaticamente a altura da nota sendo tocada e indicar se está aguda ou desafinada. Continue ajustando até que o afinador aponte diretamente para o centro. Aqui estão alguns padrões de afinação comuns para vários instrumentos de cordas:
 

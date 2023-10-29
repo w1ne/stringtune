@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Tervetuloa StringTuneen, helpoimmin käytettävään online-virittimeen. Aloittaaksesi, salli mikrofonin käyttö. Soita jokainen kieli kerrallaan. Virityslaite havaitsee automaattisesti soitettavan nuotin korkeuden ja ilmoittaa, onko se liian korkea vai matala. Jatka säätämistä, kunnes virityslaite osoittaa suoraan keskelle. Tässä on joitakin yleisiä viremalleja erilaisille kielisoittimille:
 

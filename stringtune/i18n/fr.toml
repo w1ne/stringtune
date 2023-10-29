@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Bienvenue sur StringTune, l'accordeur en ligne le plus facile à utiliser. Pour commencer, autorisez l'accès au microphone. Jouez chaque corde une à la fois. L'accordeur détectera automatiquement la hauteur de la note jouée et indiquera si elle est trop aigüe ou trop grave. Continuez à ajuster jusqu'à ce que l'accordeur pointe directement vers le centre. Voici quelques schémas d'accordage courants pour différents instruments à cordes :
 

@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Välkommen till StringTune, det enklaste online-stämverktyget att använda. För att börja, tillåt åtkomst till mikrofonen. Spela varje sträng en i taget. Stämverktyget kommer automatiskt att upptäcka tonhöjden för den spelade noten och ange om den är för hög eller för låg. Fortsätt justera tills stämverktyget pekar direkt i mitten. Här är några vanliga stämningsscheman för olika stränginstrument:
 

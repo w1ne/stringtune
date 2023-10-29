@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Velkommen til StringTune, den enkleste online tuner å bruke. For å starte, tillat tilgang til mikrofonen. Spill hver streng en om gangen. Tuneren vil automatisk oppdage tonehøyden til den spilte noten og indikere om den er for høy eller for lav. Fortsett å justere til tuner peker direkte til sentrum. Her er noen vanlige tuningmønstre for ulike strengeinstrumenter:
 

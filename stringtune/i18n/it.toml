@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 Benvenuto a StringTune, l'accordatore online più facile da usare. Per iniziare, permetti l'accesso al microfono. Suona una corda alla volta. L'accordatore rileverà automaticamente l'altezza della nota suonata e indicherà se è troppo acuta o troppo bassa. Continua ad aggiustare fino a quando l'accordatore non punta direttamente al centro. Ecco alcuni schemi di accordatura comuni per vari strumenti a corda:
 

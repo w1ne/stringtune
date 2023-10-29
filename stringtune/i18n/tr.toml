@@ -1,4 +1,4 @@
-[Intro]
+[description]
 other = """
 StringTune'e hoş geldiniz, kullanması en kolay online tuner. Başlamak için, mikrofona erişime izin verin. Her bir dizeyi tek tek çalın. Tuner, çalınan notanın yüksekliğini otomatik olarak algılar ve fazla mı yoksa az mı olduğunu belirtir. Tuner doğrudan merkezi gösterene kadar ayarlamaya devam edin. İşte çeşitli dize aletleri için bazı yaygın ayarlama düzenleri:
 
