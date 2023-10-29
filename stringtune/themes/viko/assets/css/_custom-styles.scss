@@ -275,8 +275,27 @@ html {
 .content h5,
 .content h6 {
   color: #F48FB1;
-  font-weight: 600;
-  line-height: 1.125;
+}
+
+/* Style for H1 headers */
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Style for H2 headers */
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Style for H3 headers */
+h3 {
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 10px;
 }
 
 .about ul {
@@ -390,4 +409,10 @@ html {
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   z-index: 100;
+}
+
+.custom-separator {
+  height: 1px;
+  background-color: #B0BEC5;
+  margin: 20px 0;
 }

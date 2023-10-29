@@ -27,25 +27,28 @@
                 {{ with $page := . }}
                 <div class="columns is-centered">
                     <div class="column is-4">
-                        {{ with .Resources.GetMatch "images/primary/16x9.png" }}
-                            <figure class="image is-16by9">
+                        {{ with .Resources.GetMatch "images/cover.webp" }}
+                        <a href="{{ $page.RelPermalink }}">
+                            <figure class="image is-square">
                                 <img src="{{ .RelPermalink }}" alt="{{ $page.Title }}" />
                             </figure>
+                        </a>
                         {{ end }}
                     </div>
-
+    
                     <!-- cant use offset because of the column reverse css rule -->
                     <div class="column is-1 is-hidden-mobile">&nbsp;</div>
-
+    
                     <div class="column is-4">
-                        <h2 class="title is-5 mb-5">{{ .Title }}</h2>
+                        <h2 class="title is-5 mb-5"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
                         <p class="mb-5">{{ .PublishDate.Format "2 Jan, 2006" }}</p>
-                        <p class="mb-5" >{{ .Description }}</p>
+                        <p class="mb-5">{{ .Summary }}</p>
                         <a href="{{ .RelPermalink }}">Read more</a>
                     </div>
                 </div>
+                <div class="custom-separator"></div>
                 {{ end }}
             {{ end }}
         </div>
-    </section>
+    </section>    
 {{ end }}

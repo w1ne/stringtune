@@ -1,10 +1,9 @@
 ---
 title: "How Digital Musical Tuners Work"
-date: 2023-10-98
-summary: Digital musical tuners are devices used to detect and display the pitch of musical notes. They work by analyzing sound waves and converting them to digital information that can be shown on a screen. Tuners are important tools for musicians who want to ensure their instruments are properly tuned.
+date: 2023-10-27
+summary: "Digital musical tuners are devices used to detect and display the pitch of musical notes. They work by analyzing sound waves and converting them to digital information that can be shown on a screen. Tuners are important tools for musicians who want to ensure their instruments are properly tuned. Tuners detect the frequency of sound waves. The specific frequency determines the pitch - for example, the note A above middle C vibrates at 440 Hz. Tuners use microphones to pick up these sound waves, then apply signal processing algorithms to identify the frequency and corresponding musical pitch. This information is shown on a digital display, traditionally with a needle pointing to the note name. Modern tuners often use LED lights or animated displays.
+"
 ---
-
-Tuners detect the frequency of sound waves. The specific frequency determines the pitch - for example, the note A above middle C vibrates at 440 Hz. Tuners use microphones to pick up these sound waves, then apply signal processing algorithms to identify the frequency and corresponding musical pitch. This information is shown on a digital display, traditionally with a needle pointing to the note name. Modern tuners often use LED lights or animated displays.
 
 For musicians, proper tuning is essential for playing in key and producing the desired tones. Out-of-tune instruments can clash with other musicians and notes will not ring true. Tuners provide precision tuning that would be difficult to achieve with the human ear alone. They are useful for tuning before performances, checking tuning during practices, and setting up new strings or equipment. Guitarists, pianists, violinists, and more all utilize tuners to optimize their intonation.
 
@@ -16,6 +15,8 @@ History of Musical Tuners
 Before the invention of digital tuners, musicians relied on various methods to tune their instruments. These approaches ranged from rudimentary to moderately sophisticated.
 
 One of the earliest tuning tactics involved tuning instruments against nature. Musicians would tune a string to match the pitch of a tone they heard in nature, like a bird call. They also tuned instruments to each other to sound harmonious when played together. However, these approaches lacked precision.
+
+![Illustration of a musician in ancient times tuning an instrument to a bird call, juxtaposed with a musician from the modern era using a digital tuner ](images/Illustration_of_a_musician_in_ancient_times_tuning_an_instrument_to_a_bird_call,_juxtaposed_with_a_musician_from_the_modern_era_using_a_digital_tuner_.webp#center)
 
 The monochord, a single-string instrument, enabled more accurate tuning. Musicians plucked the string while moving a bridge along its length to produce different pitches. Markings along the monochord indicated string length for desired notes. This monochord system evolved into the basis for modern tuning notation.
 
@@ -34,6 +35,8 @@ Understanding the Basics of Sound and Pitch
 
 Sound is created by vibrations traveling through a medium like air or water in the form of waves. These sound waves are characterized by their frequency, which refers to how many cycles occur per second. Frequency is measured in Hertz (Hz).
 
+![Illustration of a piano keyboard with Middle C highlighted. Above it, a wave representation shows the frequency of 261.6 Hz. On the side, a scale indi](images/Illustration_of_a_piano_keyboard_with_Middle_C_highlighted._Above_it,_a_wave_representation_shows_the_frequency_of_261.6_Hz._On_the_side,_a_scale_indi.webp#center)
+
 The human ear can detect frequencies ranging from about 20 Hz to 20,000 Hz. Sounds with higher frequencies are perceived as having a higher pitch, while lower frequencies are heard as a lower pitch. Middle C on a piano, for example, produces a tone with a frequency of 261.6 Hz.
 
 When it comes to music and tuning instruments, pitch becomes very important. Pitch is how the human ear perceives the frequency of a sound. It allows us to identify tones as being higher or lower on the musical scale. Notes that are close in pitch sound similar, while notes far apart in pitch sound very different.
@@ -48,6 +51,8 @@ Types of Digital Musical Tuners
 There are several main types of digital tuners used for various musical instruments. The most common type is the chromatic tuner, which can detect all twelve pitches of the Western chromatic scale. Chromatic tuners work for any instrument, making them versatile options for many musicians.
 
 Chromatic tuners detect and display the note's pitch relation to the closest semitone on the chromatic scale. Many chromatic tuners feature a meter with a needle or LCD lights that indicate how in-tune or out-of-tune a note is pitched. Higher-end chromatic tuners often include enhanced features like alternate temperaments, calibration, and extended pitch detection ranges.
+
+![Illustration of four musicians  A guitarist using a clip-on tuner, a violinist with a specialized tuner attached to their instrument, a trumpeter refe](images/Illustration_of_four_musicians__A_guitarist_using_a_clip-on_tuner,_a_violinist_with_a_specialized_tuner_attached_to_their_instrument,_a_trumpeter_refe.webp#center)
 
 For fretted string instruments like guitar, bass, or ukulele, dedicated guitar/bass tuners are popular options. These tuners are chromatic tuners optimized for the thicker strings and tuning needs of guitars and basses. Most guitar tuners clip onto the headstock and have a display angled upward for easy viewing. Guitar tuners also include specialized features like string labels, alternate tunings, and pitch calibration.
 
@@ -68,6 +73,8 @@ Some digital tuners still rely on the classic needle dial display. These use an 
 
 Another important aspect of tuners is calibration. Better tuners allow calibration to different reference pitches like 440 Hz or 432 Hz for A4. This ensures accuracy if tuning to alternate concert pitches. Some also allow calibrating to different temperaments like just intonation or Pythagorean tuning for precise tuning of musical intervals.
 
+![Illustration of a musician playing a note on a guitar, with the sound waves traveling to a digital tuner. The tuner displays the note 'A4' with arrows](images/Illustration_of_a_musician_playing_a_note_on_a_guitar,_with_the_sound_waves_traveling_to_a_digital_tuner._The_tuner_displays_the_note_'A4'_with_arrows.webp#center)
+
 Digital tuners vary in the number of pitches they can detect and display. Chromatic tuners recognize all 12 notes of the Western scale. Guitar tuners are optimized for the six strings, while violin tuners will detect five string notes. Wind instrument tuners cover tunings for woodwinds and brass. But essentially, the pitch detection process remains the same in all.
 
 The convenience of digital tuners lies in their precision, clear visual feedback, and fast response time. The digitization and signal processing allows tuners to measure pitches accurately down to a hundredth of a semitone. This enables musicians to fine tune their instruments easily and quickly. Going from tone deafness to perfect pitch is as simple as reading a digital display.
@@ -80,7 +87,7 @@ Using a digital tuner is straightforward, but there are some tips and techniques
 Choose Your Tuner
 -----------------
 
-The first step is selecting the right tuner for your instrument. Chromatic tuners work for any instrument, while guitar/bass tuners are optimized for those instruments. Violin and wind instrument tuners are also available. Consider display size and rotation, price, microphone quality and battery life.
+The first step is selecting the right tuner for your instrument. Chromatic tuners work for any instrument, like [stringtune.com](https://stringtune.com), while guitar/bass tuners are optimized for those instruments. Violin and wind instrument tuners are also available. Consider display size and rotation, price, microphone quality and battery life.
 
 Power On and Activate
 ---------------------
@@ -123,6 +130,8 @@ Advantages and Disadvantages of Digital Tuners
 ==============================================
 
 Using digital tuners offers many benefits over traditional tuning methods. Digital tuners provide greater precision and accuracy than the human ear alone. The digital display gives an exact readout of the pitch detected, removing guesswork. This allows for more reliable tuning and intonation.
+
+![Illustration of various types of tuners  a standalone digital tuner with a needle display, a clip-on tuner attached to a violin, a rackmount tuner on ](images/Illustration_of_various_types_of_tuners__a_standalone_digital_tuner_with_a_needle_display,_a_clip-on_tuner_attached_to_a_violin,_a_rackmount_tuner_on_.png#center)
 
 Digital tuners are fast and efficient. The pitch is detected instantly, with no need to adjust tuning pegs back and forth. This saves time during performances and practice sessions. Many tuners have calibration features to account for ensemble playing and transpositions. This versatility suits diverse musical needs.
 
