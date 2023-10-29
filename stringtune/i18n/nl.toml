@@ -27,3 +27,8 @@ other = "Druk op de microfoon om te beginnen met stemmen"
 [guitar_sounds]
 other = "Als je geen toegang hebt tot een microfoon, zijn hier de standaard gitaarsnaargeluiden om op gehoor te stemmen:"
 
+[guitar]
+other = "Gitaar"
+
+[ukulele]
+other = "Ukulele"

@@ -27,3 +27,8 @@ other = "Pressione o microfone para começar a sintonizar"
 [guitar_sounds]
 other = "Se você não tem acesso a um microfone, aqui estão os sons padrão das cordas de guitarra para afinar de ouvido:"
 
+[guitar]
+other = "Guitarra"
+
+[ukulele]
+other = "Ukulele"

@@ -27,3 +27,8 @@ other = "Naciśnij mikrofon, aby rozpocząć strojenie"
 [guitar_sounds]
 other = "Jeśli nie masz dostępu do mikrofonu, oto standardowe dźwięki strun gitarowych do strojenia na słuch:"
 
+[guitar]
+other = "Gitara"
+
+[ukulele]
+other = "Ukulele"

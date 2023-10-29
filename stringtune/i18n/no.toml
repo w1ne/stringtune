@@ -27,3 +27,8 @@ other = "Trykk på mikrofonen for å starte tuning"
 [guitar_sounds]
 other = "Hvis du ikke har tilgang til en mikrofon, her er standard gitarstreng lyder for å stemme etter øret:"
 
+[guitar]
+other = "Gitar"
+
+[ukulele]
+other = "Ukulele"

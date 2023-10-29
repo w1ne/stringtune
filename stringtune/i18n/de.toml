@@ -27,3 +27,8 @@ other = "Drücken Sie das Mikrofon, um das Stimmen zu starten"
 [guitar_sounds]
 other = "Wenn Sie keinen Zugriff auf ein Mikrofon haben, hier sind die Standard-Gitarrensaitenklänge, um nach Gehör zu stimmen:"
 
+[guitar]
+other = "Gitarre"
+
+[ukulele]
+other = "Ukulele"

@@ -27,3 +27,8 @@ other = "Appuyez sur le microphone pour commencer l'accordage"
 [guitar_sounds]
 other = "Si vous n'avez pas accès à un micro, voici les sons standard des cordes de guitare pour accorder à l'oreille :"
 
+[guitar]
+other = "Guitare"
+
+[ukulele]
+other = "Ukulélé"

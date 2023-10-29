@@ -27,3 +27,8 @@ other = "Ayarlamayı başlatmak için mikrofona basın"
 [guitar_sounds]
 other = "Bir mikrofona erişiminiz yoksa, kulağa göre ayarlamak için standart gitar tel seslerini burada bulabilirsiniz:"
 
+[guitar]
+other = "Gitar"
+
+[ukulele]
+other = "Ukulele"

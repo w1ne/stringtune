@@ -21,6 +21,7 @@ Tuning also affects the physical feel of the guitar and the technique required. 
 Alternative tunings have greatly impacted guitar music by offering new textures and capabilities. Songwriters use tunings to create specific moods, like the haunting sound of open D minor in many Led Zeppelin acoustic tracks. Jazz guitarists have embraced non-standard tunings to voice more complex chords. Performers may switch tunings mid-concert to adapt to different songs. Overall, alternative tunings allow guitarists to expand their musical repertoire and craft unique tones for specific pieces. However, they can also present challenges live when quick tuning changes are required. To maximize their potential, most guitarists combine standard tuning with a few alternate tunings particularly suited to their style. Rather than limiting their options, alternative tunings offer access to an array of new sounds.
 
 # Popular Alternative Tunings
+
 ## Drop D Tuning
 
 Drop D tuning is one of the most common and easy-to-use alternative tunings for guitar. It involves tuning the low E string down to D while leaving the other strings in standard tuning. This gives the guitar a deeper, fuller sound and allows the player to utilize the open D string as a pedal tone. 

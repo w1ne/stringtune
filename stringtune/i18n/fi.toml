@@ -27,3 +27,8 @@ other = "Paina mikrofonia aloittaaksesi virityksen"
 [guitar_sounds]
 other = "Jos sinulla ei ole mikrofoniin pääsyä, tässä ovat standardikitarankielten äänet viritettäväksi korvakuulolla:"
 
+[guitar]
+other = "Kitara"
+
+[ukulele]
+other = "Ukulele"

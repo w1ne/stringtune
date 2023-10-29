@@ -11,6 +11,30 @@ Welcome to StringTune, the easiest-to-use online tuner. To start, allow access t
 - Banjo Standard Tuning (5-string): 🎵 G - D - G - B - D
 """ 
 
+[guitar]
+other = "Guitar"
+
+[ukulele]
+other = "Ukulele"
+
+[guitarNotes]
+other = [
+  { file = "Guitar_E1.mp3", note = "E1", description = "6th string - thickest" },
+  { file = "Guitar_A.mp3", note = "A", description = "5th string" },
+  { file = "Guitar_D.mp3", note = "D", description = "4th string" },
+  { file = "Guitar_G.mp3", note = "G", description = "3rd string" },
+  { file = "Guitar_B.mp3", note = "B", description = "2nd string" },
+  { file = "Guitar_E2.mp3", note = "E2", description = "1st string - thinnest" }
+]
+
+[ukuleleNotes]
+other = [
+  { file = "Ukulele_G.mp3", note = "G", description = "4th string" },
+  { file = "Ukulele_C.mp3", note = "C", description = "3rd string" },
+  { file = "Ukulele_E.mp3", note = "E", description = "2nd string" },
+  { file = "Ukulele_A.mp3", note = "A", description = "1st string" }
+]
+
 [guitar_sounds]
 other = "If you do not have accees to a mic, here are standard guitar string sounds to tune by ear:"
 

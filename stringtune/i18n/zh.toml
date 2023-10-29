@@ -26,3 +26,9 @@ other = "按下麦克风开始调音"
 # 简体中文 (zh)
 [guitar_sounds]
 other = "如果您没有麦克风的访问权限，这里是用耳朵调音的标准吉他弦声音："
+
+[guitar]
+other = "吉他"
+
+[ukulele]
+other = "尤克里里"
