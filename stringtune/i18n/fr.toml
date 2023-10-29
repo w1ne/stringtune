@@ -22,3 +22,8 @@ other = "Appuyez sur le microphone pour commencer l'accordage"
 
 [install_app]
   other = "Installer l'application"
+
+# Français (fr)
+[guitar_sounds]
+other = "Si vous n'avez pas accès à un micro, voici les sons standard des cordes de guitare pour accorder à l'oreille :"
+

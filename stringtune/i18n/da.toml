@@ -22,3 +22,8 @@ other = "Tryk på mikrofonen for at starte tuning"
 
 [install_app]
   other = "Installer app"
+
+# Dansk (da)
+[guitar_sounds]
+other = "Hvis du ikke har adgang til en mikrofon, er her standard guitarstrenglyde til at stemme efter øret:"
+

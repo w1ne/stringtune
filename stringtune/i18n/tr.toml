@@ -22,3 +22,8 @@ other = "Ayarlamayı başlatmak için mikrofona basın"
 
 [install_app.tr]
   other = "Uygulamayı yükle"
+
+# Türkçe (tr)
+[guitar_sounds]
+other = "Bir mikrofona erişiminiz yoksa, kulağa göre ayarlamak için standart gitar tel seslerini burada bulabilirsiniz:"
+

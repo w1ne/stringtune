@@ -31,10 +31,13 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        let clone = response.clone();
-        event.waitUntil(
-          caches.open('stringtune-tuner-cache').then(cache => cache.put(event.request, clone))
-        );
+        // Check if the response is partial (status 206) and avoid caching
+        if (response.status !== 206) {
+          let clone = response.clone();
+          event.waitUntil(
+            caches.open('stringtune-tuner-cache').then(cache => cache.put(event.request, clone))
+          );
+        }
         return response;
       })
       .catch(() => {
@@ -43,4 +46,3 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
-``

@@ -192,6 +192,10 @@ html {
   .tuner .notes {
     width: 80%;
   }
+
+  .play-button {
+    font-size: 30px;
+  }
 }
 
 .tuner .swal-button {
@@ -415,4 +419,14 @@ h3 {
   height: 1px;
   background-color: #B0BEC5;
   margin: 20px 0;
+}
+
+.play-button {
+  font-size: 20px; 
+  padding: 5px 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: font-size 0.3s ease;
+  color: #007bff; /* same colour as other buttons */
 }

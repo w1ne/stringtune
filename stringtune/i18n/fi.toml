@@ -22,3 +22,8 @@ other = "Paina mikrofonia aloittaaksesi virityksen"
 
 [install_app]
   other = "Asenna sovellus"
+
+# Suomi (fi)
+[guitar_sounds]
+other = "Jos sinulla ei ole mikrofoniin pääsyä, tässä ovat standardikitarankielten äänet viritettäväksi korvakuulolla:"
+

@@ -22,3 +22,8 @@ other = "Tryck på mikrofonen för att starta stämningen"
 
 [install_app]
   other = "Installera app"
+
+# Svenska (sv)
+[guitar_sounds]
+other = "Om du inte har tillgång till en mikrofon, här är standardgitarrsträngljud för att stämma med örat:"
+

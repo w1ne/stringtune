@@ -22,3 +22,8 @@ other = "Pressione o microfone para começar a sintonizar"
 
 [install_app]
   other = "Instalar aplicativo"
+
+# Português (pt)
+[guitar_sounds]
+other = "Se você não tem acesso a um microfone, aqui estão os sons padrão das cordas de guitarra para afinar de ouvido:"
+

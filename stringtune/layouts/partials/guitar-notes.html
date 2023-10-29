@@ -1,0 +1,41 @@
+<div class="guitar-notes">
+    <ul>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_E1.mp3', this)">▶️</button> E</li>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_A.mp3', this)">▶️</button> A</li>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_D.mp3', this)">▶️</button> D</li>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_G.mp3', this)">▶️</button> G</li>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_B.mp3', this)">▶️</button> B</li>
+        <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_E2.mp3', this)">▶️</button> E</li>
+    </ul>
+</div>
+
+<script>
+let currentAudio = null;
+let currentButton = null;
+
+function playPauseAudio(file, btnElement) {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentButton.innerHTML = "▶️";
+        if (currentButton === btnElement) {
+            currentAudio.currentTime = 0;  // reset the audio to the beginning
+            currentAudio = null;
+            currentButton = null;
+            return;
+        }
+    }
+    
+    currentAudio = new Audio('/sounds/' + file);
+    currentAudio.loop = true;  // make the audio play in a loop
+    currentAudio.play();
+    currentButton = btnElement;
+
+    btnElement.innerHTML = "⏸️";
+    currentAudio.onended = function() {
+        btnElement.innerHTML = "▶️";
+        currentAudio = null;
+        currentButton = null;
+    };
+}
+</script>
+

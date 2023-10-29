@@ -22,3 +22,8 @@ other = "Druk op de microfoon om te beginnen met stemmen"
 
 [install_app]
   other = "Installeer app"
+
+# Nederlands (nl)
+[guitar_sounds]
+other = "Als je geen toegang hebt tot een microfoon, zijn hier de standaard gitaarsnaargeluiden om op gehoor te stemmen:"
+

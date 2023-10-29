@@ -22,3 +22,8 @@ other = "Drücken Sie das Mikrofon, um das Stimmen zu starten"
 
 [install_app]
   other = "App installieren"
+
+# Deutsch (de)
+[guitar_sounds]
+other = "Wenn Sie keinen Zugriff auf ein Mikrofon haben, hier sind die Standard-Gitarrensaitenklänge, um nach Gehör zu stimmen:"
+
