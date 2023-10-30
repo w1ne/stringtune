@@ -26,8 +26,8 @@ We've provided multiple mnemonics for each instrument. Feel free to choose the o
 ### **Guitar (E A D G B e)**
 ![Guitar Fretboard](images/Guitar_Fretboard_Open_Strings_Diagram.webp)
 - **E**very **A**ngry **D**og **G**rowls, **B**arks, **e**ventually. ![Every Angry Dog Growls, Barks, eventually](images/Every_Angry_Dog_Growls_Barks_eventually.webp)
-- **E**lephants **A**nd **D**onkeys **G**ot **B**ig **e**ars. | ![Elephants And Donkeys Got Big ears](images/Elephants_And_Donkeys_Got_Big_ears.webp)
-- **E**ach **A**pple **D**rops **G**ently **B**elow **e**arth. | ![Each Apple Drops Gently Below earth](images/Each_Apple_Drops_Gently_Below_earth.webp)
+- **E**lephants **A**nd **D**onkeys **G**ot **B**ig **e**ars. ![Elephants And Donkeys Got Big ears](images/Elephants_And_Donkeys_Got_Big_ears.webp)
+- **E**ach **A**pple **D**rops **G**ently **B**elow **e**arth. ![Each Apple Drops Gently Below earth](images/Each_Apple_Drops_Gently_Below_earth.webp)
 
 ---
 
