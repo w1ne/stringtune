@@ -17,6 +17,9 @@ other = "Guitar"
 [ukulele]
 other = "Ukulele"
 
+[bass]
+other = "Bass"
+
 [guitarNotes]
 other = [
   { file = "Guitar_E1.mp3", note = "E1", description = "6th string - thickest" },
