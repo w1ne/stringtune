@@ -11,19 +11,6 @@
                             {{ i18n "description"   | markdownify }}
 			                {{ i18n "guitar_sounds" | markdownify }}
 			                {{ partial "guitar-notes.html" . }}
-                            {{ if eq .Site.Language.Lang "en" }}
-                            <hr>
-                            <h3>Blog posts</h3>
-                            {{ range (.Paginator 20).Pages.ByDate.Reverse }}
-                                {{ if eq .Type "posts" }}
-                                    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-                                    <div class="justify-text">
-                                        <span>{{ .Summary }}</span>
-                                        <span><a href="{{ .RelPermalink }}">Read More</a></span>
-                                    </div>
-                                {{ end }}
-                            {{ end }}
-                            {{ end }}
                         </div>
                     </div>
                 </div>
