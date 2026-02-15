@@ -20,7 +20,8 @@ const Tuner = function (a4) {
   this.tolerance = 1.02;
   this.smoothing = true;
   this.smoothFrequencies = [];
-  this.smoothingDepth = 5; // Balanced window for median filter
+  this.smoothingDepth = 5;
+  this.lastSmoothed = null; // For EMA state
 
   this.initGetUserMedia();
 };
@@ -33,16 +34,28 @@ Tuner.prototype.disableSmoothing = function () {
   this.smoothing = false;
 };
 
-Tuner.prototype.smoothFrequency = function (frequency) {
+Tuner.prototype.smoothFrequency = function (frequency, clarity) {
   this.smoothFrequencies.push(frequency);
   if (this.smoothFrequencies.length > this.smoothingDepth) {
     this.smoothFrequencies.shift();
   }
 
-  // Median Filter
+  // 1. Median Filter (removes noise spikes)
   const sorted = [...this.smoothFrequencies].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
-  return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  const median = sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+
+  // 2. Exponential Moving Average with Clarity-based weighting
+  // High clarity = 1.0 (trust new data), Low clarity = 0.1 (stay stable)
+  // This produces the sluggish "analogue" needle feel
+  if (this.lastSmoothed === null) {
+    this.lastSmoothed = median;
+  }
+
+  const alpha = 0.05 + (clarity * 0.3); // Heavy smoothing: ranges from 0.05 (noisy) to 0.35 (clean)
+  this.lastSmoothed = this.lastSmoothed * (1 - alpha) + median * alpha;
+
+  return this.lastSmoothed;
 };
 
 // Initialize detected frequencies array
@@ -110,15 +123,15 @@ Tuner.prototype.updatePitch = function (frequency) {
         frequency = this.lastFrequency;
       }
     }
-    // Apply smoothing
+    // Apply smoothing with clarity weighting
     if (this.smoothing) {
-      frequency = this.smoothFrequency(frequency);
+      frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
     this.lastFrequency = frequency;
     const note = this.getNote(frequency);
 
-    // Stability Check
+    // Stability Check for the Note Label (prevents flickering letters)
     if (note !== this.currentNote) {
       this.stableCount = 0;
       this.currentNote = note;
@@ -126,14 +139,15 @@ Tuner.prototype.updatePitch = function (frequency) {
       this.stableCount++;
     }
 
-    // Only update UI if stable
-    if (this.stableCount >= this.stableLimit && this.onNoteDetected) {
+    // ALWAYS update frequency and cents (needle) for "analogue" real-time feel
+    if (this.onNoteDetected) {
       this.onNoteDetected({
         name: this.noteStrings[note % 12],
         value: note,
         cents: this.getCents(frequency, note),
         octave: parseInt(note / 12) - 1,
         frequency: frequency,
+        isStable: this.stableCount >= this.stableLimit // Main thread can use this to dim/brighten
       });
     }
   }
@@ -163,6 +177,7 @@ Tuner.prototype.init = async function () {
 
     this.workletNode.port.onmessage = (event) => {
       if (event.data.type === 'result') {
+        this.lastClarity = event.data.clarity;
         this.updatePitch(event.data.pitch);
       } else if (event.data.type === 'error') {
         console.error('Worklet Error:', event.data.error);

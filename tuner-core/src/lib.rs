@@ -19,12 +19,11 @@ impl WasmPitchDetector {
         }
     }
 
-    pub fn detect(&mut self, audio_buffer: &[f32]) -> Option<f32> {
-        // get_pitch(signal, sample_rate, power_threshold, clarity_threshold)
-        // power_threshold: 0.5 (more sensitive to quiet playing)
-        // clarity_threshold: 0.4 (more tolerant of noise/harmonics)
-        match self.detector.get_pitch(audio_buffer, self.sample_rate, 0.5, 0.4) {
-            Some(pitch) => Some(pitch.frequency),
+    pub fn detect(&mut self, audio_buffer: &[f32]) -> Option<Vec<f32>> {
+        // power_threshold: 0.3 (even more sensitive)
+        // clarity_threshold: 0.1 (let JS handle the filtering with the clarity score)
+        match self.detector.get_pitch(audio_buffer, self.sample_rate, 0.3, 0.1) {
+            Some(pitch) => Some(vec![pitch.frequency, pitch.clarity]),
             None => None,
         }
     }
@@ -50,8 +49,10 @@ mod tests {
         let frequency = 440.0;
         let signal = generate_sine(frequency, sample_rate, fft_size);
         
-        let detected = detector.detect(&signal).expect("Should detect a pitch");
+        let result = detector.detect(&signal).expect("Should detect a pitch");
+        let detected = result[0];
         assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
+        assert!(result[1] > 0.4, "Clarity should be sufficient for sine wave");
     }
 
     #[test]
@@ -63,7 +64,9 @@ mod tests {
         let frequency = 82.41; // Low E on guitar
         let signal = generate_sine(frequency, sample_rate, fft_size);
         
-        let detected = detector.detect(&signal).expect("Should detect a pitch");
+        let result = detector.detect(&signal).expect("Should detect a pitch");
+        let detected = result[0];
         assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
+        assert!(result[1] > 0.3, "Clarity should be sufficient for low E sine");
     }
 }

@@ -20,10 +20,12 @@ fn test_pure_sine_wave_a4() {
     // Generate 440Hz sine wave (Standard A4)
     let buffer = generate_sine_wave(440.0, sample_rate, fft_size);
     
-    let pitch = detector.detect(&buffer).expect("Should detect pitch");
+    let result = detector.detect(&buffer).expect("Should detect pitch");
+    let pitch = result[0];
     
     println!("Detected: {}, Expected: 440.0", pitch);
     assert!((pitch - 440.0).abs() < 1.0, "Pitch should be within 1Hz of 440Hz");
+    assert!(result[1] > 0.4, "Clarity should be sufficient");
 }
 
 #[test]
@@ -36,10 +38,12 @@ fn test_low_e_guitar() {
     let target = 82.41;
     let buffer = generate_sine_wave(target, sample_rate, fft_size);
     
-    let pitch = detector.detect(&buffer).expect("Should detect pitch");
+    let result = detector.detect(&buffer).expect("Should detect pitch");
+    let pitch = result[0];
     
     println!("Detected: {}, Expected: {}", pitch, target);
     assert!((pitch - target).abs() < 1.0, "Pitch should be within 1Hz of 82.41Hz");
+    assert!(result[1] > 0.3, "Clarity should be sufficient");
 }
 
 #[test]

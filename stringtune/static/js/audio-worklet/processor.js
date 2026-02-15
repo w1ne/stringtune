@@ -110,7 +110,7 @@ class PitchProcessor extends AudioWorkletProcessor {
         this.bufferSize = 2048;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
+        this.processInterval = 2; // Process every 2nd 128-sample block (~5.8ms / 172Hz)
         this.callsSinceLastProcess = 0;
 
         const wasmBytes = options.processorOptions.wasmsBytes || options.processorOptions.wasmBytes;
@@ -149,9 +149,13 @@ class PitchProcessor extends AudioWorkletProcessor {
             this.callsSinceLastProcess = 0;
 
             if (this.detector) {
-                const pitch = this.detector.detect(this.buffer);
-                if (pitch && pitch > 0) {
-                    this.port.postMessage({ type: 'result', pitch });
+                const result = this.detector.detect(this.buffer);
+                if (result && result.length >= 2) {
+                    const pitch = result[0];
+                    const clarity = result[1];
+                    if (pitch > 0) {
+                        this.port.postMessage({ type: 'result', pitch, clarity });
+                    }
                 }
             }
         }

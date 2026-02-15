@@ -8,7 +8,12 @@ const Meter = function (selector) {
   this.init();
   this.currentDeg = 0;
   this.targetDeg = 0;
-  // Start the physics loop
+
+  // Analogue Physics
+  this.velocity = 0;
+  this.friction = 0.85;       // Air resistance / Inertia (high = more sluggish/analogue)
+  this.springStrength = 0.08; // Tension of the "spring" pulling the needle
+
   requestAnimationFrame(this.tick.bind(this));
 };
 
@@ -32,17 +37,16 @@ Meter.prototype.update = function (deg) {
 };
 
 Meter.prototype.tick = function () {
-  // Smoothly move currentDeg towards targetDeg (Simple Ease-Out)
-  // 0.15 factor gives a nice responsive but weighted feel
-  const diff = this.targetDeg - this.currentDeg;
+  // 1. Spring Physics: Needle has "mass" and "inertia"
+  const force = (this.targetDeg - this.currentDeg) * this.springStrength;
+  this.velocity += force;
+  this.velocity *= this.friction;
+  this.currentDeg += this.velocity;
 
-  if (Math.abs(diff) > 0.05) {
-    // Smoother interpolation (0.2) + dampening for tiny movements
-    const speed = Math.abs(diff) < 1 ? 0.1 : 0.2;
-    this.currentDeg += diff * speed;
+  // 2. Render if moving
+  if (Math.abs(this.velocity) > 0.001 || Math.abs(this.targetDeg - this.currentDeg) > 0.01) {
     this.$pointer.style.transform = "rotate(" + this.currentDeg + "deg)";
 
-    // Update visibility logic based on current position
     const tunedArea = document.getElementById("tunedArea");
     if (tunedArea) {
       const minTunedDegree = -3;
