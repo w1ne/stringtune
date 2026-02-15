@@ -20,7 +20,9 @@ fn test_pure_sine_wave_a4() {
     // Generate 440Hz sine wave (Standard A4)
     let buffer = generate_sine_wave(440.0, sample_rate, fft_size);
     
-    let result = detector.detect(&buffer).expect("Should detect pitch");
+    let ptr = detector.detect(&buffer);
+    assert!(!ptr.is_null(), "Should detect pitch");
+    let result = unsafe { std::slice::from_raw_parts(ptr, 2) };
     let pitch = result[0];
     
     println!("Detected: {}, Expected: 440.0", pitch);
@@ -38,7 +40,9 @@ fn test_low_e_guitar() {
     let target = 82.41;
     let buffer = generate_sine_wave(target, sample_rate, fft_size);
     
-    let result = detector.detect(&buffer).expect("Should detect pitch");
+    let ptr = detector.detect(&buffer);
+    assert!(!ptr.is_null(), "Should detect pitch");
+    let result = unsafe { std::slice::from_raw_parts(ptr, 2) };
     let pitch = result[0];
     
     println!("Detected: {}, Expected: {}", pitch, target);
@@ -53,7 +57,7 @@ fn test_silence() {
     let mut detector = WasmPitchDetector::new(sample_rate, fft_size);
     
     let buffer = vec![0.0; 4096];
-    let pitch = detector.detect(&buffer);
+    let ptr = detector.detect(&buffer);
     
-    assert!(pitch.is_none(), "Should not detect pitch in silence");
+    assert!(ptr.is_null(), "Should not detect pitch in silence");
 }

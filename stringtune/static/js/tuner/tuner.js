@@ -52,7 +52,7 @@ Tuner.prototype.smoothFrequency = function (frequency, clarity) {
     this.lastSmoothed = median;
   }
 
-  const alpha = 0.05 + (clarity * 0.3); // Heavy smoothing: ranges from 0.05 (noisy) to 0.35 (clean)
+  const alpha = 0.15 + (clarity * 0.4); // Snappier: ranges from 0.15 (noisy) to 0.55 (clean)
   this.lastSmoothed = this.lastSmoothed * (1 - alpha) + median * alpha;
 
   return this.lastSmoothed;

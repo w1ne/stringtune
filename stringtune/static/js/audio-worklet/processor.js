@@ -52,6 +52,11 @@ function passArrayF32ToWasm0(arg, malloc) {
     return ptr;
 }
 
+function getArrayF32FromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return getFloat32ArrayMemory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
 class WasmPitchDetector {
     static __wrap(ptr) {
         ptr = ptr >>> 0;
@@ -67,8 +72,16 @@ class WasmPitchDetector {
     detect(audio_buffer) {
         const ptr0 = passArrayF32ToWasm0(audio_buffer, wasm.__wbindgen_malloc);
         const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.wasmpitchdetector_detect(this.__wbg_ptr, ptr0, len0);
-        return ret === 0x100000001 ? undefined : ret;
+        const resPtr = wasm.wasmpitchdetector_detect(this.__wbg_ptr, ptr0, len0);
+
+        if (resPtr === 0) return undefined;
+
+        // Read 2 floats from the static buffer in Wasm memory
+        const memory = getFloat32ArrayMemory0();
+        const pitch = memory[resPtr / 4];
+        const clarity = memory[resPtr / 4 + 1];
+
+        return [pitch, clarity];
     }
     static new(sample_rate, fft_size) {
         const ret = wasm.wasmpitchdetector_new(sample_rate, fft_size);
