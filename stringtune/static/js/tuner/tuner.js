@@ -163,7 +163,7 @@ Tuner.prototype.init = async function () {
 
   try {
     // 1. Pre-fetch the Wasm binary (Worklets can't fetch in some browsers)
-    const response = await fetch('/tuner-core/tuner_core_bg.wasm');
+    const response = await fetch('/tuner-core/tuner_core_bg.wasm?v=' + Date.now());
     const wasmBytes = await response.arrayBuffer();
 
     // 2. Load the Worklet module (cache-busted for delivery insurance)

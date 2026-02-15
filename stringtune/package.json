@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bulma": "^0.9.4"
+    "bulma": "^0.9.4",
+    "postcss-cli": "^11.0.1"
   }
 }
