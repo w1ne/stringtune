@@ -82,13 +82,15 @@ class WasmPitchDetector {
     detect(audio_buffer) {
         if (audio_buffer.length !== this.fftSize) return undefined;
 
-        // Copy audio data to the pre-allocated Wasm memory
-        getFloat32ArrayMemory0().set(audio_buffer, this.audioPtr / 4);
+        // Ensure memory is fresh in case it grew
+        const currentMemory = getFloat32ArrayMemory0();
+        currentMemory.set(audio_buffer, this.audioPtr / 4);
 
         const resPtr = wasm.wasmpitchdetector_detect(this.__wbg_ptr, this.audioPtr, this.fftSize);
 
         if (resPtr === 0) return undefined;
 
+        // Re-check memory after WASM call in case it grew during detection
         const memory = getFloat32ArrayMemory0();
         const pitch = memory[resPtr / 4];
         const clarity = memory[resPtr / 4 + 1];
@@ -127,11 +129,11 @@ class PitchProcessor extends AudioWorkletProcessor {
         super();
         this.detector = null;
 
-        // Accumulation buffer - increased to 4096 for better low-frequency (E2) resolution
-        this.bufferSize = 4096;
+        // Accumulation buffer
+        this.bufferSize = 2048;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
+        this.processInterval = 2; // Process every 2nd 128-sample block (~5.8ms / 172Hz)
         this.callsSinceLastProcess = 0;
 
         const wasmBytes = options.processorOptions.wasmsBytes || options.processorOptions.wasmBytes;

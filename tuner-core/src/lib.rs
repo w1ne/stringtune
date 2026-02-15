@@ -63,7 +63,7 @@ mod tests {
     }
 
     #[test]
-    fn test_pitch_detection_e2() {
+    fn test_pitch_detection_e2_2048() {
         let sample_rate = 44100;
         let fft_size = 2048;
         let mut detector = WasmPitchDetector::new(sample_rate, fft_size);
