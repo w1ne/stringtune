@@ -65,27 +65,35 @@ class WasmPitchDetector {
         return obj;
     }
     free() {
-        const ptr = this.__wbg_ptr;
-        this.__wbg_ptr = 0;
-        wasm.__wbg_wasmpitchdetector_free(ptr, 0);
+        if (this.__wbg_ptr !== 0) {
+            const ptr = this.__wbg_ptr;
+            this.__wbg_ptr = 0;
+            wasm.__wbg_wasmpitchdetector_free(ptr, 0);
+        }
+    }
+    static new(sample_rate, fft_size) {
+        const ret = wasm.wasmpitchdetector_new(sample_rate, fft_size);
+        const obj = WasmPitchDetector.__wrap(ret);
+        // Pre-allocate buffer in Wasm memory to avoid leaks
+        obj.audioPtr = wasm.__wbindgen_malloc(fft_size * 4, 4) >>> 0;
+        obj.fftSize = fft_size;
+        return obj;
     }
     detect(audio_buffer) {
-        const ptr0 = passArrayF32ToWasm0(audio_buffer, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        const resPtr = wasm.wasmpitchdetector_detect(this.__wbg_ptr, ptr0, len0);
+        if (audio_buffer.length !== this.fftSize) return undefined;
+
+        // Copy audio data to the pre-allocated Wasm memory
+        getFloat32ArrayMemory0().set(audio_buffer, this.audioPtr / 4);
+
+        const resPtr = wasm.wasmpitchdetector_detect(this.__wbg_ptr, this.audioPtr, this.fftSize);
 
         if (resPtr === 0) return undefined;
 
-        // Read 2 floats from the static buffer in Wasm memory
         const memory = getFloat32ArrayMemory0();
         const pitch = memory[resPtr / 4];
         const clarity = memory[resPtr / 4 + 1];
 
         return [pitch, clarity];
-    }
-    static new(sample_rate, fft_size) {
-        const ret = wasm.wasmpitchdetector_new(sample_rate, fft_size);
-        return WasmPitchDetector.__wrap(ret);
     }
 }
 
@@ -167,6 +175,10 @@ class PitchProcessor extends AudioWorkletProcessor {
                     const pitch = result[0];
                     const clarity = result[1];
                     if (pitch > 0) {
+                        // Debug log for low frequencies (like E2) or outliers
+                        if (pitch < 100 || pitch > 800) {
+                            console.log(`[Worklet] Pitch: ${pitch.toFixed(2)}Hz, Clarity: ${clarity.toFixed(2)}`);
+                        }
                         this.port.postMessage({ type: 'result', pitch, clarity });
                     }
                 }

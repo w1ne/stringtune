@@ -20,7 +20,7 @@ const Tuner = function (a4) {
   this.tolerance = 1.02;
   this.smoothing = true;
   this.smoothFrequencies = [];
-  this.smoothingDepth = 5;
+  this.smoothingDepth = 10;
   this.lastSmoothed = null; // For EMA state
 
   this.initGetUserMedia();
@@ -115,14 +115,6 @@ Tuner.prototype.startRecord = function () {
 
 Tuner.prototype.updatePitch = function (frequency) {
   if (frequency) {
-    // Ignore frequencies that are close multiples of the last frequency (harmonics)
-    if (this.lastFrequency) {
-      let ratio = frequency / this.lastFrequency;
-      ratio = Math.round(ratio);
-      if (ratio >= 0.98 * this.tolerance && ratio <= this.tolerance) {
-        frequency = this.lastFrequency;
-      }
-    }
     // Apply smoothing with clarity weighting
     if (this.smoothing) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
