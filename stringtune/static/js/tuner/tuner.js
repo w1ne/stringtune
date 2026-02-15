@@ -16,11 +16,11 @@ const Tuner = function (a4) {
     "A♯",
     "B",
   ];
-  this.stableLimit = 1; // Instant reaction (relies on Rust engine's internal stability)
+  this.stableLimit = 3; // Wait for 3 stable measurements (~35ms)
   this.tolerance = 1.02;
   this.smoothing = true;
   this.smoothFrequencies = [];
-  this.smoothingDepth = 3; // Minimal smoothing for lowest lag
+  this.smoothingDepth = 5; // Balanced window for median filter
 
   this.initGetUserMedia();
 };
@@ -34,17 +34,15 @@ Tuner.prototype.disableSmoothing = function () {
 };
 
 Tuner.prototype.smoothFrequency = function (frequency) {
-  // Add new frequency to the array
   this.smoothFrequencies.push(frequency);
-
-  // If the array size exceeds smoothingDepth, remove the oldest frequency
   if (this.smoothFrequencies.length > this.smoothingDepth) {
     this.smoothFrequencies.shift();
   }
 
-  // Calculate the average frequency and return
-  const sum = this.smoothFrequencies.reduce((a, b) => a + b, 0);
-  return sum / this.smoothFrequencies.length;
+  // Median Filter
+  const sorted = [...this.smoothFrequencies].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 };
 
 // Initialize detected frequencies array

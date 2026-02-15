@@ -37,7 +37,9 @@ Meter.prototype.tick = function () {
   const diff = this.targetDeg - this.currentDeg;
 
   if (Math.abs(diff) > 0.05) {
-    this.currentDeg += diff * 0.3;
+    // Smoother interpolation (0.2) + dampening for tiny movements
+    const speed = Math.abs(diff) < 1 ? 0.1 : 0.2;
+    this.currentDeg += diff * speed;
     this.$pointer.style.transform = "rotate(" + this.currentDeg + "deg)";
 
     // Update visibility logic based on current position

@@ -29,3 +29,41 @@ impl WasmPitchDetector {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::f32::consts::PI;
+
+    fn generate_sine(frequency: f32, sample_rate: usize, length: usize) -> Vec<f32> {
+        (0..length)
+            .map(|i| (2.0 * PI * frequency * i as f32 / sample_rate as f32).sin())
+            .collect()
+    }
+
+    #[test]
+    fn test_pitch_detection_a4() {
+        let sample_rate = 44100;
+        let fft_size = 2048;
+        let mut detector = WasmPitchDetector::new(sample_rate, fft_size);
+        
+        let frequency = 440.0;
+        let signal = generate_sine(frequency, sample_rate, fft_size);
+        
+        let detected = detector.detect(&signal).expect("Should detect a pitch");
+        assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
+    }
+
+    #[test]
+    fn test_pitch_detection_e2() {
+        let sample_rate = 44100;
+        let fft_size = 2048;
+        let mut detector = WasmPitchDetector::new(sample_rate, fft_size);
+        
+        let frequency = 82.41; // Low E on guitar
+        let signal = generate_sine(frequency, sample_rate, fft_size);
+        
+        let detected = detector.detect(&signal).expect("Should detect a pitch");
+        assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
+    }
+}
