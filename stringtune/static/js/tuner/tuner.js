@@ -16,28 +16,29 @@ const Tuner = function (a4) {
     "A♯",
     "B",
   ];
-  this.stableLimit = 3; // This is the number of cycles the note has to remain the same to be considered stable.
-  this.tolerance = 1.05; // Adjust this value based on your needs. This means a 5% tolerance.
-  this.smoothing = false; // this property will be used to enable/disable the smoothing algorithm
-  this.smoothFrequencies = []; // this array will store the last few frequencies to average
+  this.stableLimit = 1; // Instant reaction (relies on Rust engine's internal stability)
+  this.tolerance = 1.02;
+  this.smoothing = true;
+  this.smoothFrequencies = [];
+  this.smoothingDepth = 3; // Minimal smoothing for lowest lag
 
   this.initGetUserMedia();
 };
 
-Tuner.prototype.enableSmoothing = function() {
+Tuner.prototype.enableSmoothing = function () {
   this.smoothing = true;
 };
 
-Tuner.prototype.disableSmoothing = function() {
+Tuner.prototype.disableSmoothing = function () {
   this.smoothing = false;
 };
 
-Tuner.prototype.smoothFrequency = function(frequency) {
+Tuner.prototype.smoothFrequency = function (frequency) {
   // Add new frequency to the array
   this.smoothFrequencies.push(frequency);
-  
-  // If the array size exceeds 10 (you can adjust this value), remove the oldest frequency
-  if (this.smoothFrequencies.length > 10) {
+
+  // If the array size exceeds smoothingDepth, remove the oldest frequency
+  if (this.smoothFrequencies.length > this.smoothingDepth) {
     this.smoothFrequencies.shift();
   }
 
@@ -85,79 +86,97 @@ Tuner.prototype.initGetUserMedia = function () {
 
 Tuner.prototype.startRecord = function () {
   const self = this;
-  let currentNote = null;
-  let stableCount = 0;
-  let lastFrequency = null;
-
   navigator.mediaDevices
     .getUserMedia({ audio: true })
     .then(function (stream) {
-      self.audioContext.createMediaStreamSource(stream).connect(self.analyser);
-      self.analyser.connect(self.scriptProcessor);
-      self.scriptProcessor.connect(self.audioContext.destination);
-	self.scriptProcessor.addEventListener("audioprocess", function (event) {
-	  let frequency = self.pitchDetector.do(
-	    event.inputBuffer.getChannelData(0)
-	  );
-	  if (frequency) {
-	    // Ignore frequencies that are close multiples of the last frequency, as these are likely to be harmonics
-	    if (lastFrequency) {
-	      let ratio = frequency / lastFrequency;
-	      ratio = Math.round(ratio);
-	      if (ratio >= 0.98 * self.tolerance && ratio <= self.tolerance) {
-		frequency = lastFrequency;
-	      }
-	    }
-	    // Apply smoothing if it is enabled
-            if (self.smoothing) {
-              frequency = self.smoothFrequency(frequency);
-            }
-
-	    lastFrequency = frequency;
-	    const note = self.getNote(frequency);
-	    if (note !== currentNote) {
-	      stableCount = 0;
-	      currentNote = note;
-	    } else {
-	      stableCount++;
-	    }
-	    if (stableCount >= self.stableLimit && self.onNoteDetected) {
-	      self.onNoteDetected({
-		name: self.noteStrings[note % 12],
-		value: note,
-		cents: self.getCents(frequency, note),
-		octave: parseInt(note / 12) - 1,
-		frequency: frequency,
-	      });
-	    }
-	  }
-	});
+      const source = self.audioContext.createMediaStreamSource(stream);
+      source.connect(self.analyser);
+      // Connect to Worklet
+      if (self.workletNode) {
+        self.analyser.connect(self.workletNode);
+        self.workletNode.connect(self.audioContext.destination);
+      }
     })
     .catch(function (error) {
       alert(error.name + ": " + error.message);
     });
 };
 
-Tuner.prototype.init = function () {
+Tuner.prototype.updatePitch = function (frequency) {
+  if (frequency) {
+    // Ignore frequencies that are close multiples of the last frequency (harmonics)
+    if (this.lastFrequency) {
+      let ratio = frequency / this.lastFrequency;
+      ratio = Math.round(ratio);
+      if (ratio >= 0.98 * this.tolerance && ratio <= this.tolerance) {
+        frequency = this.lastFrequency;
+      }
+    }
+    // Apply smoothing
+    if (this.smoothing) {
+      frequency = this.smoothFrequency(frequency);
+    }
+
+    this.lastFrequency = frequency;
+    const note = this.getNote(frequency);
+
+    // Stability Check
+    if (note !== this.currentNote) {
+      this.stableCount = 0;
+      this.currentNote = note;
+    } else {
+      this.stableCount++;
+    }
+
+    // Only update UI if stable
+    if (this.stableCount >= this.stableLimit && this.onNoteDetected) {
+      this.onNoteDetected({
+        name: this.noteStrings[note % 12],
+        value: note,
+        cents: this.getCents(frequency, note),
+        octave: parseInt(note / 12) - 1,
+        frequency: frequency,
+      });
+    }
+  }
+};
+
+Tuner.prototype.init = async function () {
   this.audioContext = new window.AudioContext();
   this.analyser = this.audioContext.createAnalyser();
-  this.scriptProcessor = this.audioContext.createScriptProcessor(
-    this.bufferSize,
-    1,
-    1
-  );
+  // State variables for updatePitch
+  this.currentNote = null;
+  this.stableCount = 0;
+  this.lastFrequency = null;
 
-  const self = this;
+  try {
+    // 1. Pre-fetch the Wasm binary (Worklets can't fetch in some browsers)
+    const response = await fetch('/tuner-core/tuner_core_bg.wasm');
+    const wasmBytes = await response.arrayBuffer();
 
-  aubio().then(function (aubio) {
-    self.pitchDetector = new aubio.Pitch(
-      "default",
-      self.bufferSize,
-      1,
-      self.audioContext.sampleRate
-    );
-    self.startRecord();
-  });
+    // 2. Load the Worklet module (cache-busted for delivery insurance)
+    const workletUrl = '/js/audio-worklet/processor.js?cache=' + Date.now();
+    await this.audioContext.audioWorklet.addModule(workletUrl);
+
+    // 3. Create the node with pre-fetched bytes
+    this.workletNode = new AudioWorkletNode(this.audioContext, 'pitch-processor', {
+      processorOptions: { wasmBytes }
+    });
+
+    this.workletNode.port.onmessage = (event) => {
+      if (event.data.type === 'result') {
+        this.updatePitch(event.data.pitch);
+      } else if (event.data.type === 'error') {
+        console.error('Worklet Error:', event.data.error);
+        alert('Tuner Engine Error: ' + event.data.error);
+      }
+    };
+
+    this.startRecord();
+  } catch (e) {
+    console.error('Failed to init AudioWorklet:', e);
+    alert('Tuner Engine Failed: ' + e);
+  }
 };
 
 /**

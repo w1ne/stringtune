@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Markdown Lint
+        run: npm run lint
+
+  commit-lint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm ci
+      - name: Validate current commit (last commit)
+        if: github.event.pull_request.commits == 1
+        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~1 --to ${{ github.event.pull_request.head.sha }} --verbose
+      - name: Validate PR commits
+        if: github.event.pull_request.commits > 1
+        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.114.0'
+          extended: true
+      - name: Build
+        run: |
+          cd stringtune
+          hugo --minify
+
+  quality-checks:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.114.0'
+          extended: true
+      - name: Build Site
+        run: |
+          cd stringtune
+          hugo --minify
+      
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:5000/
+          configPath: './.lighthouserc.json'
+          # We need to serve the site first. lhci action can do this with 'staticDistDir' but we are in a monorepo-ish structure.
+          # Let's try staticDistDir pointing to the public folder.
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          budgetPath: ./budget.json # Optional
+  
+  a11y:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.114.0'
+          extended: true
+      - name: Build Site
+        run: |
+          cd stringtune
+          hugo --minify
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install pa11y-ci
+        run: npm install -g pa11y-ci http-server
+      - name: Run Accessibility Checks
+        run: |
+          npx http-server stringtune/public -p 8080 &
+          sleep 5
+          pa11y-ci --sitemap http://localhost:8080/sitemap.xml

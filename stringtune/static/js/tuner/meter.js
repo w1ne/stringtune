@@ -6,6 +6,10 @@ const Meter = function (selector) {
   this.$root = document.querySelector(selector);
   this.$pointer = this.$root.querySelector(".tuner .meter-pointer");
   this.init();
+  this.currentDeg = 0;
+  this.targetDeg = 0;
+  // Start the physics loop
+  requestAnimationFrame(this.tick.bind(this));
 };
 
 Meter.prototype.init = function () {
@@ -24,16 +28,30 @@ Meter.prototype.init = function () {
  * @param {number} deg
  */
 Meter.prototype.update = function (deg) {
-  this.$pointer.style.transform = "rotate(" + deg + "deg)";
-  const tunedArea = document.getElementById("tunedArea");
- 
-  // Adjust these values to match the actual range of your "tuned" area
-  const minTunedDegree = -4;  
-  const maxTunedDegree = 4;
-  
-  if (deg >= minTunedDegree && deg <= maxTunedDegree) {
-    tunedArea.style.visibility = "visible";
-  } else {
-    tunedArea.style.visibility = "hidden";
+  this.targetDeg = deg;
+};
+
+Meter.prototype.tick = function () {
+  // Smoothly move currentDeg towards targetDeg (Simple Ease-Out)
+  // 0.15 factor gives a nice responsive but weighted feel
+  const diff = this.targetDeg - this.currentDeg;
+
+  if (Math.abs(diff) > 0.05) {
+    this.currentDeg += diff * 0.3;
+    this.$pointer.style.transform = "rotate(" + this.currentDeg + "deg)";
+
+    // Update visibility logic based on current position
+    const tunedArea = document.getElementById("tunedArea");
+    if (tunedArea) {
+      const minTunedDegree = -3;
+      const maxTunedDegree = 3;
+      if (this.currentDeg >= minTunedDegree && this.currentDeg <= maxTunedDegree) {
+        tunedArea.style.visibility = "visible";
+      } else {
+        tunedArea.style.visibility = "hidden";
+      }
+    }
   }
+
+  requestAnimationFrame(this.tick.bind(this));
 };

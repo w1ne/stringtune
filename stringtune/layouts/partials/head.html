@@ -3,16 +3,16 @@
 {{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
 
 {{ if hugo.IsProduction }}
-    <!-- Purge unused css and minify it -->
-    {{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
-    {{ $css = $css | minify | resources.Fingerprint "sha256" }}
+<!-- Purge unused css and minify it -->
+{{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
+{{ $css = $css | minify | resources.Fingerprint "sha256" }}
 {{ end }}
 
 <title>
     {{- if .IsHome -}}
-        {{ .Site.Title }}
+    {{ .Site.Title }}
     {{- else -}}
-        {{ .Title }} | StringTune.com
+    {{ .Title }} | StringTune.com
     {{- end -}}
 </title>
 
@@ -26,7 +26,8 @@
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679955917317735" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679955917317735"
+    crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
 <!-- // CSS & JS -->
@@ -34,25 +35,26 @@
 {{ partial "generator" . }}
 
 {{- if .IsHome -}}
-    <meta name="description" content="{{ .Site.Params.description }}">
-    {{ partial "ld+json/organisation.html" . }}
-    {{ partial "ld+json/website.html" . }}
+<meta name="description" content="{{ .Site.Params.description }}">
+{{ partial "ld+json/organisation.html" . }}
+{{ partial "ld+json/website.html" . }}
+{{ partial "ld+json/software_app.html" . }}
 {{ else }}
-    <meta name="description" content="{{ .Description }}">
-    {{ if .Params.breadcrumb }}
-        {{- partial "ld+json/breadcrumb.html" . -}}
-    {{ end }}
-    {{ if  .OutputFormats.Get "amp" -}}
-        {{ partial "ld+json/article.html" . }}
-    {{ end }}
+<meta name="description" content="{{ .Description }}">
+{{ if .Params.breadcrumb }}
+{{- partial "ld+json/breadcrumb.html" . -}}
+{{ end }}
+{{ if .OutputFormats.Get "amp" -}}
+{{ partial "ld+json/article.html" . }}
+{{ end }}
 {{ end }}
 
 {{ with .Params.no_index }}
-    <meta name="robots" content="noindex, noarchive">
+<meta name="robots" content="noindex, noarchive">
 {{ end }}
 
-{{ with  .OutputFormats.Get "amp" -}}
-    <link rel="amphtml" href="{{ .Permalink }}">
+{{ with .OutputFormats.Get "amp" -}}
+<link rel="amphtml" href="{{ .Permalink }}">
 {{ end }}
 
 {{ printf "<!-- twitter & facebook -->" | safeHTML }}

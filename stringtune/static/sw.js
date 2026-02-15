@@ -1,19 +1,19 @@
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
+    caches.keys().then(function (cacheNames) {
       return Promise.all(
-        cacheNames.map(function(cacheName) {
+        cacheNames.map(function (cacheName) {
           if (cacheName !== 'stringtune-tuner-cache') {
             console.log('Deleting out of date cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
-    }).then(function() {
+    }).then(function () {
       return fetch('./index.json')
         .then(response => response.json())
         .then(files =>
-          caches.open('stringtune-tuner-cache').then(function(cache) {
+          caches.open('stringtune-tuner-cache').then(function (cache) {
             return cache.addAll(files);
           })
         );
@@ -21,9 +21,9 @@ self.addEventListener('install', function(event) {
   );
 });
 
-self.addEventListener('fetch', function(event) {
-  if (event.request.method !== 'GET') {
-    // If it's not a GET request, just handle it normally and don't cache it.
+self.addEventListener('fetch', function (event) {
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
+    // If it's not a GET request or not a web URL, just handle it normally and don't cache it.
     event.respondWith(fetch(event.request));
     return;
   }
