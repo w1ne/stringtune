@@ -11,8 +11,8 @@ const Meter = function (selector) {
 
   // Analogue Physics
   this.velocity = 0;
-  this.friction = 0.85;       // Air resistance / Inertia (high = more sluggish/analogue)
-  this.springStrength = 0.08; // Tension of the "spring" pulling the needle
+  this.friction = 0.82;       // Slightly faster responsiveness (was 0.85)
+  this.springStrength = 0.15; // Stronger spring (was 0.08) for snappier analogue action
 
   requestAnimationFrame(this.tick.bind(this));
 };

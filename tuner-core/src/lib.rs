@@ -6,25 +6,29 @@ use pitch_detection::detector::PitchDetector;
 pub struct WasmPitchDetector {
     detector: McLeodDetector<f32>,
     sample_rate: usize,
+    result_buffer: [f32; 2],
 }
 
 #[wasm_bindgen]
 impl WasmPitchDetector {
     pub fn new(sample_rate: usize, fft_size: usize) -> WasmPitchDetector {
-        // padding is typically fft_size / 2 for overlap
         let detector = McLeodDetector::new(fft_size, fft_size / 2);
         WasmPitchDetector {
             detector,
             sample_rate,
+            result_buffer: [0.0; 2],
         }
     }
 
-    pub fn detect(&mut self, audio_buffer: &[f32]) -> Option<Vec<f32>> {
-        // power_threshold: 0.3 (even more sensitive)
-        // clarity_threshold: 0.1 (let JS handle the filtering with the clarity score)
+    pub fn detect(&mut self, audio_buffer: &[f32]) -> *const f32 {
+        // power_threshold: 0.3, clarity_threshold: 0.1
         match self.detector.get_pitch(audio_buffer, self.sample_rate, 0.3, 0.1) {
-            Some(pitch) => Some(vec![pitch.frequency, pitch.clarity]),
-            None => None,
+            Some(pitch) => {
+                self.result_buffer[0] = pitch.frequency;
+                self.result_buffer[1] = pitch.clarity;
+                self.result_buffer.as_ptr()
+            }
+            None => std::ptr::null(),
         }
     }
 }
@@ -49,7 +53,10 @@ mod tests {
         let frequency = 440.0;
         let signal = generate_sine(frequency, sample_rate, fft_size);
         
-        let result = detector.detect(&signal).expect("Should detect a pitch");
+        let ptr = detector.detect(&signal);
+        assert!(!ptr.is_null(), "Should detect a pitch");
+        
+        let result = unsafe { std::slice::from_raw_parts(ptr, 2) };
         let detected = result[0];
         assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
         assert!(result[1] > 0.4, "Clarity should be sufficient for sine wave");
@@ -64,7 +71,10 @@ mod tests {
         let frequency = 82.41; // Low E on guitar
         let signal = generate_sine(frequency, sample_rate, fft_size);
         
-        let result = detector.detect(&signal).expect("Should detect a pitch");
+        let ptr = detector.detect(&signal);
+        assert!(!ptr.is_null(), "Should detect a pitch");
+        
+        let result = unsafe { std::slice::from_raw_parts(ptr, 2) };
         let detected = result[0];
         assert!((detected - frequency).abs() < 1.0, "Expected {}, got {}", frequency, detected);
         assert!(result[1] > 0.3, "Clarity should be sufficient for low E sine");
