@@ -24,13 +24,18 @@ let wasm_bindgen = (function(exports) {
         }
         /**
          * @param {Float32Array} audio_buffer
-         * @returns {number | undefined}
+         * @returns {Float32Array | undefined}
          */
         detect(audio_buffer) {
             const ptr0 = passArrayF32ToWasm0(audio_buffer, wasm.__wbindgen_malloc);
             const len0 = WASM_VECTOR_LEN;
             const ret = wasm.wasmpitchdetector_detect(this.__wbg_ptr, ptr0, len0);
-            return ret === 0x100000001 ? undefined : ret;
+            let v2;
+            if (ret[0] !== 0) {
+                v2 = getArrayF32FromWasm0(ret[0], ret[1]).slice();
+                wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
+            }
+            return v2;
         }
         /**
          * @param {number} sample_rate
@@ -70,6 +75,11 @@ let wasm_bindgen = (function(exports) {
     const WasmPitchDetectorFinalization = (typeof FinalizationRegistry === 'undefined')
         ? { register: () => {}, unregister: () => {} }
         : new FinalizationRegistry(ptr => wasm.__wbg_wasmpitchdetector_free(ptr >>> 0, 1));
+
+    function getArrayF32FromWasm0(ptr, len) {
+        ptr = ptr >>> 0;
+        return getFloat32ArrayMemory0().subarray(ptr / 4, ptr / 4 + len);
+    }
 
     let cachedFloat32ArrayMemory0 = null;
     function getFloat32ArrayMemory0() {
