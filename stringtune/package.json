@@ -2,5 +2,12 @@
   "dependencies": {
     "bulma": "^0.9.4",
     "postcss-cli": "^11.0.1"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }

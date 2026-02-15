@@ -154,23 +154,32 @@ Tuner.prototype.init = async function () {
   this.lastFrequency = null;
 
   try {
+    console.log("[Tuner] Fetching WASM binary...");
     // 1. Pre-fetch the Wasm binary (Worklets can't fetch in some browsers)
     const response = await fetch('/tuner-core/tuner_core_bg.wasm?v=' + Date.now());
+    if (!response.ok) throw new Error("WASM fetch failed with status " + response.status);
     const wasmBytes = await response.arrayBuffer();
+    console.log("[Tuner] WASM fetched, size:", wasmBytes.byteLength);
 
     // 2. Load the Worklet module (cache-busted for delivery insurance)
     const workletUrl = '/js/audio-worklet/processor.js?cache=' + Date.now();
+    console.log("[Tuner] Adding AudioWorklet module:", workletUrl);
     await this.audioContext.audioWorklet.addModule(workletUrl);
 
     // 3. Create the node with pre-fetched bytes
+    console.log("[Tuner] Creating AudioWorkletNode...");
     this.workletNode = new AudioWorkletNode(this.audioContext, 'pitch-processor', {
       processorOptions: { wasmBytes }
     });
+    console.log("[Tuner] AudioWorkletNode created:", this.workletNode);
 
     this.workletNode.port.onmessage = (event) => {
+      // console.log("[Tuner] Message from worklet:", event.data.type);
       if (event.data.type === 'result') {
         this.lastClarity = event.data.clarity;
         this.updatePitch(event.data.pitch);
+      } else if (event.data.type === 'ready') {
+        console.log("[Tuner] Worklet engine confirmed READY");
       } else if (event.data.type === 'error') {
         console.error('Worklet Error:', event.data.error);
         alert('Tuner Engine Error: ' + event.data.error);
@@ -179,7 +188,7 @@ Tuner.prototype.init = async function () {
 
     this.startRecord();
   } catch (e) {
-    console.error('Failed to init AudioWorklet:', e);
+    console.error('[Tuner] Init failed:', e);
     alert('Tuner Engine Failed: ' + e);
   }
 };

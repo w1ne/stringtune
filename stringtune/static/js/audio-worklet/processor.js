@@ -135,6 +135,7 @@ class PitchProcessor extends AudioWorkletProcessor {
         this.callsSinceLastProcess = 0;
 
         const wasmBytes = options.processorOptions.wasmsBytes || options.processorOptions.wasmBytes;
+        console.log("[Worklet] Constructor called, wasmBytes present:", !!wasmBytes);
         this.init(wasmBytes);
     }
 
@@ -143,6 +144,7 @@ class PitchProcessor extends AudioWorkletProcessor {
             if (!wasmBytes) throw new Error("No Wasm bytes provided");
             await initWasm(wasmBytes);
             this.detector = WasmPitchDetector.new(sampleRate, this.bufferSize);
+            console.log("[Worklet] Engine ready at sampleRate:", sampleRate);
             this.port.postMessage({ type: 'ready' });
         } catch (e) {
             this.port.postMessage({ type: 'error', error: e.toString() });
@@ -170,17 +172,21 @@ class PitchProcessor extends AudioWorkletProcessor {
             this.callsSinceLastProcess = 0;
 
             if (this.detector) {
-                const result = this.detector.detect(this.buffer);
-                if (result && result.length >= 2) {
-                    const pitch = result[0];
-                    const clarity = result[1];
-                    if (pitch > 0) {
-                        // Debug log for low frequencies (like E2) or outliers
-                        if (pitch < 100 || pitch > 800) {
-                            console.log(`[Worklet] Pitch: ${pitch.toFixed(2)}Hz, Clarity: ${clarity.toFixed(2)}`);
+                try {
+                    const result = this.detector.detect(this.buffer);
+                    if (result && result.length >= 2) {
+                        const pitch = result[0];
+                        const clarity = result[1];
+                        if (pitch > 0) {
+                            // Heartbeat: log every 100th valid pitch
+                            if (this.accumulationCounter % 12800 === 0) {
+                                console.log(`[Worklet] Heartbeat - Pitch: ${pitch.toFixed(1)}Hz, Clarity: ${clarity.toFixed(2)}`);
+                            }
+                            this.port.postMessage({ type: 'result', pitch, clarity });
                         }
-                        this.port.postMessage({ type: 'result', pitch, clarity });
                     }
+                } catch (err) {
+                    this.port.postMessage({ type: 'error', error: 'Wasm detection failed: ' + err.toString() });
                 }
             }
         }

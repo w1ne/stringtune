@@ -41,7 +41,12 @@ Meter.prototype.tick = function () {
   const force = (this.targetDeg - this.currentDeg) * this.springStrength;
   this.velocity += force;
   this.velocity *= this.friction;
-  this.currentDeg += this.velocity;
+  if (!isNaN(this.velocity) && !isNaN(this.currentDeg)) {
+    this.currentDeg += this.velocity;
+  } else {
+    this.velocity = 0;
+    this.currentDeg = this.targetDeg || 0;
+  }
 
   // 2. Render if moving
   if (Math.abs(this.velocity) > 0.001 || Math.abs(this.targetDeg - this.currentDeg) > 0.01) {
