@@ -127,11 +127,11 @@ class PitchProcessor extends AudioWorkletProcessor {
         super();
         this.detector = null;
 
-        // Accumulation buffer
-        this.bufferSize = 2048;
+        // Accumulation buffer - increased to 4096 for better low-frequency (E2) resolution
+        this.bufferSize = 4096;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        this.processInterval = 2; // Process every 2nd 128-sample block (~5.8ms / 172Hz)
+        this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
         this.callsSinceLastProcess = 0;
 
         const wasmBytes = options.processorOptions.wasmsBytes || options.processorOptions.wasmBytes;
