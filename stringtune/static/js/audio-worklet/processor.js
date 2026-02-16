@@ -148,9 +148,9 @@ class PitchProcessor extends AudioWorkletProcessor {
         this.bufferSize = 4096;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        // LPF Coefficients (Biquad Butterworth LPF, 1000Hz @ 44100Hz)
+        // LPF Coefficients (Biquad Butterworth LPF, 800Hz @ 44100Hz)
         // Calculated via standard recipe: https://shepazu.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
-        const w0 = 2 * Math.PI * 1000 / sampleRate;
+        const w0 = 2 * Math.PI * 800 / sampleRate;
         const cosW0 = Math.cos(w0);
         const alpha = Math.sin(w0) / (2 * 0.707); // Q=0.707
         const b0 = (1 - cosW0) / 2;
@@ -221,7 +221,24 @@ class PitchProcessor extends AudioWorkletProcessor {
 
             if (this.detector) {
                 try {
-                    const result = this.detector.detect(this.buffer);
+                    // AGC: Normalize the buffer to 0.95 peak before detection
+                    // This ensures the McLeod detector sees high-amplitude peaks regardless of mic volume
+                    let maxAmp = 0;
+                    for (let i = 0; i < this.bufferSize; i++) {
+                        const abs = Math.abs(this.buffer[i]);
+                        if (abs > maxAmp) maxAmp = abs;
+                    }
+
+                    let normalizedBuffer = this.buffer;
+                    if (maxAmp > 0.001) {
+                        const gain = 0.95 / maxAmp;
+                        normalizedBuffer = new Float32Array(this.bufferSize);
+                        for (let i = 0; i < this.bufferSize; i++) {
+                            normalizedBuffer[i] = this.buffer[i] * gain;
+                        }
+                    }
+
+                    const result = this.detector.detect(normalizedBuffer);
                     if (result && result.length >= 2) {
                         const pitch = result[0];
                         const clarity = result[1];

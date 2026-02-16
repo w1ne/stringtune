@@ -34,6 +34,7 @@ const Tuner = function (a4) {
   this.recentLowFreqs = []; // Memory for low strings (E1, E2)
   this.jumpBuffer = 0;      // Counter for outlier rejection
   this.lastCents = 0;       // For jump detection
+  this.history = [];        // Recent note history for clustering
 
   this.state = 'SEARCHING'; // 'SEARCHING' or 'TRACKING'
   this.initGetUserMedia();
@@ -133,25 +134,24 @@ Tuner.prototype.updatePitch = function (frequency) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    // 2. State Machine & Octave Guard
-    // Higher threshold for initial lock-on
-    const lockThreshold = 0.65;
-    const holdThreshold = 0.40;
+    // 2. Responsive Note Detection (No Gates)
+    this.lastFrequency = frequency;
+    const rawNote = this.getNote(frequency);
 
-    if (this.state === 'SEARCHING') {
-      if (this.lastClarity > lockThreshold) {
-        this.state = 'TRACKING';
-      } else {
-        // Stay centered while searching
-        if (this.onNoteDetected) {
-          this.onNoteDetected({ name: '-', value: 0, cents: 0, frequency: 0, isStable: false });
-        }
-        return;
-      }
+    // Cluster-based Locking: 
+    // We only change the visual note name if we have agreement over 3 frames.
+    this.history.push(rawNote);
+    if (this.history.length > 5) this.history.shift();
+
+    if (this.lockedNote === null) {
+      this.lockedNote = rawNote;
     } else {
-      if (this.lastClarity < holdThreshold) {
-        this.state = 'SEARCHING';
-        return;
+      // Find the most frequent note in the recent history
+      const counts = {};
+      this.history.forEach(n => counts[n] = (counts[n] || 0) + 1);
+      const topNote = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+      if (counts[topNote] >= 3) {
+        this.lockedNote = parseInt(topNote);
       }
     }
 
