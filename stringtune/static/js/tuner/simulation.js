@@ -67,7 +67,9 @@ async function runSimulation(fftSize, frequency) {
     await new Promise((resolve, reject) => {
         const timeout = setTimeout(() => reject("Timeout waiting for WASM init"), 5000);
         processor.port.onmessage = (msg) => {
-            console.log("Message received:", msg.type);
+            if (msg.type === 'result') {
+                console.log(`[SIM] Result: ${msg.pitch.toFixed(1)}Hz (clarity: ${msg.clarity.toFixed(2)})`);
+            }
             if (msg.type === 'ready') {
                 isReady = true;
                 clearTimeout(timeout);
