@@ -172,7 +172,6 @@ Tuner.prototype.updatePitch = function (frequency) {
     }
 
     this.lastFrequency = frequency;
-    const rawNote = this.getNote(frequency);
 
     // 3. Note Locking (Hysteresis)
     if (this.lockedNote === null) {
