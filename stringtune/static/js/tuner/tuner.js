@@ -20,8 +20,15 @@ const Tuner = function (a4) {
   this.tolerance = 1.02;
   this.smoothing = true;
   this.smoothFrequencies = [];
-  this.smoothingDepth = 10;
+  this.smoothingDepth = 25; // Deeper history for better outlier rejection
   this.lastSmoothed = null; // For EMA state
+
+  // Stabilizer State
+  this.lockedNote = null;
+  this.lockingBuffer = 0;
+  this.currentCents = 0;
+  this.centsVelocity = 0;
+  this.lastUpdate = Date.now();
 
   this.initGetUserMedia();
 };
@@ -115,31 +122,69 @@ Tuner.prototype.startRecord = function () {
 
 Tuner.prototype.updatePitch = function (frequency) {
   if (frequency) {
-    // Apply smoothing with clarity weighting
+    // 1. Statistical Smoothing (Median + EMA)
     if (this.smoothing) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    this.lastFrequency = frequency;
-    const note = this.getNote(frequency);
+    // 2. Detection Gating: Reject if clarity is too low
+    if (this.lastClarity < 0.3) return;
 
-    // Stability Check for the Note Label (prevents flickering letters)
-    if (note !== this.currentNote) {
-      this.stableCount = 0;
-      this.currentNote = note;
+    this.lastFrequency = frequency;
+    const rawNote = this.getNote(frequency);
+
+    // 3. Note Locking (Hysteresis)
+    // Prevents flickering note letters when you're between two semitones
+    if (this.lockedNote === null) {
+      this.lockedNote = rawNote;
+      this.lockingBuffer = 0;
     } else {
-      this.stableCount++;
+      const centsToLocked = this.getCents(frequency, this.lockedNote);
+      // breakaway threshold: must be > 70 cents away to consider switching
+      if (Math.abs(centsToLocked) > 70) {
+        this.lockingBuffer++;
+        if (this.lockingBuffer > 10) { // Require 10 frames (~100ms) of consistent shift
+          this.lockedNote = rawNote;
+          this.lockingBuffer = 0;
+        }
+      } else {
+        this.lockingBuffer = 0;
+      }
     }
 
-    // ALWAYS update frequency and cents (needle) for "analogue" real-time feel
+    // 4. Inertia Physics for Needle (Spring-Mass-Damper)
+    // Makes the needle feel "heavy" and analogue instead of jittery
+    const targetCents = this.getCents(frequency, this.lockedNote);
+    const now = Date.now();
+    const dt = Math.min((now - this.lastUpdate) / 1000, 0.1); // cap dt to prevent teleportation
+    this.lastUpdate = now;
+
+    // Physics parameters
+    const stiffness = 85 + (this.lastClarity * 115); // Snappier if clarity is 1.0
+    const damping = 18; // Resistance to oscillation
+
+    const error = targetCents - this.currentCents;
+    const accel = (stiffness * error) - (damping * this.centsVelocity);
+
+    this.centsVelocity += accel * dt;
+    this.currentCents += this.centsVelocity * dt;
+
+    // Stability Check for UI "Lock" visual
+    if (Math.abs(targetCents) < 5) {
+      this.stableCount++;
+    } else {
+      this.stableCount = 0;
+    }
+
+    // 5. Emit Stabilized Result
     if (this.onNoteDetected) {
       this.onNoteDetected({
-        name: this.noteStrings[note % 12],
-        value: note,
-        cents: this.getCents(frequency, note),
-        octave: parseInt(note / 12) - 1,
+        name: this.noteStrings[this.lockedNote % 12],
+        value: this.lockedNote,
+        cents: this.currentCents,
+        octave: Math.floor(this.lockedNote / 12) - 1,
         frequency: frequency,
-        isStable: this.stableCount >= this.stableLimit // Main thread can use this to dim/brighten
+        isStable: this.stableCount >= 15 // Needs ~150ms of dead-on accuracy to be "stable"
       });
     }
   }
