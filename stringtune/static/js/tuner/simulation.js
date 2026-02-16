@@ -93,7 +93,10 @@ async function runSimulation(fftSize, frequency) {
         const channel = new Float32Array(samplesPerChannel);
         for (let s = 0; s < samplesPerChannel; s++) {
             const time = (i * samplesPerChannel + s) / global.sampleRate;
-            channel[s] = Math.sin(2 * Math.PI * frequency * time);
+            // E1 + Harmonics (Rich spectrum)
+            channel[s] = 1.0 * Math.sin(2 * Math.PI * frequency * time) +
+                0.5 * Math.sin(2 * Math.PI * (frequency * 2) * time) +
+                0.3 * Math.sin(2 * Math.PI * (frequency * 3) * time);
         }
 
         try {
