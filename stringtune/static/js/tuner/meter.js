@@ -33,6 +33,9 @@ Meter.prototype.init = function () {
  * @param {number} deg
  */
 Meter.prototype.update = function (deg) {
+  // Hard clamp to visual arc (±45 degrees = ±50 cents)
+  if (deg > 45) deg = 45;
+  if (deg < -45) deg = -45;
   this.targetDeg = deg;
 };
 
@@ -46,6 +49,15 @@ Meter.prototype.tick = function () {
   } else {
     this.velocity = 0;
     this.currentDeg = this.targetDeg || 0;
+  }
+
+  // Hard Clamp: Prevent "circles" even if physics explodes
+  if (this.currentDeg > 45) {
+    this.currentDeg = 45;
+    this.velocity = 0;
+  } else if (this.currentDeg < -45) {
+    this.currentDeg = -45;
+    this.velocity = 0;
   }
 
   // 2. Render if moving

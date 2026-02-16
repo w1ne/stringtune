@@ -160,36 +160,14 @@ Tuner.prototype.updatePitch = function (frequency) {
       }
     }
 
-    // 4. Inertia Physics for Needle (Spring-Mass-Damper)
-    // Makes the needle feel "heavy" and analogue instead of jittery
+    // 4. Emit Stabilized Result
+    // We send mediam-filtered cents. Meter.js will handle the physical smoothing.
     const targetCents = this.getCents(frequency, this.lockedNote);
-    const now = Date.now();
-    const dt = Math.min((now - this.lastUpdate) / 1000, 0.1); // cap dt to prevent teleportation
-    this.lastUpdate = now;
 
-    // Physics parameters - Clamped to prevent "needle crazy" behavior
-    const stiffness = 40 + (this.lastClarity * 60);
-    const damping = 25;
-
-    // CLAMP ERROR: UI scale is ±50 cents, so clamping error to ±50 makes it very stable.
-    let error = targetCents - this.currentCents;
-    if (error > 50) error = 50;
-    if (error < -50) error = -50;
-
-    const accel = (stiffness * error) - (damping * this.centsVelocity);
-
-    this.centsVelocity += accel * dt;
-    this.centsVelocity *= 0.96; // Higher friction
-    this.currentCents += this.centsVelocity * dt;
-
-    // HARD POSITIONAL CLAMP: Ensure needle stays within visual "ticks" (±50 cents)
-    if (this.currentCents > 50) {
-      this.currentCents = 50;
-      this.centsVelocity = 0;
-    } else if (this.currentCents < -50) {
-      this.currentCents = -50;
-      this.centsVelocity = 0;
-    }
+    // HARD CLAMP: UI only supports ±50 cents. Anything else is ignored/clamped.
+    let finalCents = targetCents;
+    if (finalCents > 50) finalCents = 50;
+    if (finalCents < -50) finalCents = -50;
 
     // Stability Check for UI "Lock" visual
     if (Math.abs(targetCents) < 3) {
@@ -198,12 +176,11 @@ Tuner.prototype.updatePitch = function (frequency) {
       this.stableCount = Math.max(0, this.stableCount - 1); // Slow decay
     }
 
-    // 5. Emit Stabilized Result
     if (this.onNoteDetected) {
       this.onNoteDetected({
         name: this.noteStrings[this.lockedNote % 12],
         value: this.lockedNote,
-        cents: this.currentCents,
+        cents: finalCents,
         octave: Math.floor(this.lockedNote / 12) - 1,
         frequency: frequency,
         isStable: this.stableCount >= 20
