@@ -127,8 +127,10 @@ Tuner.prototype.updatePitch = function (frequency) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    // 2. Detection Gating: Reject if clarity is too low
-    if (this.lastClarity < 0.3) return;
+    // 2. Detection Gating: Reject noise aggressively
+    // We need high clarity for initial locking (ignore 900Hz spikes)
+    const clarityThreshold = (this.lockedNote === null) ? 0.8 : 0.45;
+    if (this.lastClarity < clarityThreshold) return;
 
     this.lastFrequency = frequency;
     const rawNote = this.getNote(frequency);
@@ -140,10 +142,10 @@ Tuner.prototype.updatePitch = function (frequency) {
       this.lockingBuffer = 0;
     } else {
       const centsToLocked = this.getCents(frequency, this.lockedNote);
-      // breakaway threshold: must be > 70 cents away to consider switching
-      if (Math.abs(centsToLocked) > 70) {
+      // breakaway threshold: must be > 65 cents away to consider switching
+      if (Math.abs(centsToLocked) > 65) {
         this.lockingBuffer++;
-        if (this.lockingBuffer > 10) { // Require 10 frames (~100ms) of consistent shift
+        if (this.lockingBuffer > 15) { // Require ~150ms of consistent shift
           this.lockedNote = rawNote;
           this.lockingBuffer = 0;
         }
@@ -159,21 +161,27 @@ Tuner.prototype.updatePitch = function (frequency) {
     const dt = Math.min((now - this.lastUpdate) / 1000, 0.1); // cap dt to prevent teleportation
     this.lastUpdate = now;
 
-    // Physics parameters
-    const stiffness = 85 + (this.lastClarity * 115); // Snappier if clarity is 1.0
-    const damping = 18; // Resistance to oscillation
+    // Physics parameters - Clamped to prevent "needle crazy" behavior
+    const stiffness = 60 + (this.lastClarity * 80);
+    const damping = 22;
 
-    const error = targetCents - this.currentCents;
+    // CLAMP ERROR: Prevent massive acceleration from spikes/octave jumps
+    let error = targetCents - this.currentCents;
+    if (error > 100) error = 100;
+    if (error < -100) error = -100;
+
     const accel = (stiffness * error) - (damping * this.centsVelocity);
 
     this.centsVelocity += accel * dt;
+    this.centsVelocity *= 0.98; // Friction
+
     this.currentCents += this.centsVelocity * dt;
 
     // Stability Check for UI "Lock" visual
-    if (Math.abs(targetCents) < 5) {
+    if (Math.abs(targetCents) < 3) {
       this.stableCount++;
     } else {
-      this.stableCount = 0;
+      this.stableCount = Math.max(0, this.stableCount - 1); // Slow decay
     }
 
     // 5. Emit Stabilized Result
@@ -184,7 +192,7 @@ Tuner.prototype.updatePitch = function (frequency) {
         cents: this.currentCents,
         octave: Math.floor(this.lockedNote / 12) - 1,
         frequency: frequency,
-        isStable: this.stableCount >= 15 // Needs ~150ms of dead-on accuracy to be "stable"
+        isStable: this.stableCount >= 20
       });
     }
   }
