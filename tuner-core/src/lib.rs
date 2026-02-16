@@ -6,6 +6,7 @@ use pitch_detection::detector::PitchDetector;
 pub struct WasmPitchDetector {
     detector: McLeodDetector<f32>,
     sample_rate: usize,
+    audio_buffer: Vec<f32>,
     result_buffer: [f32; 2],
 }
 
@@ -16,19 +17,27 @@ impl WasmPitchDetector {
         WasmPitchDetector {
             detector,
             sample_rate,
+            audio_buffer: vec![0.0; fft_size],
             result_buffer: [0.0; 2],
         }
     }
 
-    pub fn detect(&mut self, audio_buffer: &[f32]) -> *const f32 {
-        // power_threshold: 0.3, clarity_threshold: 0.1
-        match self.detector.get_pitch(audio_buffer, self.sample_rate, 0.3, 0.1) {
+    pub fn audio_ptr(&self) -> *const f32 {
+        self.audio_buffer.as_ptr()
+    }
+
+    pub fn result_ptr(&self) -> *const f32 {
+        self.result_buffer.as_ptr()
+    }
+
+    pub fn detect(&mut self) -> bool {
+        match self.detector.get_pitch(&self.audio_buffer, self.sample_rate, 0.3, 0.1) {
             Some(pitch) => {
                 self.result_buffer[0] = pitch.frequency;
                 self.result_buffer[1] = pitch.clarity;
-                self.result_buffer.as_ptr()
+                true
             }
-            None => std::ptr::null(),
+            None => false,
         }
     }
 }

@@ -24,7 +24,7 @@ let cachedUint8ArrayMemory0 = null;
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
 function getFloat32ArrayMemory0() {
-    if (cachedFloat32ArrayMemory0 === null || cachedFloat32ArrayMemory0.byteLength === 0) {
+    if (cachedFloat32ArrayMemory0 === null || cachedFloat32ArrayMemory0.buffer !== wasm.memory.buffer) {
         cachedFloat32ArrayMemory0 = new Float32Array(wasm.memory.buffer);
     }
     return cachedFloat32ArrayMemory0;
@@ -57,6 +57,11 @@ function getArrayF32FromWasm0(ptr, len) {
     return getFloat32ArrayMemory0().subarray(ptr / 4, ptr / 4 + len);
 }
 
+function getArrayU8FromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return getUint8ArrayMemory0().subarray(ptr / 1, ptr / 1 + len);
+}
+
 class WasmPitchDetector {
     static __wrap(ptr) {
         ptr = ptr >>> 0;
@@ -74,34 +79,44 @@ class WasmPitchDetector {
     static new(sample_rate, fft_size) {
         const ret = wasm.wasmpitchdetector_new(sample_rate, fft_size);
         const obj = WasmPitchDetector.__wrap(ret);
-        // Pre-allocate buffer in Wasm memory to avoid leaks
-        obj.audioPtr = wasm.__wbindgen_malloc(fft_size * 4, 4) >>> 0;
+        // Get pointers to internal buffers
+        obj.audioPtr = wasm.wasmpitchdetector_audio_ptr(obj.__wbg_ptr);
+        obj.resultPtr = wasm.wasmpitchdetector_result_ptr(obj.__wbg_ptr);
         obj.fftSize = fft_size;
         return obj;
     }
     detect(audio_buffer) {
         if (audio_buffer.length !== this.fftSize) return undefined;
 
-        // Ensure memory is fresh in case it grew
-        const currentMemory = getFloat32ArrayMemory0();
-        currentMemory.set(audio_buffer, this.audioPtr / 4);
+        try {
+            // 1. Copy audio data to the pre-allocated Wasm memory
+            const memory = getFloat32ArrayMemory0();
+            memory.set(audio_buffer, this.audioPtr / 4);
 
-        const resPtr = wasm.wasmpitchdetector_detect(this.__wbg_ptr, this.audioPtr, this.fftSize);
+            // Trigger detection on internal buffer
+            const success = wasm.wasmpitchdetector_detect(this.__wbg_ptr);
 
-        if (resPtr === 0) return undefined;
+            if (success === 0) return undefined;
 
-        // Re-check memory after WASM call in case it grew during detection
-        const memory = getFloat32ArrayMemory0();
-        const pitch = memory[resPtr / 4];
-        const clarity = memory[resPtr / 4 + 1];
+            // 3. Read results (pitch, clarity)
+            const freshMemory = getFloat32ArrayMemory0();
+            const pitch = freshMemory[this.resultPtr / 4];
+            const clarity = freshMemory[this.resultPtr / 4 + 1];
 
-        return [pitch, clarity];
+            return [pitch, clarity];
+        } catch (e) {
+            console.error("[Worklet] Detection internal error:", e);
+            throw e;
+        }
     }
 }
 
 async function initWasm(module) {
     const imports = {
         "./tuner_core_bg.js": {
+            __wbg___wbindgen_copy_to_typed_array_fc0809a4dec43528: function (arg0, arg1, arg2) {
+                new Uint8Array(arg2.buffer, arg2.byteOffset, arg2.byteLength).set(getArrayU8FromWasm0(arg0, arg1));
+            },
             __wbg___wbindgen_throw_be289d5034ed271b: function (arg0, arg1) {
                 throw new Error(getStringFromWasm0(arg0, arg1));
             },
@@ -129,11 +144,11 @@ class PitchProcessor extends AudioWorkletProcessor {
         super();
         this.detector = null;
 
-        // Accumulation buffer
-        this.bufferSize = 2048;
+        // Accumulation buffer - increased to 4096 for better low-frequency (E2) resolution
+        this.bufferSize = 4096;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        this.processInterval = 2; // Process every 2nd 128-sample block (~5.8ms / 172Hz)
+        this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
         this.callsSinceLastProcess = 0;
 
         const wasmBytes = options.processorOptions.wasmsBytes || options.processorOptions.wasmBytes;
