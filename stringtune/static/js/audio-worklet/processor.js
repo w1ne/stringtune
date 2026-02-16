@@ -144,27 +144,37 @@ class PitchProcessor extends AudioWorkletProcessor {
         super();
         this.detector = null;
 
-        // Accumulation buffer - increased to 4096 for better low-frequency (E2) resolution
-        this.bufferSize = 4096;
+        // Accumulation buffer - increased to 8192 for perfect E1 (41Hz) resolution
+        this.bufferSize = 8192;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
-        // LPF Coefficients (Biquad Butterworth LPF, 800Hz @ 44100Hz)
-        // Calculated via standard recipe: https://shepazu.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
-        const w0 = 2 * Math.PI * 800 / sampleRate;
-        const cosW0 = Math.cos(w0);
-        const alpha = Math.sin(w0) / (2 * 0.707); // Q=0.707
-        const b0 = (1 - cosW0) / 2;
-        const b1 = 1 - cosW0;
-        const b2 = (1 - cosW0) / 2;
-        const a0 = 1 + alpha;
-        const a1 = -2 * cosW0;
-        const a2 = 1 - alpha;
 
-        this.filter = {
-            b0: b0 / a0, b1: b1 / a0, b2: b2 / a0,
-            a1: a1 / a0, a2: a2 / a0,
+        // 1. HPF Coefficients (20Hz @ 44100Hz, 1st order to kill DC offset)
+        const w0_hpf = 2 * Math.PI * 20 / sampleRate;
+        const alpha_hpf = Math.sin(w0_hpf) / 2;
+        this.hpf = {
+            b0: (1 + Math.cos(w0_hpf)) / 2,
+            b1: -(1 + Math.cos(w0_hpf)),
+            b2: (1 + Math.cos(w0_hpf)) / 2,
+            a0: 1 + alpha_hpf,
+            a1: -2 * Math.cos(w0_hpf),
+            a2: 1 - alpha_hpf,
             x1: 0, x2: 0, y1: 0, y2: 0
         };
+
+        // 2. 4th Order LPF (Two 2nd-order stages in series, 700Hz @ 44100Hz)
+        const w0_lpf = 2 * Math.PI * 700 / sampleRate;
+        const cosW = Math.cos(w0_lpf);
+        const alpha = Math.sin(w0_lpf) / (2 * 0.707); // Q=0.707
+        const b_lpf = (1 - cosW) / 2;
+        const a0_lpf = 1 + alpha;
+
+        this.lpf1 = {
+            b0: b_lpf / a0_lpf, b1: (1 - cosW) / a0_lpf, b2: b_lpf / a0_lpf,
+            a1: (-2 * cosW) / a0_lpf, a2: (1 - alpha) / a0_lpf,
+            x1: 0, x2: 0, y1: 0, y2: 0
+        };
+        this.lpf2 = { ...this.lpf1, x1: 0, x2: 0, y1: 0, y2: 0 };
 
         this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
         this.callsSinceLastProcess = 0;
@@ -192,21 +202,31 @@ class PitchProcessor extends AudioWorkletProcessor {
         const channel = input[0];
         if (!channel) return true;
 
-        // 1. Shift old data left (moves samples 128...4096 to 0...3968)
+        // 1. Shift old data left
         this.buffer.copyWithin(0, channel.length);
 
-        // 2. Filter new samples and place them at the END of the buffer
+        // 2. Cascade Filter (HPF -> LPF1 -> LPF2)
         for (let i = 0; i < channel.length; i++) {
-            const x = channel[i];
-            const y = this.filter.b0 * x + this.filter.b1 * this.filter.x1 + this.filter.b2 * this.filter.x2
-                - this.filter.a1 * this.filter.y1 - this.filter.a2 * this.filter.y2;
+            let s = channel[i];
 
-            this.filter.x2 = this.filter.x1;
-            this.filter.x1 = x;
-            this.filter.y2 = this.filter.y1;
-            this.filter.y1 = y;
+            // HPF Stage
+            const y_hpf = (this.hpf.b0 / this.hpf.a0) * s + (this.hpf.b1 / this.hpf.a0) * this.hpf.x1 + (this.hpf.b2 / this.hpf.a0) * this.hpf.x2
+                - (this.hpf.a1 / this.hpf.a0) * this.hpf.y1 - (this.hpf.a2 / this.hpf.a0) * this.hpf.y2;
+            this.hpf.x2 = this.hpf.x1; this.hpf.x1 = s; this.hpf.y2 = this.hpf.y1; this.hpf.y1 = y_hpf;
+            s = y_hpf;
 
-            this.buffer[this.bufferSize - channel.length + i] = y;
+            // LPF Stage 1
+            const y1 = this.lpf1.b0 * s + this.lpf1.b1 * this.lpf1.x1 + this.lpf1.b2 * this.lpf1.x2
+                - this.lpf1.a1 * this.lpf1.y1 - this.lpf1.a2 * this.lpf1.y2;
+            this.lpf1.x2 = this.lpf1.x1; this.lpf1.x1 = s; this.lpf1.y2 = this.lpf1.y1; this.lpf1.y1 = y1;
+            s = y1;
+
+            // LPF Stage 2
+            const y2 = this.lpf2.b0 * s + this.lpf2.b1 * this.lpf2.x1 + this.lpf2.b2 * this.lpf2.x2
+                - this.lpf2.a1 * this.lpf2.y1 - this.lpf2.a2 * this.lpf2.y2;
+            this.lpf2.x2 = this.lpf2.x1; this.lpf2.x1 = s; this.lpf2.y2 = this.lpf2.y1; this.lpf2.y1 = y2;
+
+            this.buffer[this.bufferSize - channel.length + i] = y2;
         }
 
         this.accumulationCounter += channel.length;
@@ -221,21 +241,23 @@ class PitchProcessor extends AudioWorkletProcessor {
 
             if (this.detector) {
                 try {
-                    // AGC: Normalize the buffer to 0.95 peak before detection
-                    // This ensures the McLeod detector sees high-amplitude peaks regardless of mic volume
+                    // Calculate peak amplitude for Noise Gate & AGC
                     let maxAmp = 0;
                     for (let i = 0; i < this.bufferSize; i++) {
                         const abs = Math.abs(this.buffer[i]);
                         if (abs > maxAmp) maxAmp = abs;
                     }
 
+                    // Noise Gate: Don't boost static noise
+                    if (maxAmp < 0.02) {
+                        return true;
+                    }
+
                     let normalizedBuffer = this.buffer;
-                    if (maxAmp > 0.001) {
-                        const gain = 0.95 / maxAmp;
-                        normalizedBuffer = new Float32Array(this.bufferSize);
-                        for (let i = 0; i < this.bufferSize; i++) {
-                            normalizedBuffer[i] = this.buffer[i] * gain;
-                        }
+                    const gain = 0.95 / maxAmp;
+                    normalizedBuffer = new Float32Array(this.bufferSize);
+                    for (let i = 0; i < this.bufferSize; i++) {
+                        normalizedBuffer[i] = this.buffer[i] * gain;
                     }
 
                     const result = this.detector.detect(normalizedBuffer);

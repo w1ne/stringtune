@@ -135,18 +135,28 @@ Tuner.prototype.updatePitch = function (frequency) {
     }
 
     // 2. Responsive Note Detection (No Gates)
+    // Harmonic Gravity: If we detect a higher note, check if it's a harmonic of E1 (41.2Hz)
+    // This is crucial when A5 (880Hz) is dominant.
+    if (frequency > 60) {
+      const e1 = 41.2;
+      for (let h = 2; h <= 24; h++) {
+        if (Math.abs(frequency / h - e1) < 2.0) {
+          frequency = e1;
+          break;
+        }
+      }
+    }
+
     this.lastFrequency = frequency;
     const rawNote = this.getNote(frequency);
 
-    // Cluster-based Locking: 
-    // We only change the visual note name if we have agreement over 3 frames.
+    // Cluster-based Locking: 3 frame agreement
     this.history.push(rawNote);
     if (this.history.length > 5) this.history.shift();
 
     if (this.lockedNote === null) {
       this.lockedNote = rawNote;
     } else {
-      // Find the most frequent note in the recent history
       const counts = {};
       this.history.forEach(n => counts[n] = (counts[n] || 0) + 1);
       const topNote = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
@@ -198,13 +208,17 @@ Tuner.prototype.updatePitch = function (frequency) {
       this.jumpBuffer++;
       if (this.jumpBuffer < 8) return; // Ignore spike
     }
-    this.jumpBuffer = 0;
-    this.lastCents = targetCents;
+    // 5. Weighted Smoothing: Use clarity to dampen movement
+    const smoothingAlpha = Math.min(0.3, this.lastClarity || 0.1);
+    const finalCents = this.lastCents * (1 - smoothingAlpha) + targetCents * smoothingAlpha;
+    this.lastCents = finalCents;
 
     // Hard Clamp to ±50
-    let finalCents = targetCents;
-    if (finalCents > 50) finalCents = 50;
-    if (finalCents < -50) finalCents = -50;
+    if (finalCents > 50) {
+      finalCents = 50;
+    } else if (finalCents < -50) {
+      finalCents = -50;
+    }
 
     // Stability Check
     if (Math.abs(targetCents) < 3) {
