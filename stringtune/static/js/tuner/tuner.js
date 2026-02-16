@@ -138,14 +138,20 @@ Tuner.prototype.updatePitch = function (frequency) {
     // 3. Note Locking (Hysteresis)
     // Prevents flickering note letters when you're between two semitones
     if (this.lockedNote === null) {
-      this.lockedNote = rawNote;
-      this.lockingBuffer = 0;
+      this.lockingBuffer++;
+      if (this.lockingBuffer > 5) { // Require 5 stable frames before initial grab
+        this.lockedNote = rawNote;
+        this.lockingBuffer = 0;
+        this.currentCents = this.getCents(frequency, rawNote);
+        this.centsVelocity = 0;
+      }
+      return; // Wait for lock
     } else {
       const centsToLocked = this.getCents(frequency, this.lockedNote);
       // breakaway threshold: must be > 65 cents away to consider switching
       if (Math.abs(centsToLocked) > 65) {
         this.lockingBuffer++;
-        if (this.lockingBuffer > 15) { // Require ~150ms of consistent shift
+        if (this.lockingBuffer > 12) { // Require ~120ms of consistent shift
           this.lockedNote = rawNote;
           this.lockingBuffer = 0;
         }
