@@ -35,6 +35,7 @@ const Tuner = function (a4) {
   this.jumpBuffer = 0;      // Counter for outlier rejection
   this.lastCents = 0;       // For jump detection
 
+  this.state = 'SEARCHING'; // 'SEARCHING' or 'TRACKING'
   this.initGetUserMedia();
 };
 
@@ -132,32 +133,42 @@ Tuner.prototype.updatePitch = function (frequency) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    // 2. Detection Gating & Harmonic Gravity
-    const clarityThreshold = (this.lockedNote === null) ? 0.5 : 0.35;
-    if (this.lastClarity < clarityThreshold) return;
+    // 2. State Machine & Octave Guard
+    // Higher threshold for initial lock-on
+    const lockThreshold = 0.65;
+    const holdThreshold = 0.40;
 
-    // Harmonic Gravity: If we are in the "Low E" target zone (~41Hz)
-    // and we suddenly detect a harmonic (82Hz, 123Hz, etc.), pull it down.
-    if (frequency > 60 && this.recentLowFreqs.length > 0) {
-      const avgLow = this.recentLowFreqs.reduce((a, b) => a + b, 0) / this.recentLowFreqs.length;
-      if (avgLow < 60) {
-        for (let h = 2; h <= 6; h++) {
-          const fundamentalCandidate = frequency / h;
-          if (Math.abs(fundamentalCandidate - avgLow) < 3.0) {
-            frequency = fundamentalCandidate;
-            break;
-          }
+    if (this.state === 'SEARCHING') {
+      if (this.lastClarity > lockThreshold) {
+        this.state = 'TRACKING';
+      } else {
+        // Stay centered while searching
+        if (this.onNoteDetected) {
+          this.onNoteDetected({ name: '-', value: 0, cents: 0, frequency: 0, isStable: false });
         }
+        return;
+      }
+    } else {
+      if (this.lastClarity < holdThreshold) {
+        this.state = 'SEARCHING';
+        return;
       }
     }
 
-    // Update low-freq memory
-    if (frequency < 60) {
-      this.recentLowFreqs.push(frequency);
-      if (this.recentLowFreqs.length > 50) this.recentLowFreqs.shift();
-    } else if (this.recentLowFreqs.length > 0) {
-      // Slow washout if we are clearly on higher strings
-      if (Math.random() < 0.05) this.recentLowFreqs.shift();
+    // Octave Guard: If we are already tracking a note, and the new detection 
+    // is exactly one octave above/below, ignore it to prevent jumping.
+    if (this.lockedNote !== null) {
+      const rawNote = this.getNote(frequency);
+      const diff = Math.abs(rawNote - this.lockedNote);
+      if (Math.abs(diff - 12) < 2 || Math.abs(diff - 24) < 2) {
+        // Potential octave jump - stick to previous note to prevent "flying"
+        // We allow the frequency to update if it's close to the original fundamental
+        const centsToLocked = this.getCents(frequency, this.lockedNote);
+        if (Math.abs(centsToLocked) > 50) {
+          // It's likely just a harmonic, don't update local variables yet
+          return;
+        }
+      }
     }
 
     this.lastFrequency = frequency;

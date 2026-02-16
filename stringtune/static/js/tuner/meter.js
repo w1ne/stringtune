@@ -11,7 +11,7 @@ const Meter = function (selector) {
 
   // Analogue Physics
   this.velocity = 0;
-  this.friction = 0.82;       // Slightly faster responsiveness (was 0.85)
+  this.friction = 0.90;       // Heavier, more professional damping
   this.springStrength = 0.15; // Stronger spring (was 0.08) for snappier analogue action
 
   requestAnimationFrame(this.tick.bind(this));

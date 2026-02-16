@@ -148,6 +148,24 @@ class PitchProcessor extends AudioWorkletProcessor {
         this.bufferSize = 4096;
         this.buffer = new Float32Array(this.bufferSize);
         this.accumulationCounter = 0;
+        // LPF Coefficients (Biquad Butterworth LPF, 1000Hz @ 44100Hz)
+        // Calculated via standard recipe: https://shepazu.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
+        const w0 = 2 * Math.PI * 1000 / sampleRate;
+        const cosW0 = Math.cos(w0);
+        const alpha = Math.sin(w0) / (2 * 0.707); // Q=0.707
+        const b0 = (1 - cosW0) / 2;
+        const b1 = 1 - cosW0;
+        const b2 = (1 - cosW0) / 2;
+        const a0 = 1 + alpha;
+        const a1 = -2 * cosW0;
+        const a2 = 1 - alpha;
+
+        this.filter = {
+            b0: b0 / a0, b1: b1 / a0, b2: b2 / a0,
+            a1: a1 / a0, a2: a2 / a0,
+            x1: 0, x2: 0, y1: 0, y2: 0
+        };
+
         this.processInterval = 4; // Process every 4th 128-sample block (~11.6ms / 86Hz)
         this.callsSinceLastProcess = 0;
 
@@ -174,9 +192,22 @@ class PitchProcessor extends AudioWorkletProcessor {
         const channel = input[0];
         if (!channel) return true;
 
-        // 1. Shift buffer and add new samples
+        // 1. Shift old data left (moves samples 128...4096 to 0...3968)
         this.buffer.copyWithin(0, channel.length);
-        this.buffer.set(channel, this.bufferSize - channel.length);
+
+        // 2. Filter new samples and place them at the END of the buffer
+        for (let i = 0; i < channel.length; i++) {
+            const x = channel[i];
+            const y = this.filter.b0 * x + this.filter.b1 * this.filter.x1 + this.filter.b2 * this.filter.x2
+                - this.filter.a1 * this.filter.y1 - this.filter.a2 * this.filter.y2;
+
+            this.filter.x2 = this.filter.x1;
+            this.filter.x1 = x;
+            this.filter.y2 = this.filter.y1;
+            this.filter.y1 = y;
+
+            this.buffer[this.bufferSize - channel.length + i] = y;
+        }
 
         this.accumulationCounter += channel.length;
         this.callsSinceLastProcess++;
