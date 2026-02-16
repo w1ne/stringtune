@@ -128,9 +128,14 @@ Tuner.prototype.updatePitch = function (frequency) {
     }
 
     // 2. Detection Gating: Reject noise aggressively
-    // We need high clarity for initial locking (ignore 900Hz spikes)
-    const clarityThreshold = (this.lockedNote === null) ? 0.8 : 0.45;
-    if (this.lastClarity < clarityThreshold) return;
+    // Lowered threshold to 0.65 to catch low E1/E2 strings which often have lower clarity
+    const clarityThreshold = (this.lockedNote === null) ? 0.65 : 0.40;
+    if (this.lastClarity < clarityThreshold) {
+      if (this.lastClarity > 0.3) {
+        // console.log(`[Tuner] Low clarity: ${this.lastClarity.toFixed(2)} (Hz: ${frequency.toFixed(1)})`);
+      }
+      return;
+    }
 
     this.lastFrequency = frequency;
     const rawNote = this.getNote(frequency);

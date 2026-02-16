@@ -114,6 +114,7 @@ async function runSimulation(fftSize, frequency) {
         await runSimulation(2048, 440);
         await runSimulation(4096, 440);
         await runSimulation(4096, 82.41);
+        await runSimulation(4096, 41.2); // E1 (Low Bass E)
         console.log("\nALL SIMULATIONS PASSED!");
     } catch (e) {
         console.error("\nSIMULATION FAILED:", e);
