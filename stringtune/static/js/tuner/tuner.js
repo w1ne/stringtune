@@ -168,26 +168,26 @@ Tuner.prototype.updatePitch = function (frequency) {
     this.lastUpdate = now;
 
     // Physics parameters - Clamped to prevent "needle crazy" behavior
-    const stiffness = 60 + (this.lastClarity * 80);
-    const damping = 22;
+    const stiffness = 40 + (this.lastClarity * 60);
+    const damping = 25;
 
-    // CLAMP ERROR: Prevent massive acceleration from spikes/octave jumps
+    // CLAMP ERROR: UI scale is ±50 cents, so clamping error to ±50 makes it very stable.
     let error = targetCents - this.currentCents;
-    if (error > 100) error = 100;
-    if (error < -100) error = -100;
+    if (error > 50) error = 50;
+    if (error < -50) error = -50;
 
     const accel = (stiffness * error) - (damping * this.centsVelocity);
 
     this.centsVelocity += accel * dt;
-    this.centsVelocity *= 0.98; // Friction
+    this.centsVelocity *= 0.96; // Higher friction
     this.currentCents += this.centsVelocity * dt;
 
-    // HARD POSITIONAL CLAMP: Ensure needle stays within visual "ticks" (±100 cents)
-    if (this.currentCents > 100) {
-      this.currentCents = 100;
+    // HARD POSITIONAL CLAMP: Ensure needle stays within visual "ticks" (±50 cents)
+    if (this.currentCents > 50) {
+      this.currentCents = 50;
       this.centsVelocity = 0;
-    } else if (this.currentCents < -100) {
-      this.currentCents = -100;
+    } else if (this.currentCents < -50) {
+      this.currentCents = -50;
       this.centsVelocity = 0;
     }
 
