@@ -174,8 +174,16 @@ Tuner.prototype.updatePitch = function (frequency) {
 
     this.centsVelocity += accel * dt;
     this.centsVelocity *= 0.98; // Friction
-
     this.currentCents += this.centsVelocity * dt;
+
+    // HARD POSITIONAL CLAMP: Ensure needle stays within visual "ticks" (±100 cents)
+    if (this.currentCents > 100) {
+      this.currentCents = 100;
+      this.centsVelocity = 0;
+    } else if (this.currentCents < -100) {
+      this.currentCents = -100;
+      this.centsVelocity = 0;
+    }
 
     // Stability Check for UI "Lock" visual
     if (Math.abs(targetCents) < 3) {
