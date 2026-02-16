@@ -51,10 +51,6 @@ Meter.prototype.tick = function () {
     this.currentDeg = this.targetDeg || 0;
   }
 
-  // Decay target towards 0 slowly if no new updates received
-  // This helps the needle return to center when playing stops
-  this.targetDeg *= 0.99;
-
   // Hard Clamp: Prevent "circles" even if physics explodes
   if (this.currentDeg > 45) {
     this.currentDeg = 45;

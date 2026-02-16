@@ -31,6 +31,9 @@ const Tuner = function (a4) {
   this.currentCents = 0;
   this.centsVelocity = 0;
   this.lastUpdate = Date.now();
+  this.recentLowFreqs = []; // Memory for low strings (E1, E2)
+  this.jumpBuffer = 0;      // Counter for outlier rejection
+  this.lastCents = 0;       // For jump detection
 
   this.initGetUserMedia();
 };
@@ -133,45 +136,42 @@ Tuner.prototype.updatePitch = function (frequency) {
     const clarityThreshold = (this.lockedNote === null) ? 0.5 : 0.35;
     if (this.lastClarity < clarityThreshold) return;
 
-    // Harmonic Gravity Logic: 
-    // If we've seen low frequencies (< 60Hz) recently, and this detection
-    // looks like a harmonic (2x, 3x, etc.), force it back down.
+    // Harmonic Gravity: If we are in the "Low E" target zone (~41Hz)
+    // and we suddenly detect a harmonic (82Hz, 123Hz, etc.), pull it down.
     if (frequency > 60 && this.recentLowFreqs.length > 0) {
       const avgLow = this.recentLowFreqs.reduce((a, b) => a + b, 0) / this.recentLowFreqs.length;
-      for (let harmonic = 2; harmonic <= 8; harmonic++) {
-        const potentialFundamental = frequency / harmonic;
-        if (Math.abs(potentialFundamental - avgLow) < 2.0) {
-          // console.log(`[Harmonic Gravity] Pulled ${frequency.toFixed(1)}Hz down to ${(frequency/harmonic).toFixed(1)}Hz`);
-          frequency /= harmonic;
-          break;
+      if (avgLow < 60) {
+        for (let h = 2; h <= 6; h++) {
+          const fundamentalCandidate = frequency / h;
+          if (Math.abs(fundamentalCandidate - avgLow) < 3.0) {
+            frequency = fundamentalCandidate;
+            break;
+          }
         }
       }
     }
 
+    // Update low-freq memory
     if (frequency < 60) {
       this.recentLowFreqs.push(frequency);
-      if (this.recentLowFreqs.length > 30) this.recentLowFreqs.shift();
+      if (this.recentLowFreqs.length > 50) this.recentLowFreqs.shift();
     } else if (this.recentLowFreqs.length > 0) {
-      // Decay low-freq memory if we consistently see high-freq
-      if (Math.random() < 0.1) this.recentLowFreqs.shift();
+      // Slow washout if we are clearly on higher strings
+      if (Math.random() < 0.05) this.recentLowFreqs.shift();
     }
 
     this.lastFrequency = frequency;
     const rawNote = this.getNote(frequency);
 
     // 3. Note Locking (Hysteresis)
-    // Prevents flickering note letters when you're between two semitones
     if (this.lockedNote === null) {
-      // Immediate grab on first clear signal to prevent "frozen needle"
       this.lockedNote = rawNote;
       this.lockingBuffer = 0;
     } else {
       const centsToLocked = this.getCents(frequency, this.lockedNote);
-      // breakaway threshold: must be > 65 cents away to consider switching
-      // Increased buffer to 25 frames (~250ms) for better "stickiness"
       if (Math.abs(centsToLocked) > 65) {
         this.lockingBuffer++;
-        if (this.lockingBuffer > 25) {
+        if (this.lockingBuffer > 30) { // High stickiness
           this.lockedNote = rawNote;
           this.lockingBuffer = 0;
         }
@@ -180,20 +180,27 @@ Tuner.prototype.updatePitch = function (frequency) {
       }
     }
 
-    // 4. Emit Stabilized Result
-    // We send mediam-filtered cents. Meter.js will handle the physical smoothing.
+    // 4. Emit Result with Jump Guard
     const targetCents = this.getCents(frequency, this.lockedNote);
 
-    // HARD CLAMP: UI only supports ±50 cents. Anything else is ignored/clamped.
+    // Jump Guard: Reject spikes unless they persist
+    if (Math.abs(targetCents - this.lastCents) > 40) {
+      this.jumpBuffer++;
+      if (this.jumpBuffer < 8) return; // Ignore spike
+    }
+    this.jumpBuffer = 0;
+    this.lastCents = targetCents;
+
+    // Hard Clamp to ±50
     let finalCents = targetCents;
     if (finalCents > 50) finalCents = 50;
     if (finalCents < -50) finalCents = -50;
 
-    // Stability Check for UI "Lock" visual
+    // Stability Check
     if (Math.abs(targetCents) < 3) {
       this.stableCount++;
     } else {
-      this.stableCount = Math.max(0, this.stableCount - 1); // Slow decay
+      this.stableCount = Math.max(0, this.stableCount - 1);
     }
 
     if (this.onNoteDetected) {
