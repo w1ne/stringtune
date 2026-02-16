@@ -127,13 +127,10 @@ Tuner.prototype.updatePitch = function (frequency) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    // 2. Detection Gating: Reject noise aggressively
-    // Lowered threshold to 0.65 to catch low E1/E2 strings which often have lower clarity
-    const clarityThreshold = (this.lockedNote === null) ? 0.65 : 0.40;
+    // 2. Detection Gating: Reject noise floor
+    // Lowered threshold to 0.5 to catch pluck transients immediately
+    const clarityThreshold = (this.lockedNote === null) ? 0.5 : 0.35;
     if (this.lastClarity < clarityThreshold) {
-      if (this.lastClarity > 0.3) {
-        // console.log(`[Tuner] Low clarity: ${this.lastClarity.toFixed(2)} (Hz: ${frequency.toFixed(1)})`);
-      }
       return;
     }
 
@@ -143,20 +140,16 @@ Tuner.prototype.updatePitch = function (frequency) {
     // 3. Note Locking (Hysteresis)
     // Prevents flickering note letters when you're between two semitones
     if (this.lockedNote === null) {
-      this.lockingBuffer++;
-      if (this.lockingBuffer > 5) { // Require 5 stable frames before initial grab
-        this.lockedNote = rawNote;
-        this.lockingBuffer = 0;
-        this.currentCents = this.getCents(frequency, rawNote);
-        this.centsVelocity = 0;
-      }
-      return; // Wait for lock
+      // Immediate grab on first clear signal to prevent "frozen needle"
+      this.lockedNote = rawNote;
+      this.lockingBuffer = 0;
     } else {
       const centsToLocked = this.getCents(frequency, this.lockedNote);
       // breakaway threshold: must be > 65 cents away to consider switching
+      // Increased buffer to 25 frames (~250ms) for better "stickiness"
       if (Math.abs(centsToLocked) > 65) {
         this.lockingBuffer++;
-        if (this.lockingBuffer > 12) { // Require ~120ms of consistent shift
+        if (this.lockingBuffer > 25) {
           this.lockedNote = rawNote;
           this.lockingBuffer = 0;
         }
