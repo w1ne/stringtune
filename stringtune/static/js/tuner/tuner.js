@@ -20,8 +20,10 @@ const Tuner = function (a4) {
   this.tolerance = 1.02;
   this.smoothing = true;
   this.smoothFrequencies = [];
-  this.smoothingDepth = 25; // Deeper history for better outlier rejection
-  this.lastSmoothed = null; // For EMA state
+  this.smoothingDepth = 40; // Even deeper for low-freq stability
+  this.lastSmoothed = null;
+  this.recentLowFreqs = []; // History for Harmonic Gravity
+  this.jumpBuffer = 0;      // Counter for Jump Guard
 
   // Stabilizer State
   this.lockedNote = null;
@@ -127,11 +129,31 @@ Tuner.prototype.updatePitch = function (frequency) {
       frequency = this.smoothFrequency(frequency, this.lastClarity || 0.5);
     }
 
-    // 2. Detection Gating: Reject noise floor
-    // Lowered threshold to 0.5 to catch pluck transients immediately
+    // 2. Detection Gating & Harmonic Gravity
     const clarityThreshold = (this.lockedNote === null) ? 0.5 : 0.35;
-    if (this.lastClarity < clarityThreshold) {
-      return;
+    if (this.lastClarity < clarityThreshold) return;
+
+    // Harmonic Gravity Logic: 
+    // If we've seen low frequencies (< 60Hz) recently, and this detection
+    // looks like a harmonic (2x, 3x, etc.), force it back down.
+    if (frequency > 60 && this.recentLowFreqs.length > 0) {
+      const avgLow = this.recentLowFreqs.reduce((a, b) => a + b, 0) / this.recentLowFreqs.length;
+      for (let harmonic = 2; harmonic <= 8; harmonic++) {
+        const potentialFundamental = frequency / harmonic;
+        if (Math.abs(potentialFundamental - avgLow) < 2.0) {
+          // console.log(`[Harmonic Gravity] Pulled ${frequency.toFixed(1)}Hz down to ${(frequency/harmonic).toFixed(1)}Hz`);
+          frequency /= harmonic;
+          break;
+        }
+      }
+    }
+
+    if (frequency < 60) {
+      this.recentLowFreqs.push(frequency);
+      if (this.recentLowFreqs.length > 30) this.recentLowFreqs.shift();
+    } else if (this.recentLowFreqs.length > 0) {
+      // Decay low-freq memory if we consistently see high-freq
+      if (Math.random() < 0.1) this.recentLowFreqs.shift();
     }
 
     this.lastFrequency = frequency;
