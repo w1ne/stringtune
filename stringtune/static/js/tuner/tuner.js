@@ -16,66 +16,14 @@ const Tuner = function (a4) {
     "A♯",
     "B",
   ];
-  this.stableLimit = 3;
+  this.stableLimit = 5;
   this.tolerance = 1.05;
   this.smoothing = false;
   this.smoothFrequencies = [];
-
-  // === TRACE SYSTEM ===
-  this.trace = [];
-  this.traceMax = 2000; // keep last 2000 events
-  this.traceStart = Date.now();
-  window.__tunerTrace = this.trace; // accessible from console
-
+  this.clarityGate = 0.7;       // Reject detections with clarity below this
+  this.stableFrequency = null;   // Last frequency that was displayed (high confidence)
+  this.stableClarity = 0;
   this.initGetUserMedia();
-};
-
-Tuner.prototype.addTrace = function (type, data) {
-  const entry = { t: Date.now() - this.traceStart, type: type };
-  Object.assign(entry, data);
-  this.trace.push(entry);
-  if (this.trace.length > this.traceMax) this.trace.shift();
-};
-
-// Call window.__dumpTrace() in browser console to get CSV-like output
-window.__dumpTrace = function () {
-  const trace = window.__tunerTrace;
-  if (!trace || trace.length === 0) { console.log("No trace data"); return; }
-  console.log("=== TUNER TRACE (" + trace.length + " events) ===");
-  console.log("time_ms | type | details");
-  trace.forEach(function (e) {
-    const details = Object.keys(e).filter(function (k) { return k !== 't' && k !== 'type'; })
-      .map(function (k) { return k + "=" + (typeof e[k] === 'number' ? e[k].toFixed(2) : e[k]); }).join(" ");
-    console.log(e.t + " | " + e.type + " | " + details);
-  });
-  // Summary stats
-  var pitchEvents = trace.filter(function (e) { return e.type === 'raw'; });
-  if (pitchEvents.length > 1) {
-    var freqs = pitchEvents.map(function (e) { return e.freq; });
-    var avg = freqs.reduce(function (a, b) { return a + b; }, 0) / freqs.length;
-    var variance = freqs.reduce(function (a, f) { return a + (f - avg) * (f - avg); }, 0) / freqs.length;
-    var stddev = Math.sqrt(variance);
-    console.log("\n=== PITCH STATS ===");
-    console.log("Samples: " + freqs.length);
-    console.log("Avg freq: " + avg.toFixed(2) + " Hz");
-    console.log("Std dev: " + stddev.toFixed(2) + " Hz");
-    console.log("Min: " + Math.min.apply(null, freqs).toFixed(2) + " Hz");
-    console.log("Max: " + Math.max.apply(null, freqs).toFixed(2) + " Hz");
-    console.log("Range: " + (Math.max.apply(null, freqs) - Math.min.apply(null, freqs)).toFixed(2) + " Hz");
-
-    // Note jump analysis
-    var noteEvents = trace.filter(function (e) { return e.type === 'note_change'; });
-    console.log("\n=== NOTE JUMPS ===");
-    console.log("Total note changes: " + noteEvents.length);
-    noteEvents.forEach(function (e) {
-      console.log("  " + e.t + "ms: " + e.from + " -> " + e.to + " (freq=" + e.freq.toFixed(2) + ")");
-    });
-
-    // Rejected events
-    var rejected = trace.filter(function (e) { return e.type === 'rejected'; });
-    console.log("\n=== REJECTED (unstable) ===");
-    console.log("Total rejected: " + rejected.length + " / " + pitchEvents.length + " raw (" + (100 * rejected.length / pitchEvents.length).toFixed(1) + "%)");
-  }
 };
 
 Tuner.prototype.enableSmoothing = function () {
@@ -152,18 +100,29 @@ Tuner.prototype.startRecord = function () {
 
 Tuner.prototype.updatePitch = function (frequency) {
   if (frequency) {
-    var rawFreq = frequency;
     var clarity = this.lastClarity || 0;
 
-    // Trace raw input from worklet
-    this.addTrace('raw', { freq: rawFreq, clarity: clarity });
+    // Clarity gate — reject low-confidence detections
+    if (clarity < this.clarityGate) {
+      return;
+    }
 
-    // Ignore frequencies that are close multiples of the last frequency (harmonics)
+    // Octave jump rejection — if frequency is ~2x or ~0.5x the stable frequency
+    // and the new clarity is lower, it's a harmonic — reject it
+    if (this.stableFrequency && this.stableClarity > 0) {
+      var ratio = frequency / this.stableFrequency;
+      var isOctaveUp = ratio > 1.9 && ratio < 2.1;
+      var isOctaveDown = ratio > 0.48 && ratio < 0.52;
+      if ((isOctaveUp || isOctaveDown) && clarity < this.stableClarity * 0.85) {
+        return;
+      }
+    }
+
+    // Harmonic snap (close multiples)
     if (this.lastFrequency) {
       let ratio = frequency / this.lastFrequency;
       ratio = Math.round(ratio);
       if (ratio >= 0.98 * this.tolerance && ratio <= this.tolerance) {
-        this.addTrace('harmonic_snap', { from: rawFreq, to: this.lastFrequency, ratio: frequency / this.lastFrequency });
         frequency = this.lastFrequency;
       }
     }
@@ -174,12 +133,8 @@ Tuner.prototype.updatePitch = function (frequency) {
 
     this.lastFrequency = frequency;
     const note = this.getNote(frequency);
-    const noteName = this.noteStrings[note % 12] + (parseInt(note / 12) - 1);
 
     if (note !== this.currentNote) {
-      var prevName = this.currentNote != null ?
-        this.noteStrings[this.currentNote % 12] + (parseInt(this.currentNote / 12) - 1) : 'none';
-      this.addTrace('note_change', { from: prevName, to: noteName, freq: frequency, clarity: clarity });
       this.stableCount = 0;
       this.currentNote = note;
     } else {
@@ -188,7 +143,8 @@ Tuner.prototype.updatePitch = function (frequency) {
 
     if (this.stableCount >= this.stableLimit && this.onNoteDetected) {
       var cents = this.getCents(frequency, note);
-      this.addTrace('display', { note: noteName, freq: frequency, cents: cents, stable: this.stableCount });
+      this.stableFrequency = frequency;
+      this.stableClarity = clarity;
       this.onNoteDetected({
         name: this.noteStrings[note % 12],
         value: note,
@@ -196,8 +152,6 @@ Tuner.prototype.updatePitch = function (frequency) {
         octave: parseInt(note / 12) - 1,
         frequency: frequency,
       });
-    } else if (this.stableCount < this.stableLimit) {
-      this.addTrace('rejected', { note: noteName, freq: frequency, stable: this.stableCount, need: this.stableLimit });
     }
   }
 };
@@ -233,7 +187,6 @@ Tuner.prototype.init = async function () {
     this.workletNode.port.onmessage = (event) => {
       if (event.data.type === 'result') {
         this.lastClarity = event.data.clarity;
-        this.addTrace('worklet', { pitch: event.data.pitch, clarity: event.data.clarity });
         this.updatePitch(event.data.pitch);
       } else if (event.data.type === 'ready') {
         console.log("[Tuner] Worklet engine confirmed READY");
