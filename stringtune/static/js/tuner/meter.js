@@ -8,11 +8,12 @@ const Meter = function (selector) {
   this.init();
   this.currentDeg = 0;
   this.targetDeg = 0;
+  this.smoothedTarget = 0;
 
   // Analogue Physics
   this.velocity = 0;
-  this.friction = 0.90;       // Heavier, more professional damping
-  this.springStrength = 0.15; // Stronger spring (was 0.08) for snappier analogue action
+  this.friction = 0.82;       // Heavy damping to prevent oscillation
+  this.springStrength = 0.08; // Gentle spring for smooth, stable needle movement
 
   requestAnimationFrame(this.tick.bind(this));
 };
@@ -36,7 +37,9 @@ Meter.prototype.update = function (deg) {
   // Hard clamp to visual arc (±45 degrees = ±50 cents)
   if (deg > 45) deg = 45;
   if (deg < -45) deg = -45;
-  this.targetDeg = deg;
+  // Exponential smoothing on input to filter out jitter
+  this.smoothedTarget += (deg - this.smoothedTarget) * 0.3;
+  this.targetDeg = this.smoothedTarget;
 };
 
 Meter.prototype.tick = function () {
