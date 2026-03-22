@@ -99,13 +99,28 @@ describe('Tuner and Meter Unit Tests', () => {
         expect(meter.currentDeg).toBe(45);
     });
 
-    test('Tuner updatePitch triggers onNoteDetected callback', () => {
+    test('Tuner updatePitch triggers onNoteDetected after stable limit', () => {
         const tuner = new window.Tuner(440);
+        tuner.currentNote = null;
+        tuner.stableCount = 0;
+        tuner.lastFrequency = null;
         const callback = jest.fn();
         tuner.onNoteDetected = callback;
 
+        // First call: stableCount = 0, note set but not stable yet
         tuner.updatePitch(440);
+        expect(callback).not.toHaveBeenCalled();
 
+        // Second call: stableCount = 1
+        tuner.updatePitch(440);
+        expect(callback).not.toHaveBeenCalled();
+
+        // Third call: stableCount = 2
+        tuner.updatePitch(440);
+        expect(callback).not.toHaveBeenCalled();
+
+        // Fourth call: stableCount = 3 >= stableLimit (3)
+        tuner.updatePitch(440);
         expect(callback).toHaveBeenCalledWith(expect.objectContaining({
             name: 'A',
             value: 69,
@@ -117,50 +132,41 @@ describe('Tuner and Meter Unit Tests', () => {
     test('Tuner smoothing logic', () => {
         const tuner = new window.Tuner(440);
         tuner.smoothing = true;
-        tuner.smoothingDepth = 3;
 
-        // First update initializes EMA
-        const first = tuner.smoothFrequency(440, 1.0);
+        const first = tuner.smoothFrequency(440);
         expect(first).toBe(440);
 
-        // Second update pulls it towards new value
-        const second = tuner.smoothFrequency(450, 1.0);
+        const second = tuner.smoothFrequency(450);
         expect(second).toBeGreaterThan(440);
         expect(second).toBeLessThan(450);
     });
 
-    test('Tuner stability check for note changes', () => {
+    test('Tuner stability resets on note change', () => {
         const tuner = new window.Tuner(440);
-        tuner.stableLimit = 2; // Shorten for test
-        tuner.smoothing = false;
+        tuner.currentNote = null;
+        tuner.stableCount = 0;
+        tuner.lastFrequency = null;
+        tuner.stableLimit = 2;
         const callback = jest.fn();
         tuner.onNoteDetected = callback;
 
-        // E2 is note 40
-        tuner.updatePitch(82.41);
+        // Build up stability on E2
+        tuner.updatePitch(82.41); // stableCount = 0
+        tuner.updatePitch(82.41); // stableCount = 1
+        tuner.updatePitch(82.41); // stableCount = 2, fires
         expect(callback).toHaveBeenCalledWith(expect.objectContaining({
-            isStable: false,
             value: 40
         }));
 
-        // Second time stableCount becomes 1
-        tuner.updatePitch(82.41);
-        expect(callback).toHaveBeenLastCalledWith(expect.objectContaining({
-            isStable: false,
-            value: 40
-        }));
+        // Change to F2 - resets stability
+        callback.mockClear();
+        tuner.updatePitch(87.31); // stableCount = 0
+        expect(callback).not.toHaveBeenCalled();
 
-        // Third time stableCount becomes 2 (limit reached)
-        tuner.updatePitch(82.41);
-        expect(callback).toHaveBeenLastCalledWith(expect.objectContaining({
-            isStable: true,
-            value: 40
-        }));
-
-        // Changing note makes it unstable again
-        tuner.updatePitch(87.31); // F2
-        expect(callback).toHaveBeenLastCalledWith(expect.objectContaining({
-            isStable: false,
+        // Build up again
+        tuner.updatePitch(87.31); // stableCount = 1
+        tuner.updatePitch(87.31); // stableCount = 2, fires
+        expect(callback).toHaveBeenCalledWith(expect.objectContaining({
             value: 41
         }));
     });

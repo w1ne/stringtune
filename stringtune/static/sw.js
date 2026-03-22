@@ -3,7 +3,7 @@ self.addEventListener('install', function (event) {
     caches.keys().then(function (cacheNames) {
       return Promise.all(
         cacheNames.map(function (cacheName) {
-          if (cacheName !== 'stringtune-tuner-cache-v3') {
+          if (cacheName !== 'stringtune-tuner-cache-v4') {
             console.log('Deleting out of date cache:', cacheName);
             return caches.delete(cacheName);
           }
@@ -13,7 +13,7 @@ self.addEventListener('install', function (event) {
       return fetch('./index.json')
         .then(response => response.json())
         .then(files =>
-          caches.open('stringtune-tuner-cache-v3').then(function (cache) {
+          caches.open('stringtune-tuner-cache-v4').then(function (cache) {
             return cache.addAll(files);
           }).then(() => {
             return self.skipWaiting();
@@ -37,7 +37,7 @@ self.addEventListener('fetch', function (event) {
         if (response.status !== 206) {
           let clone = response.clone();
           event.waitUntil(
-            caches.open('stringtune-tuner-cache-v3').then(cache => cache.put(event.request, clone))
+            caches.open('stringtune-tuner-cache-v4').then(cache => cache.put(event.request, clone))
           );
         }
         return response;

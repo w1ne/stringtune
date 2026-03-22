@@ -4,7 +4,7 @@
  */
 const Meter = function (selector) {
   this.$root = document.querySelector(selector);
-  this.$pointer = this.$root.querySelector(".tuner .meter-pointer");
+  this.$pointer = this.$root.querySelector(".meter-pointer");
   this.init();
   this.currentDeg = 0;
   this.targetDeg = 0;
