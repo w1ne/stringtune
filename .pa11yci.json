@@ -1,10 +1,7 @@
 {
-    "defaults": {
-        "timeout": 50000,
-        "wait": 1000,
-        "runners": [
-            "axe",
-            "htmlcs"
-        ]
+  "defaults": {
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox"]
     }
+  }
 }

@@ -1,14 +1,17 @@
 {
-    "ci": {
-        "collect": {
-            "staticDistDir": "./stringtune/public",
-            "numberOfRuns": 3
-        },
-        "assert": {
-            "preset": "lighthouse:recommended"
-        },
-        "upload": {
-            "target": "temporary-public-storage"
-        }
+  "ci": {
+    "collect": {
+      "staticDistDir": "./stringtune/public",
+      "numberOfRuns": 3,
+      "url": [
+        "http://localhost/"
+      ]
+    },
+    "assert": {
+      "preset": "lighthouse:recommended"
+    },
+    "upload": {
+      "target": "temporary-public-storage"
     }
+  }
 }
