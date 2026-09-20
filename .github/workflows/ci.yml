@@ -51,6 +51,11 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build
         run: |
           cd stringtune
@@ -68,22 +73,22 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build Site
         run: |
           cd stringtune
-          hugo --minify
+          hugo --minify --baseURL /
       
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v10
         with:
-          urls: |
-            http://localhost:5000/
           configPath: './.lighthouserc.json'
-          # We need to serve the site first. lhci action can do this with 'staticDistDir' but we are in a monorepo-ish structure.
-          # Let's try staticDistDir pointing to the public folder.
           uploadArtifacts: true
           temporaryPublicStorage: true
-          budgetPath: ./budget.json # Optional
   
   a11y:
     needs: build
@@ -97,10 +102,15 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build Site
         run: |
           cd stringtune
-          hugo --minify
+          hugo --minify --baseURL http://localhost:8080/
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
