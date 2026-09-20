@@ -1,12 +1,5 @@
-{{ $options := (dict "outputStyle" "compressed") }}
-{{ $css := resources.Get "css/main.scss" | toCSS $options }}
+{{ $css := partialCached "stylesheet.html" . }}
 {{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
-
-{{ if hugo.IsProduction }}
-<!-- Purge unused css and minify it -->
-{{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
-{{ $css = $css | minify | resources.Fingerprint "sha256" }}
-{{ end }}
 
 <title>
     {{- if .IsHome -}}
@@ -17,19 +10,23 @@
 </title>
 
 <meta charset="utf-8">
+{{ partial "security-policy.html" . }}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="{{ .Site.Params.author }}">
-<link rel="canonical" href="{{ .Permalink }}">
+<link rel="canonical" href="https://stringtune.com{{ .RelPermalink }}">
 
 {{ partial "favicons" . }}
+
+<meta name="stringtune-analytics" content="{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}enabled{{ else }}disabled{{ end }}">
+{{ partial "script.html" "js/analytics.js?v=11" }}
 
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679955917317735"
-    crossorigin="anonymous"></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
+{{/* Keep preview and audit traffic out of production advertising/analytics. */}}
+{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}
+{{ partial "script.html" "js/production.js" }}
+{{ end }}
 <!-- // CSS & JS -->
 
 {{ partial "generator" . }}

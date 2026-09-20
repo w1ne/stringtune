@@ -5,3 +5,5 @@ stringtune/public/
 .DS_Store
 dist/
 coverage/
+
+.lighthouseci/

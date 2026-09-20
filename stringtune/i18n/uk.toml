@@ -32,3 +32,6 @@ other = "Гітара"
 
 [ukulele]
 other = "Укулеле"
+
+[tunerFeedback]
+other = "Щось не працює?"

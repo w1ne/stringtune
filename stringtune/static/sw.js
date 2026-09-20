@@ -1,54 +1,38 @@
-self.addEventListener('install', function (event) {
-  event.waitUntil(
-    caches.keys().then(function (cacheNames) {
-      return Promise.all(
-        cacheNames.map(function (cacheName) {
-          if (cacheName !== 'stringtune-tuner-cache-v4') {
-            console.log('Deleting out of date cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(function () {
-      return fetch('./index.json')
-        .then(response => response.json())
-        .then(files =>
-          caches.open('stringtune-tuner-cache-v4').then(function (cache) {
-            return cache.addAll(files);
-          }).then(() => {
-            return self.skipWaiting();
-          })
-        );
-    })
-  );
+const CACHE = 'stringtune-tuner-cache-v7';
+
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
+    const response = await fetch('/index.json');
+    if (!response.ok) throw new Error('Unable to download offline manifest');
+    const cache = await caches.open(CACHE);
+    await cache.addAll(await response.json());
+    await self.skipWaiting();
+  })());
 });
 
-self.addEventListener('fetch', function (event) {
-  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
-    // If it's not a GET request or not a web URL, just handle it normally and don't cache it.
-    event.respondWith(fetch(event.request));
-    return;
-  }
-
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // Check if the response is partial (status 206) and avoid caching
-        if (response.status !== 206) {
-          let clone = response.clone();
-          event.waitUntil(
-            caches.open('stringtune-tuner-cache-v4').then(cache => cache.put(event.request, clone))
-          );
-        }
-        return response;
-      })
-      .catch(() => {
-        // Network request failed, try the cache
-        return caches.match(event.request);
-      })
-  );
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    await Promise.all(names.filter(name => name.startsWith('stringtune-tuner-cache-') && name !== CACHE)
+      .map(name => caches.delete(name)));
+    await clients.claim();
+  })());
 });
 
-self.addEventListener('activate', function (event) {
-  event.waitUntil(clients.claim());
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+  const response = fetch(request);
+  // Register the cache write while dispatching the event, and never cache a
+  // server error or partial media response over a working offline asset.
+  event.waitUntil(response.then(async result => {
+    if (result.ok && result.status !== 206) {
+      const copy = result.clone();
+      const cache = await caches.open(CACHE);
+      await cache.put(request, copy);
+    }
+  }).catch(() => {}));
+  event.respondWith(response.catch(async () => {
+    return await caches.match(request) || new Response('Unavailable offline', {status:503});
+  }));
 });

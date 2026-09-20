@@ -14,7 +14,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci
       - name: Run Markdown Lint
@@ -30,7 +30,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci
       - name: Validate current commit (last commit)
@@ -51,6 +51,11 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build
         run: |
           cd stringtune
@@ -68,22 +73,31 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build Site
         run: |
           cd stringtune
-          hugo --minify
+          hugo --minify --baseURL /
       
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v10
         with:
-          urls: |
-            http://localhost:5000/
           configPath: './.lighthouserc.json'
-          # We need to serve the site first. lhci action can do this with 'staticDistDir' but we are in a monorepo-ish structure.
-          # Let's try staticDistDir pointing to the public folder.
-          uploadArtifacts: true
+          uploadArtifacts: false
           temporaryPublicStorage: true
-          budgetPath: ./budget.json # Optional
+      - name: Enforce CSP security findings
+        if: always()
+        run: node scripts/verify-csp-report.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-results
+          path: .lighthouseci
+          include-hidden-files: true
   
   a11y:
     needs: build
@@ -97,14 +111,19 @@ jobs:
         with:
           hugo-version: '0.114.0'
           extended: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install site dependencies
+        run: npm ci --prefix stringtune
       - name: Build Site
         run: |
           cd stringtune
-          hugo --minify
+          hugo --minify --baseURL http://localhost:8080/
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
       - name: Install pa11y-ci
         run: npm install -g pa11y-ci http-server
       - name: Run Accessibility Checks
@@ -112,3 +131,49 @@ jobs:
           npx http-server stringtune/public -p 8080 &
           sleep 5
           pa11y-ci --sitemap http://localhost:8080/sitemap.xml
+
+  tuner-regressions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: stringtune/package-lock.json
+      - run: npm ci --prefix stringtune
+      - run: node --test scripts/tests/*.test.cjs
+      - run: npm test --prefix stringtune -- --runInBand
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --locked --manifest-path tuner-core/Cargo.toml
+      - uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.114.0'
+          extended: true
+      - name: Build browser fixture
+        working-directory: stringtune
+        run: hugo --minify --baseURL http://127.0.0.1:8094/
+      - name: Install browser
+        working-directory: stringtune
+        run: npx playwright install --with-deps chromium
+      - name: Verify browser flows
+        run: |
+          python3 -m http.server 8094 --bind 127.0.0.1 --directory stringtune/public &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:8094/ >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/verify-tuner.cjs
+          node scripts/verify-site.cjs
+      - name: Verify production script policy with stubbed third parties
+        run: |
+          cd stringtune
+          hugo --minify
+          cd ..
+          TUNER_PRODUCTION=1 node scripts/verify-site.cjs
+          node scripts/verify-analytics.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tuner-mobile
+          path: /tmp/stringtune-fixed-mobile.png

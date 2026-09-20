@@ -1,0 +1,4 @@
+{{- /* Hash the exact bytes served from static; query strings only version URLs. */ -}}
+{{- $path := index (split . "?") 0 -}}
+{{- $resource := resources.FromString $path (readFile (printf "static/%s" $path)) -}}
+{{- return ($resource | resources.Fingerprint "sha256") -}}

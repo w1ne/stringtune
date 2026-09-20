@@ -52,3 +52,51 @@ other = "Press microphone to start tuning"
 
 [install_app]
   other = "Install APP"
+
+[tunerStarting]
+other = "Starting…"
+
+[tunerRetry]
+other = "Try microphone again"
+
+[tunerPermission]
+other = "Allow microphone access in your browser, then try again."
+
+[tunerAllow]
+other = "Allow microphone access to start tuning."
+
+[tunerListening]
+other = "Listening — play one string."
+
+[tunerReference]
+other = "Tap a note to hear a reference tone."
+
+[tunerInTune]
+other = "In tune"
+
+[tunerFlat]
+other = "Too low — tighten the string"
+
+[tunerSharp]
+other = "Too high — loosen the string"
+
+[tunerCalibration]
+other = "Reference pitch"
+
+[tunerSave]
+other = "Save"
+
+[tunerCancel]
+other = "Cancel"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Stop audio"
+
+[tunerNotes]
+other = "Chromatic notes"
+
+[tunerFeedback]
+other = "Something wrong?"

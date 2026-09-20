@@ -1,7 +1,6 @@
 const Tuner = function (a4) {
-  this.middleA = a4 || 440;
+  this.middleA = Tuner.isValidCalibration(a4) ? Number(a4) : 440;
   this.semitone = 69;
-  this.bufferSize = 4096;
   this.noteStrings = [
     "C",
     "C♯",
@@ -17,13 +16,14 @@ const Tuner = function (a4) {
     "B",
   ];
   this.stableLimit = 5;
-  this.tolerance = 1.05;
   this.smoothing = false;
   this.smoothFrequencies = [];
   this.clarityGate = 0.7;       // Reject detections with clarity below this
   this.stableFrequency = null;   // Last frequency that was displayed (high confidence)
   this.stableClarity = 0;
-  this.initGetUserMedia();
+  this.state = "idle";
+  this.session = 0;
+  this.playSession = 0;
 };
 
 Tuner.prototype.enableSmoothing = function () {
@@ -43,63 +43,33 @@ Tuner.prototype.smoothFrequency = function (frequency) {
   return sum / this.smoothFrequencies.length;
 };
 
-// Initialize detected frequencies array
-Tuner.prototype.detectedFrequencies = [];
-
-Tuner.prototype.initGetUserMedia = function () {
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!window.AudioContext) {
-    return alert("AudioContext not supported");
-  }
-
-  // Older browsers might not implement mediaDevices at all, so we set an empty object first
-  if (navigator.mediaDevices === undefined) {
-    navigator.mediaDevices = {};
-  }
-
-  // Some browsers partially implement mediaDevices. We can't just assign an object
-  // with getUserMedia as it would overwrite existing properties.
-  // Here, we will just add the getUserMedia property if it's missing.
-  if (navigator.mediaDevices.getUserMedia === undefined) {
-    navigator.mediaDevices.getUserMedia = function (constraints) {
-      // First get ahold of the legacy getUserMedia, if present
-      const getUserMedia =
-        navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-      // Some browsers just don't implement it - return a rejected promise with an error
-      // to keep a consistent interface
-      if (!getUserMedia) {
-        alert("getUserMedia is not implemented in this browser");
-      }
-
-      // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
-      return new Promise(function (resolve, reject) {
-        getUserMedia.call(navigator, constraints, resolve, reject);
-      });
-    };
-  }
+// Keep validation identical for saved settings, UI input, and construction.
+Tuner.isValidCalibration = function (value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number >= 400 && number <= 500;
 };
 
-Tuner.prototype.startRecord = function () {
-  const self = this;
-  navigator.mediaDevices
-    .getUserMedia({ audio: true })
-    .then(function (stream) {
-      const source = self.audioContext.createMediaStreamSource(stream);
-      source.connect(self.analyser);
-      // Connect to Worklet
-      if (self.workletNode) {
-        self.analyser.connect(self.workletNode);
-        self.workletNode.connect(self.audioContext.destination);
-      }
-    })
-    .catch(function (error) {
-      alert(error.name + ": " + error.message);
-    });
+Tuner.prototype.ensureAudio = async function () {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) throw Object.assign(new Error("This browser does not support Web Audio."), {name: "NotSupportedError"});
+  if (!this.audioContext || this.audioContext.state === "closed") {
+    this.audioContext = new AudioContext();
+  }
+  if (this.audioContext.state === "suspended") await this.audioContext.resume();
+  return this.audioContext;
+};
+
+Tuner.prototype.resetPitch = function () {
+  this.currentNote = null;
+  this.stableCount = 0;
+  this.lastFrequency = null;
+  this.stableFrequency = null;
+  this.stableClarity = 0;
+  this.smoothFrequencies = [];
 };
 
 Tuner.prototype.updatePitch = function (frequency) {
-  if (frequency) {
+  if (Number.isFinite(frequency) && frequency > 0) {
     var clarity = this.lastClarity || 0;
 
     // Clarity gate — reject low-confidence detections
@@ -115,15 +85,6 @@ Tuner.prototype.updatePitch = function (frequency) {
       var isOctaveDown = ratio > 0.48 && ratio < 0.52;
       if ((isOctaveUp || isOctaveDown) && clarity < this.stableClarity * 0.85) {
         return;
-      }
-    }
-
-    // Harmonic snap (close multiples)
-    if (this.lastFrequency) {
-      let ratio = frequency / this.lastFrequency;
-      ratio = Math.round(ratio);
-      if (ratio >= 0.98 * this.tolerance && ratio <= this.tolerance) {
-        frequency = this.lastFrequency;
       }
     }
 
@@ -156,51 +117,130 @@ Tuner.prototype.updatePitch = function (frequency) {
   }
 };
 
-Tuner.prototype.init = async function () {
-  this.audioContext = new window.AudioContext();
-  this.analyser = this.audioContext.createAnalyser();
-  // State variables for updatePitch
-  this.currentNote = null;
-  this.stableCount = 0;
-  this.lastFrequency = null;
+// One startup at a time. A session token prevents a late permission grant
+// from reconnecting capture after Stop or navigation.
+Tuner.prototype.init = function () {
+  if (this.state === "listening") return Promise.resolve();
+  if (this.startPromise) return this.startPromise;
+  const session = ++this.session;
+  this.state = "starting";
+  this.startPromise = this.startSession(session).finally(() => {
+    if (session === this.session) this.startPromise = null;
+  });
+  return this.startPromise;
+};
 
+Tuner.prototype.startSession = async function (session) {
+  const assertCurrent = () => {
+    if (session !== this.session) throw new Error("Microphone startup cancelled.");
+  };
   try {
-    console.log("[Tuner] Fetching WASM binary...");
-    // 1. Pre-fetch the Wasm binary (Worklets can't fetch in some browsers)
-    const response = await fetch('/tuner-core/tuner_core_bg.wasm?v=' + Date.now());
-    if (!response.ok) throw new Error("WASM fetch failed with status " + response.status);
+    this.failureStage = 'audio_context';
+    const context = await this.ensureAudio();
+    assertCurrent();
+    this.failureStage = 'microphone';
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw Object.assign(new Error("Microphone access requires a supported browser and HTTPS."), {name: "NotSupportedError"});
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({audio: {
+      echoCancellation: false, noiseSuppression: false, autoGainControl: false
+    }});
+    if (session !== this.session) {
+      stream.getTracks().forEach(track => track.stop());
+      assertCurrent();
+    }
+    this.stream = stream;
+    try { if (this.onMicrophoneReady) this.onMicrophoneReady(); } catch (_) { /* Observers are optional. */ }
+    this.resetPitch();
+    this.analyser = context.createAnalyser();
+    this.failureStage = 'download';
+    const response = await fetch('/tuner-core/tuner_core_bg.wasm?v=10');
+    assertCurrent();
+    if (!response.ok) throw new Error("Tuner download failed (" + response.status + ").");
     const wasmBytes = await response.arrayBuffer();
-    console.log("[Tuner] WASM fetched, size:", wasmBytes.byteLength);
-
-    // 2. Load the Worklet module (cache-busted for delivery insurance)
-    const workletUrl = '/js/audio-worklet/processor.js?cache=' + Date.now();
-    console.log("[Tuner] Adding AudioWorklet module:", workletUrl);
-    await this.audioContext.audioWorklet.addModule(workletUrl);
-
-    // 3. Create the node with pre-fetched bytes
-    console.log("[Tuner] Creating AudioWorkletNode...");
-    this.workletNode = new AudioWorkletNode(this.audioContext, 'pitch-processor', {
+    assertCurrent();
+    this.failureStage = 'worklet';
+    await context.audioWorklet.addModule('/js/audio-worklet/processor.js?v=10');
+    assertCurrent();
+    const node = this.workletNode = new AudioWorkletNode(context, 'pitch-processor', {
       processorOptions: { wasmBytes }
     });
-    console.log("[Tuner] AudioWorkletNode created:", this.workletNode);
-
-    this.workletNode.port.onmessage = (event) => {
-      if (event.data.type === 'result') {
-        this.lastClarity = event.data.clarity;
-        this.updatePitch(event.data.pitch);
-      } else if (event.data.type === 'ready') {
-        console.log("[Tuner] Worklet engine confirmed READY");
-      } else if (event.data.type === 'error') {
-        console.error('Worklet Error:', event.data.error);
-        alert('Tuner Engine Error: ' + event.data.error);
-      }
-    };
-
-    this.startRecord();
-  } catch (e) {
-    console.error('[Tuner] Init failed:', e);
-    alert('Tuner Engine Failed: ' + e);
+    await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(Object.assign(new Error("Tuner engine did not become ready."), {name: "TimeoutError"})), 10000);
+      this.cancelReady = () => { clearTimeout(timeout); reject(new Error("Microphone startup cancelled.")); };
+      node.port.onmessage = ({data}) => {
+        if (session !== this.session) return;
+        if (data.type === 'ready') {
+          clearTimeout(timeout);
+          this.cancelReady = null;
+          resolve();
+        } else if (data.type === 'error') {
+          clearTimeout(timeout);
+          const error = new Error(data.error);
+          if (this.state === 'starting') reject(error);
+          else {
+            this.failureStage = 'worklet';
+            this.stop();
+            if (this.onError) this.onError(error);
+          }
+        } else if (data.type === 'result' && this.state === 'listening' && !this.oscillator) {
+          this.lastClarity = data.clarity;
+          this.updatePitch(data.pitch);
+        }
+      };
+      node.onprocessorerror = () => {
+        if (session !== this.session) return;
+        clearTimeout(timeout);
+        const error = new Error("The audio engine stopped. Please try again.");
+        if (this.state === 'starting') reject(error);
+        else { this.failureStage = 'worklet'; this.stop(); if (this.onError) this.onError(error); }
+      };
+    });
+    assertCurrent();
+    this.failureStage = 'connection';
+    this.source = context.createMediaStreamSource(stream);
+    this.source.connect(this.analyser);
+    this.analyser.connect(node);
+    node.connect(context.destination);
+    this.state = "listening";
+    stream.getTracks().forEach(track => {
+      track.onended = () => {
+        if (session !== this.session) return;
+        this.failureStage = 'capture';
+        this.stop();
+        if (this.onError) this.onError(Object.assign(new Error("Microphone disconnected. Please try again."), {name: 'NotReadableError'}));
+      };
+    });
+  } catch (error) {
+    if (session === this.session) {
+      const stopped = this.stop();
+      this.state = "error";
+      await stopped;
+    }
+    throw error;
   }
+};
+
+Tuner.prototype.stop = async function () {
+  ++this.session;
+  this.startPromise = null;
+  this.state = "idle";
+  if (this.cancelReady) { this.cancelReady(); this.cancelReady = null; }
+  this.stopOscillator();
+  if (this.stream) this.stream.getTracks().forEach(track => { track.onended = null; track.stop(); });
+  if (this.source) this.source.disconnect();
+  if (this.workletNode) {
+    this.workletNode.onprocessorerror = null;
+    this.workletNode.port.onmessage = null;
+    this.workletNode.disconnect();
+    this.workletNode.port.close();
+  }
+  if (this.analyser) this.analyser.disconnect();
+  this.stream = this.source = this.workletNode = this.analyser = null;
+  this.resetPitch();
+  const context = this.audioContext;
+  this.audioContext = null;
+  if (context && context.state !== "closed") await context.close();
 };
 
 /**
@@ -242,18 +282,31 @@ Tuner.prototype.getCents = function (frequency, note) {
  *
  * @param {number} frequency
  */
-Tuner.prototype.play = function (frequency) {
+Tuner.prototype.play = async function (frequency) {
+  frequency = Number(frequency);
+  if (!Number.isFinite(frequency) || frequency <= 0) throw new Error("Invalid reference frequency.");
+  const session = ++this.playSession;
+  const context = await this.ensureAudio();
+  if (session !== this.playSession) return;
   if (!this.oscillator) {
-    this.oscillator = this.audioContext.createOscillator();
-    this.oscillator.connect(this.audioContext.destination);
+    this.oscillator = context.createOscillator();
+    this.referenceGain = context.createGain();
+    this.referenceGain.gain.value = 0.1;
+    this.oscillator.connect(this.referenceGain);
+    this.referenceGain.connect(context.destination);
+    this.oscillator.frequency.value = frequency;
     this.oscillator.start();
+  } else {
+    this.oscillator.frequency.value = frequency;
   }
-  this.oscillator.frequency.value = frequency;
 };
 
 Tuner.prototype.stopOscillator = function () {
+  ++this.playSession;
   if (this.oscillator) {
     this.oscillator.stop();
-    this.oscillator = null;
+    this.oscillator.disconnect();
+    this.referenceGain.disconnect();
+    this.oscillator = this.referenceGain = null;
   }
 };

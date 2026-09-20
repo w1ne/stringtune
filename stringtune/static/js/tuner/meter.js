@@ -15,6 +15,7 @@ const Meter = function (selector) {
   this.friction = 0.82;       // Heavy damping to prevent oscillation
   this.springStrength = 0.08; // Gentle spring for smooth, stable needle movement
 
+  this.reset();
   requestAnimationFrame(this.tick.bind(this));
 };
 
@@ -34,6 +35,8 @@ Meter.prototype.init = function () {
  * @param {number} deg
  */
 Meter.prototype.update = function (deg) {
+  if (!Number.isFinite(deg)) return;
+  this.hasReading = true;
   // Hard clamp to visual arc (±45 degrees = ±50 cents)
   if (deg > 45) deg = 45;
   if (deg < -45) deg = -45;
@@ -63,21 +66,16 @@ Meter.prototype.tick = function () {
     this.velocity = 0;
   }
 
-  // 2. Render if moving
-  if (Math.abs(this.velocity) > 0.001 || Math.abs(this.targetDeg - this.currentDeg) > 0.01) {
-    this.$pointer.style.transform = "rotate(" + this.currentDeg + "deg)";
-
-    const tunedArea = document.getElementById("tunedArea");
-    if (tunedArea) {
-      const minTunedDegree = -3;
-      const maxTunedDegree = 3;
-      if (this.currentDeg >= minTunedDegree && this.currentDeg <= maxTunedDegree) {
-        tunedArea.style.visibility = "visible";
-      } else {
-        tunedArea.style.visibility = "hidden";
-      }
-    }
-  }
+  this.$pointer.style.transform = "rotate(" + this.currentDeg + "deg)";
+  const tunedArea = document.getElementById("tunedArea");
+  tunedArea.style.visibility = this.hasReading && Math.abs(this.currentDeg) <= 3 ? 'visible' : 'hidden';
 
   requestAnimationFrame(this.tick.bind(this));
+};
+
+Meter.prototype.reset = function () {
+  this.hasReading = false;
+  this.currentDeg = this.targetDeg = this.smoothedTarget = this.velocity = 0;
+  this.$pointer.style.transform = 'rotate(0deg)';
+  document.getElementById('tunedArea').style.visibility = 'hidden';
 };

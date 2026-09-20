@@ -1,34 +1,40 @@
 {
-    "name": "Stingtune",
-    "short_name": "Stingtune tuner",
-    "icons": [
-        {
-            "src": "/images/favicon/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/images/favicon/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
-    "theme_color": "#121212",
-    "background_color": "#121212",
-    "display": "standalone",
-    "start_url": "/",
-    "screenshots": [
-        {
-            "src": "/images/desktop-screenshot.png",
-            "sizes": "1024x768",
-            "type": "image/png",
-            "form_factor": "wide"
-        },
-        {
-            "src": "/images/mobile-screenshot.png",
-            "sizes": "640x480",
-            "type": "image/png"
-        }
-    ]
+  "name": "StringTune",
+  "short_name": "StringTune",
+  "icons": [
+    {
+      "src": "/images/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/favicon/maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#121212",
+  "background_color": "#121212",
+  "display": "standalone",
+  "start_url": "/",
+  "screenshots": [
+    {
+      "src": "/images/desktop-screenshot.png",
+      "sizes": "1024x768",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/images/mobile-screenshot.png",
+      "sizes": "640x480",
+      "type": "image/png"
+    }
+  ],
+  "scope": "/"
 }
-

@@ -1,62 +1,49 @@
-/**
- * SIMULATION TEST DRIVER
- * This script runs the real PitchProcessor logic in Node.js with the real WASM.
- */
+/** @jest-environment node */
+jest.setTimeout(60000);
 const fs = require('fs');
 const path = require('path');
-
-// 1. Mock Environment
-global.AudioWorkletProcessor = class { };
-global.registerProcessor = jest.fn();
-global.sampleRate = 44100;
-
-// 2. Load and Polyfill Wasm
-const wasmPath = path.resolve(__dirname, '../../../static/tuner-core/tuner_core_bg.wasm');
-const wasmBuffer = fs.readFileSync(wasmPath);
-
-// 3. Load processor.js
-const processorCode = fs.readFileSync(path.resolve(__dirname, '../audio-worklet/processor.js'), 'utf8');
-
-// We need to inject the wasmBuffer into the constructor options
-describe('PitchProcessor Simulation', () => {
-    let PitchProcessorClass;
-
-    beforeAll(() => {
-        // Evaluate the processor code in a context
-        const context = {
-            AudioWorkletProcessor: global.AudioWorkletProcessor,
-            registerProcessor: (name, cls) => { PitchProcessorClass = cls; },
-            sampleRate: global.sampleRate,
-            console: console,
-            TextDecoder: require('util').TextDecoder,
-            WebAssembly: WebAssembly,
-            // Mock Float32Array and other typed arrays if needed, but Node has them
-        };
-
-        // Wrap in a function to isolate
-        const fn = new Function(...Object.keys(context), processorCode);
-        fn(...Object.values(context));
-    });
-
-    test('Should process 440Hz with 4096 FFT size without crashing', async () => {
-        const options = {
-            processorOptions: { wasmBytes: wasmBuffer }
-        };
-        const processor = new PitchProcessorClass(options);
-
-        // Wait for ready message
-        await new Promise(resolve => {
-            processor.port.onmessage = (e) => {
-                if (e.data.type === 'ready') resolve();
-                if (e.data.type === 'error') throw new Error(e.data.error);
-            };
-        });
-
-        // Set buffer size to 4096 for this test
-        processor.bufferSize = 4096;
-        processor.buffer = new Float32Array(4096);
-        processor.detector.free();
-        // We need a way to re-init with 4096 in the test
-        // Actually, let's just modify the processor.js for simulation
-    });
+const vm = require('vm');
+const processorCode = fs.readFileSync(path.join(__dirname, '../audio-worklet/processor.js'), 'utf8');
+const wasmBytes = fs.readFileSync(path.join(__dirname, '../../tuner-core/tuner_core_bg.wasm'));
+async function engine(sampleRate) {
+  let Processor, ready;
+  const messages = [];
+  const initialized = new Promise(resolve => ready = resolve);
+  const context = {
+    sampleRate, TextDecoder, WebAssembly,
+    console: {log() {}, error: console.error},
+    AudioWorkletProcessor: class { constructor() {
+      this.port = {postMessage(message) { messages.push(message); if (['ready','error'].includes(message.type)) ready(message); }};
+    }},
+    registerProcessor(_, value) { Processor = value; }
+  };
+  vm.runInNewContext(processorCode, context);
+  const processor = new Processor({processorOptions: {wasmBytes}});
+  const status = await initialized;
+  if (status.type !== 'ready') throw new Error(status.error);
+  return {processor, messages};
+}
+test.each([44100, 48000])('real WASM/worklet detects instrument strings at %i Hz', async sampleRate => {
+  for (const frequency of [41.203,55,73.416,82.407,110,146.832,196,246.942,261.626,329.628,391.995,440]) {
+    const {processor, messages} = await engine(sampleRate);
+    try {
+      for (let offset = 0; offset < sampleRate; offset += 128) {
+        const block = Float32Array.from({length:128}, (_, i) => 0.2 * Math.sin(2*Math.PI*frequency*(offset+i)/sampleRate));
+        processor.process([[block]], [], {});
+      }
+      const results = messages.filter(m => m.type === 'result').slice(-10);
+      expect(results.length).toBe(10);
+      const pitch = results.reduce((sum,m) => sum+m.pitch,0)/results.length;
+      const cents = 1200*Math.log2(pitch/frequency);
+      if (Math.abs(cents) > 2) throw new Error(`${frequency} Hz at ${sampleRate}: ${cents.toFixed(2)} cents error`);
+      expect(results.at(-1).clarity).toBeGreaterThan(0.7);
+    } finally { processor.detector.free(); }
+  }
+});
+test('silence emits no pitch', async () => {
+  const {processor,messages} = await engine(48000);
+  try {
+    for(let i=0;i<400;i++) processor.process([[new Float32Array(128)]],[],{});
+    expect(messages.filter(m => m.type === 'result')).toHaveLength(0);
+  } finally { processor.detector.free(); }
 });

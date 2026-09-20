@@ -1,0 +1,2 @@
+{{- $resource := partialCached "script-resource.html" . . -}}
+<script src="/{{ . }}" integrity="{{ $resource.Data.Integrity }}"></script>
