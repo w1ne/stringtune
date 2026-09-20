@@ -233,7 +233,7 @@ html {
   height: 112px;
   padding: 5px;
   background-color: #4CAF50;
-  color: white;
+  color: #121212;
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -245,7 +245,7 @@ html {
 
 .tuner #startButton img {
   width: 40px;
-  height: 60px;
+  height: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -357,7 +357,9 @@ h3 {
 
 #install-button,
 #install-button-ios {
-  position: absolute;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;  position: absolute;
   left: 10px;
   top: 50%;
   background: none;

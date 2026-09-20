@@ -26,10 +26,13 @@
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{/* Keep preview and audit traffic out of production advertising/analytics. */}}
+{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8679955917317735"
     crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJQ4QQXGDS"></script>
+{{ end }}
 <!-- // CSS & JS -->
 
 {{ partial "generator" . }}

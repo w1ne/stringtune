@@ -9,7 +9,7 @@
   "presets": true,
   "calibration": true,
   "permissionRetry": true,
-  "realWorkletSyntheticHz": "110.3",
+  "realWorkletSyntheticHz": "110.0",
   "silence": true,
   "tracksStopped": true,
   "offlineStartup": true,

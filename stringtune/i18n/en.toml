@@ -94,3 +94,6 @@ other = "Instrument"
 
 [tunerStop]
 other = "Stop audio"
+
+[tunerNotes]
+other = "Chromatic notes"
