@@ -2,62 +2,34 @@
     <div class="guitar-notes">
         <h3>{{ i18n "guitar" }}</h3>
         <ul>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_E1.mp3', this)">▶️</button> E2 (6th string - thickest)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_A.mp3', this)">▶️</button> A (5th string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_D.mp3', this)">▶️</button> D (4th string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_G.mp3', this)">▶️</button> G (3rd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_B.mp3', this)">▶️</button> B (2nd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Guitar_E2.mp3', this)">▶️</button> E4 (1st string - thinnest)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_E1.mp3">▶️</button> E2 (6th string - thickest)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_A.mp3">▶️</button> A (5th string)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_D.mp3">▶️</button> D (4th string)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_G.mp3">▶️</button> G (3rd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_B.mp3">▶️</button> B (2nd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Guitar_E2.mp3">▶️</button> E4 (1st string - thinnest)</li>
         </ul>
     </div>
     <div class="bass-notes">
         <h3>{{ i18n "bass" }}</h3>
         <ul>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Bass_E.mp3', this)">▶️</button> E (4th string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Bass_A.mp3', this)">▶️</button> A (3rd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Bass_D.mp3', this)">▶️</button> D (2nd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Bass_G.mp3', this)">▶️</button> G (1st string)</li>
+            <li>🔊 <button class="play-button" data-sound="Bass_E.mp3">▶️</button> E (4th string)</li>
+            <li>🔊 <button class="play-button" data-sound="Bass_A.mp3">▶️</button> A (3rd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Bass_D.mp3">▶️</button> D (2nd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Bass_G.mp3">▶️</button> G (1st string)</li>
         </ul>
     </div>
     <div class="ukulele-notes">
         <h3>{{ i18n "ukulele" }}</h3>
         <ul>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Ukulele_G.mp3', this)">▶️</button> G (4th string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Ukulele_C.mp3', this)">▶️</button> C (3rd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Ukulele_E.mp3', this)">▶️</button> E (2nd string)</li>
-            <li>🔊 <button class="play-button" onclick="playPauseAudio('Ukulele_A.mp3', this)">▶️</button> A (1st string)</li>
+            <li>🔊 <button class="play-button" data-sound="Ukulele_G.mp3">▶️</button> G (4th string)</li>
+            <li>🔊 <button class="play-button" data-sound="Ukulele_C.mp3">▶️</button> C (3rd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Ukulele_E.mp3">▶️</button> E (2nd string)</li>
+            <li>🔊 <button class="play-button" data-sound="Ukulele_A.mp3">▶️</button> A (1st string)</li>
         </ul>
     </div>
 </div>
 
 
-<script>
-let currentAudio = null;
-let currentButton = null;
-
-function playPauseAudio(file, btnElement) {
-    if (currentAudio) {
-        currentAudio.pause();
-        currentButton.innerHTML = "▶️";
-        if (currentButton === btnElement) {
-            currentAudio.currentTime = 0;  // reset the audio to the beginning
-            currentAudio = null;
-            currentButton = null;
-            return;
-        }
-    }
-    
-    currentAudio = new Audio('/sounds/' + file);
-    currentAudio.loop = true;  // make the audio play in a loop
-    currentAudio.play();
-    currentButton = btnElement;
-
-    btnElement.innerHTML = "⏸️";
-    currentAudio.onended = function() {
-        btnElement.innerHTML = "▶️";
-        currentAudio = null;
-        currentButton = null;
-    };
-}
-</script>
+{{ partial "script.html" "js/guitar-notes.js" }}
 

@@ -1,4 +1,4 @@
-const CACHE = 'stringtune-tuner-cache-v5';
+const CACHE = 'stringtune-tuner-cache-v6';
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {

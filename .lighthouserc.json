@@ -8,7 +8,15 @@
       ]
     },
     "assert": {
-      "preset": "lighthouse:recommended"
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "csp-xss": [
+          "error",
+          {
+            "maxLength": 3
+          }
+        ]
+      }
     },
     "upload": {
       "target": "temporary-public-storage"

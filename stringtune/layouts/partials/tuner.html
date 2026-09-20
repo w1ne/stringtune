@@ -7,7 +7,7 @@
 	<div class="meter">
 		<div id="tunedArea" class="meter-scale-tuned"></div>
 		<button id="startButton">
-			<img src="{{ $micpng.RelPermalink }}" alt="mic">
+			<img src="{{ $micpng.RelPermalink }}" alt="" width="100" height="149">
 			<p>{{ i18n "clickmic" }}</p>
 		</button>
 		<div class="meter-dot"></div>
@@ -55,10 +55,10 @@
 	style="display:none; margin: 10px auto; text-align: center;">
 	Install App
 </button>
-<script src="{{ .Site.BaseURL }}js/tuner/screenlock.js"></script>
-<script src="{{ .Site.BaseURL }}js/lang.js"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/tuner.js?v=10"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/meter.js?v=10"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/frequency-line.js?v=10"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/notes.js?v=10"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/application.js?v=10"></script>
+{{ partial "script.html" "js/tuner/screenlock.js" }}
+{{ partial "script.html" "js/lang.js" }}
+{{ partial "script.html" "js/tuner/tuner.js?v=10" }}
+{{ partial "script.html" "js/tuner/meter.js?v=10" }}
+{{ partial "script.html" "js/tuner/frequency-line.js?v=10" }}
+{{ partial "script.html" "js/tuner/notes.js?v=10" }}
+{{ partial "script.html" "js/tuner/application.js?v=10" }}

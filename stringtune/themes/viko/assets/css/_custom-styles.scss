@@ -463,3 +463,7 @@ strong {
 @media (max-width: 768px) { .tuner { height: calc(415px + var(--meter-radius)); } }
 /* Bulma columns have negative gutters; contain the footer's outer rows. */
 footer .columns { margin-left: 0; margin-right: 0; }
+
+/* Give footer navigation separate, finger-sized targets. */
+.language-selection { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+.language-link, .footer li a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; min-width: 48px; padding: 8px; }

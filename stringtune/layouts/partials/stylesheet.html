@@ -1,0 +1,6 @@
+{{- /* Share the exact stylesheet resource between HTML and offline precaching. */ -}}
+{{- $css := resources.Get "css/main.scss" | toCSS (dict "outputStyle" "compressed") -}}
+{{- if hugo.IsProduction -}}
+  {{- $css = $css | resources.PostCSS | minify | resources.Fingerprint "sha256" -}}
+{{- end -}}
+{{- return $css -}}

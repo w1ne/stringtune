@@ -89,6 +89,9 @@ jobs:
           configPath: './.lighthouserc.json'
           uploadArtifacts: false
           temporaryPublicStorage: true
+      - name: Enforce CSP security findings
+        if: always()
+        run: node scripts/verify-csp-report.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -149,7 +152,7 @@ jobs:
           extended: true
       - name: Build browser fixture
         working-directory: stringtune
-        run: hugo --baseURL http://127.0.0.1:8094/
+        run: hugo --minify --baseURL http://127.0.0.1:8094/
       - name: Install browser
         working-directory: stringtune
         run: npx playwright install --with-deps chromium
@@ -161,6 +164,13 @@ jobs:
             sleep 1
           done
           node scripts/verify-tuner.cjs
+          node scripts/verify-site.cjs
+      - name: Verify production script policy with stubbed third parties
+        run: |
+          cd stringtune
+          hugo --minify
+          cd ..
+          TUNER_PRODUCTION=1 node scripts/verify-site.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
