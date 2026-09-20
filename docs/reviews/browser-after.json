@@ -1,0 +1,17 @@
+{
+  "viewports": [
+    320,
+    390,
+    768,
+    1280
+  ],
+  "manualPlayback": true,
+  "presets": true,
+  "calibration": true,
+  "permissionRetry": true,
+  "realWorkletSyntheticHz": "110.3",
+  "silence": true,
+  "tracksStopped": true,
+  "offlineStartup": true,
+  "browserErrors": []
+}

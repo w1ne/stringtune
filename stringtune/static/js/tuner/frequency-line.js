@@ -52,3 +52,7 @@ FrequencyLines.prototype.update = function (data) {
   this.canvasContext.stroke();
 };
 
+
+FrequencyLines.prototype.clear = function () {
+  this.canvasContext.clearRect(0, 0, this.$.width, this.$.height);
+};

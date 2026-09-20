@@ -10,7 +10,7 @@
 
 html {
   height: 100%;
-  min-width: 360px;
+  min-width: 0;
   background: #121212;
 }
 
@@ -22,7 +22,8 @@ html {
 
 .tuner {
   width: 100%;
-  height: 580px;
+  height: 640px;
+  --meter-radius: min(38vw, 280px);
   margin: auto;
   position: relative;
   color: $white;
@@ -33,23 +34,27 @@ html {
 
 .tuner .meter {
   position: absolute;
-  top: 5%;
-  left: 0;
+  display: flex;
+  top: 120px;
+  left: 50%;
   width: 100%;
-  margin: 0 auto 5vh auto;
+  height: var(--meter-radius);
+  transform: translateX(-50%);
 }
 
 .tuner .notes {
-  position: relative;
-  top: 25%;
-  margin: auto;
-  left: 0;
-  right: 0;
+  position: absolute;
+  top: calc(120px + var(--meter-radius));
   width: 100%;
   text-align: center;
 }
 
 .tuner .note {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  line-height: 1.3;
   font-size: 90px;
   font-weight: bold;
   position: relative;
@@ -64,6 +69,7 @@ html {
 }
 
 .tuner .notes-list {
+  width: 100%;
   max-width: 600px;
   overflow: auto;
   position: absolute;
@@ -113,21 +119,13 @@ html {
   margin-left: 0.25em;
 }
 
-.tuner .meter {
-  position: absolute;
-  display: flex;
-  height: 400px;
-  bottom: 0%;
-  right: 50%;
-  margin: 0 auto 5vh auto;
-}
 
 .tuner .meter-pointer {
   width: 2px;
   height: 100%;
   background: $white;
   /* Light blue-grey */
-  transform: rotate(45deg);
+  transform: rotate(0deg);
   transform-origin: bottom;
   position: absolute;
   right: 50%;
@@ -179,22 +177,13 @@ html {
 
 .tuner .frequency-lines {
   position: absolute;
-  top: 15%;
+  top: 130px;
+  width: 100%;
+  max-height: 160px;
   pointer-events: none;
 }
 
 @media (max-width: 768px) {
-
-  .tuner .meter {
-    top: 10%;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .tuner .notes {
-    width: 80%;
-  }
 
   .play-button {
     font-size: 30px;
@@ -240,8 +229,8 @@ html {
   text-align: center;
   border: none;
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 112px;
+  height: 112px;
   padding: 5px;
   background-color: #4CAF50;
   color: white;
@@ -455,3 +444,20 @@ strong {
   border-radius: 4px;
   font-size: 14px;
 }
+.tuner .note:disabled { opacity: 1; }
+.tuner .tuner-feedback { position: absolute; top: calc(265px + var(--meter-radius)); width: 100%; text-align: center; padding: 0 12px; }
+#tunerStatus { min-height: 24px; }
+#stringTargets { position: absolute; top: calc(340px + var(--meter-radius)); display: flex; justify-content: center; gap: 8px; width: 100%; padding: 0 8px; }
+#stringTargets button, #stopButton, #calibrationDialog button {
+  min-width: 40px; min-height: 44px; border: 1px solid #78909C; border-radius: 6px;
+  background: #202629; color: #F48FB1; padding: 6px 10px; cursor: pointer;
+}
+#stringTargets button[aria-pressed="true"] { border-color: #F48FB1; background: #3b2830; }
+#calibrationButton { border: none; background: transparent; color: inherit; cursor: pointer; min-height: 44px; }
+#calibrationDialog { background: #202629; color: #eee; border: 1px solid #78909C; border-radius: 8px; max-width: calc(100vw - 32px); }
+#calibrationDialog::backdrop { background: rgba(0,0,0,.7); }
+#calibrationDialog input { display: block; margin: 12px 0; width: 100%; padding: 8px; }
+.tuner button:focus-visible, .tuner select:focus-visible { outline: 2px solid #F48FB1; outline-offset: 3px; }
+@media (max-width: 768px) { .tuner { height: calc(415px + var(--meter-radius)); } }
+/* Bulma columns have negative gutters; contain the footer's outer rows. */
+footer .columns { margin-left: 0; margin-right: 0; }

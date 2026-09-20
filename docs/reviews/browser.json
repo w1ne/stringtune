@@ -1,0 +1,31 @@
+{
+  "initial": {
+    "width": 390,
+    "scrollWidth": 495,
+    "freq": "440.0",
+    "notes": 96
+  },
+  "bass": {
+    "notes": 96,
+    "freq": "440.0"
+  },
+  "manualErrors": [
+    "Cannot read properties of undefined (reading 'createOscillator')"
+  ],
+  "denied": {
+    "buttonVisible": "none",
+    "contextState": "running",
+    "freq": "440.0"
+  },
+  "dialogs": [
+    "NotAllowedError: Review: permission denied"
+  ],
+  "negative": {
+    "a4": -440,
+    "noteAt440": null,
+    "frequency": "-440.0"
+  },
+  "errors": [
+    "Cannot read properties of undefined (reading 'createOscillator')"
+  ]
+}

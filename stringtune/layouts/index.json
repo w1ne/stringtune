@@ -1,11 +1,15 @@
 {{ $options := (dict "outputStyle" "compressed") }}
 {{ $css := resources.Get "css/main.scss" | toCSS $options }}
-{{ $js := resources.Get "js/main.js" | resources.Fingerprint "md5" }}
+{{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
 
 {{ if hugo.IsProduction }}
     {{ $css = $css | resources.PostCSS (dict "inlineImports" true) }}
-    {{ $css = $css | minify | resources.Fingerprint "md5" }}
+    {{ $css = $css | minify | resources.Fingerprint "sha256" }}
 {{ end }}
 
-{{ $manifest := slice "/" "/index.html" $css.RelPermalink $js.RelPermalink "/js/tuner/aubio.min.js" "/js/tuner/screenlock.js" "/js/tuner/tuner.js" "/js/tuner/meter.js" "/js/tuner/frequency-line.js" "/js/tuner/notes.js" "/js/tuner/application.js" "/tuner-core/tuner_core_bg.wasm" "/tuner-core/tuner_core.js" }}
-{{ $manifest | jsonify }}
+{{ $mic := resources.Get "/images/mic.png" }}
+{{ $manifest := slice "/" "/index.html" $css.RelPermalink $js.RelPermalink $mic.RelPermalink "/js/tuner/screenlock.js" "/js/lang.js" "/js/tuner/tuner.js?v=10" "/js/tuner/meter.js?v=10" "/js/tuner/frequency-line.js?v=10" "/js/tuner/notes.js?v=10" "/js/tuner/application.js?v=10" "/js/audio-worklet/processor.js?v=10" "/tuner-core/tuner_core_bg.wasm?v=10" }}
+{{ range .AllTranslations }}
+  {{ $manifest = $manifest | append .RelPermalink }}
+{{ end }}
+{{ $manifest | uniq | jsonify }}

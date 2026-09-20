@@ -1,5 +1,9 @@
 {{ $micpng := resources.Get "/images/mic.png" }}
-<div class="tuner">
+<div class="tuner"
+ data-starting="{{ i18n "tunerStarting" }}" data-retry="{{ i18n "tunerRetry" }}"
+ data-permission="{{ i18n "tunerPermission" }}" data-allow="{{ i18n "tunerAllow" }}"
+ data-listening="{{ i18n "tunerListening" }}" data-reference="{{ i18n "tunerReference" }}"
+ data-in-tune="{{ i18n "tunerInTune" }}" data-flat="{{ i18n "tunerFlat" }}" data-sharp="{{ i18n "tunerSharp" }}">
 	<div class="meter">
 		<div id="tunedArea" class="meter-scale-tuned"></div>
 		<button id="startButton">
@@ -17,7 +21,15 @@
 			<span>Hz</span>
 		</div>
 	</div>
-	<div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
+	<div class="a4"><button type="button" id="calibrationButton" aria-label="{{ i18n "tunerCalibration" }}">A<sub>4</sub> = <span>440</span> Hz</button></div>
+ <dialog id="calibrationDialog" aria-labelledby="calibrationTitle">
+  <form><h2 id="calibrationTitle">{{ i18n "tunerCalibration" }}</h2>
+   <label for="calibrationInput">A4 (400–500 Hz)</label>
+   <input id="calibrationInput" type="number" min="400" max="500" step="0.1" required>
+   <button type="submit">{{ i18n "tunerSave" }}</button>
+   <button type="button" data-cancel>{{ i18n "tunerCancel" }}</button>
+  </form>
+ </dialog>
 	<label class="screen">
 		{{ i18n "keepScreenOn" }}
 		<input type="checkbox" id="screenLock" />
@@ -28,24 +40,25 @@
 	</label>
 
 	<div class="instrument-selector">
-		<select id="instrumentSelect">
+		<select id="instrumentSelect" aria-label="{{ i18n "tunerInstrument" }}">
 			<option value="guitar" selected>Guitar (Standard)</option>
 			<option value="ukulele">Ukulele (GCEA)</option>
 			<option value="bass">Bass (Standard)</option>
 		</select>
 	</div>
 
+ <div class="tuner-feedback"><p id="tunerStatus" role="status" aria-live="polite"></p>
+ <button id="stopButton" type="button" hidden>{{ i18n "tunerStop" }}</button></div>
+ <div id="stringTargets" role="group" aria-label="{{ i18n "tunerReference" }}"></div>
 </div>
 <button id="installAppBtn" class="button is-small is-primary"
 	style="display:none; margin: 10px auto; text-align: center;">
 	Install App
 </button>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/aubio.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/tuner/screenlock.js"></script>
 <script src="{{ .Site.BaseURL }}js/lang.js"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/tuner.js?v=9.0"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/meter.js?v=9.0"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/frequency-line.js?v=9.0"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/notes.js?v=9.0"></script>
-<script src="{{ .Site.BaseURL }}js/tuner/application.js?v=9.0"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/tuner.js?v=10"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/meter.js?v=10"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/frequency-line.js?v=10"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/notes.js?v=10"></script>
+<script src="{{ .Site.BaseURL }}js/tuner/application.js?v=10"></script>
