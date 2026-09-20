@@ -51,7 +51,7 @@ Tuner.isValidCalibration = function (value) {
 
 Tuner.prototype.ensureAudio = async function () {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) throw new Error("This browser does not support Web Audio.");
+  if (!AudioContext) throw Object.assign(new Error("This browser does not support Web Audio."), {name: "NotSupportedError"});
   if (!this.audioContext || this.audioContext.state === "closed") {
     this.audioContext = new AudioContext();
   }
@@ -135,10 +135,12 @@ Tuner.prototype.startSession = async function (session) {
     if (session !== this.session) throw new Error("Microphone startup cancelled.");
   };
   try {
+    this.failureStage = 'audio_context';
     const context = await this.ensureAudio();
     assertCurrent();
+    this.failureStage = 'microphone';
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      throw new Error("Microphone access requires a supported browser and HTTPS.");
+      throw Object.assign(new Error("Microphone access requires a supported browser and HTTPS."), {name: "NotSupportedError"});
     }
     const stream = await navigator.mediaDevices.getUserMedia({audio: {
       echoCancellation: false, noiseSuppression: false, autoGainControl: false
@@ -148,20 +150,23 @@ Tuner.prototype.startSession = async function (session) {
       assertCurrent();
     }
     this.stream = stream;
+    try { if (this.onMicrophoneReady) this.onMicrophoneReady(); } catch (_) { /* Observers are optional. */ }
     this.resetPitch();
     this.analyser = context.createAnalyser();
+    this.failureStage = 'download';
     const response = await fetch('/tuner-core/tuner_core_bg.wasm?v=10');
     assertCurrent();
     if (!response.ok) throw new Error("Tuner download failed (" + response.status + ").");
     const wasmBytes = await response.arrayBuffer();
     assertCurrent();
+    this.failureStage = 'worklet';
     await context.audioWorklet.addModule('/js/audio-worklet/processor.js?v=10');
     assertCurrent();
     const node = this.workletNode = new AudioWorkletNode(context, 'pitch-processor', {
       processorOptions: { wasmBytes }
     });
     await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => reject(new Error("Tuner engine did not become ready.")), 10000);
+      const timeout = setTimeout(() => reject(Object.assign(new Error("Tuner engine did not become ready."), {name: "TimeoutError"})), 10000);
       this.cancelReady = () => { clearTimeout(timeout); reject(new Error("Microphone startup cancelled.")); };
       node.port.onmessage = ({data}) => {
         if (session !== this.session) return;
@@ -174,6 +179,7 @@ Tuner.prototype.startSession = async function (session) {
           const error = new Error(data.error);
           if (this.state === 'starting') reject(error);
           else {
+            this.failureStage = 'worklet';
             this.stop();
             if (this.onError) this.onError(error);
           }
@@ -187,10 +193,11 @@ Tuner.prototype.startSession = async function (session) {
         clearTimeout(timeout);
         const error = new Error("The audio engine stopped. Please try again.");
         if (this.state === 'starting') reject(error);
-        else { this.stop(); if (this.onError) this.onError(error); }
+        else { this.failureStage = 'worklet'; this.stop(); if (this.onError) this.onError(error); }
       };
     });
     assertCurrent();
+    this.failureStage = 'connection';
     this.source = context.createMediaStreamSource(stream);
     this.source.connect(this.analyser);
     this.analyser.connect(node);
@@ -199,8 +206,9 @@ Tuner.prototype.startSession = async function (session) {
     stream.getTracks().forEach(track => {
       track.onended = () => {
         if (session !== this.session) return;
+        this.failureStage = 'capture';
         this.stop();
-        if (this.onError) this.onError(new Error("Microphone disconnected. Please try again."));
+        if (this.onError) this.onError(Object.assign(new Error("Microphone disconnected. Please try again."), {name: 'NotReadableError'}));
       };
     });
   } catch (error) {

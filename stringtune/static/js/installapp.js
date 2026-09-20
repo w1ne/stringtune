@@ -1,104 +1,98 @@
-function gtag_report_conversion(url) {
-		var callback = function () {
-			if (typeof (url) != 'undefined') {
-				window.location = url;
-			}
-		};
-		gtag('event', 'conversion', {
-			'send_to': 'AW-11228831101/fU5eCPXi_bwYEP26qeop',
-			'event_callback': callback
-		});
-		return false;
-	}
+(function () {
+  'use strict';
 
-	if ('serviceWorker' in navigator) {
-		const path = window.location.pathname;
-		navigator.serviceWorker.register('/sw.js')
-		.then(reg => console.log('Registration succeeded: ', reg))
-		.catch(err => console.log('Registration failed: ', err));
-	}
+  const element = (id) => document.getElementById(id);
+  const display = (id, value) => {
+    const node = element(id);
+    if (node) node.style.display = value;
+  };
+  const track = (name, fields) => {
+    try {
+      window.StringTuneAnalytics?.track(name, fields);
+    } catch (_) {
+      // Measurement must never interrupt installation.
+    }
+  };
 
-	// Initialize deferredPrompt for use later to show browser install prompt.
-	let deferredPrompt;
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('Registration succeeded: ', reg))
+      .catch(err => console.log('Registration failed: ', err));
+  }
 
-	window.addEventListener('beforeinstallprompt', (e) => {
-		// Prevent the mini-infobar from appearing on mobile
-		e.preventDefault();
-		// Stash the event so it can be triggered later.
-		deferredPrompt = e;
-		// Update UI notify the user they can install the PWA
-		document.getElementById("install-app-prompt").style.display = "block";
-	});
+  const ios = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod']
+    .includes(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+  const standalone = Boolean(navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+  let deferredPrompt = null;
+  let installed = false;
 
-	document.getElementById("install-button").addEventListener('click', async () => {
-		gtag('event', 'app-install-android', { 'event_category': 'app-install-android', 'event_label': 'app-install-all' });
-		gtag_report_conversion();
-		document.getElementById("install-app-prompt").style.display = "none";
-		// Show the install prompt
-		if (!deferredPrompt) return;
-		deferredPrompt.prompt();
-		// Wait for the user to respond to the prompt
-		const { outcome } = await deferredPrompt.userChoice;
-		// We've used the prompt, and can't use it again, throw it away
-		deferredPrompt = null;
-	});
+  function showBrowserControls(visible) {
+    display('install-app-prompt', visible ? 'block' : 'none');
+    for (const id of ['install-button', 'installAppBtn']) {
+      const button = element(id);
+      if (button) {
+        button.disabled = !visible;
+        button.style.display = visible ? '' : 'none';
+      }
+    }
+  }
 
-	// Detects if device is on iOS
-	function isiOS() {
-		return [
-			'iPad Simulator',
-			'iPhone Simulator',
-			'iPod Simulator',
-			'iPad',
-			'iPhone',
-			'iPod'
-		].includes(navigator.platform)
-			// iPad on iOS 13 detection
-			|| (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-	}
+  showBrowserControls(false);
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    if (installed || standalone) return;
+    deferredPrompt = event;
+    showBrowserControls(true);
+    track('install_prompt_shown', { source: 'browser' });
+  });
 
-	const test = isiOS();
+  async function openPrompt(source) {
+    if (!deferredPrompt) return;
+    // Consume synchronously: both buttons share the same single-use browser event.
+    const prompt = deferredPrompt;
+    deferredPrompt = null;
+    showBrowserControls(false);
+    track('install_prompt_open', { source });
+    try {
+      const choice = Promise.resolve(prompt.userChoice);
+      // Observe choice immediately even if prompt() throws or rejects first.
+      choice.catch(() => {});
+      await prompt.prompt();
+      const { outcome } = await choice;
+      track('install_prompt_result', {
+        source,
+        outcome: outcome === 'accepted' || outcome === 'dismissed' ? outcome : 'error'
+      });
+    } catch (_) {
+      track('install_prompt_result', { source, outcome: 'error' });
+    }
+  }
 
-	//Detects if device is in standalone mode
-	const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone) || (window.matchMedia('(display-mode: standalone)').matches);
+  for (const [id, source] of [['install-button', 'footer'], ['installAppBtn', 'tuner']]) {
+    element(id)?.addEventListener('click', () => openPrompt(source));
+  }
 
-	window.dataLayer = window.dataLayer || [];
-	function gtag() { dataLayer.push(arguments); }
-	gtag('js', new Date());
+  window.addEventListener('appinstalled', () => {
+    if (installed) return;
+    installed = true;
+    deferredPrompt = null;
+    showBrowserControls(false);
+    display('install-app-prompt-ios', 'none');
+    display('install-app-instructions-ios', 'none');
+    display('install-app-screen', 'none');
+    track('app_installed', { source: 'browser' });
+  });
 
-	gtag('config', 'G-ZJQ4QQXGDS');
-
-	if (isInStandaloneMode()) {
-		// If the app is running in standalone mode, hide the language selector
-		const languageSelector = document.getElementById('language-selector');
-		if (languageSelector) {
-			languageSelector.style.display = 'none';
-		}
-	}
-
-	if (isInStandaloneMode()) {
-		if (test) {
-			gtag('event', 'pageview-app-ios', { 'event_category': 'pageview-app-ios', 'event_label': 'pageview-app-all' });
-		} else {
-			gtag('event', 'pageview-app-android', { 'event_category': 'pageview-app-android', 'event_label': 'pageview-app-all' });
-		}
-	} else {
-		if (test) {
-			gtag('event', 'pageview-web-ios', { 'event_category': 'pageview-web-ios', 'event_label': 'pageview-web-all' });
-		} else {
-			gtag('event', 'pageview-web', { 'event_category': 'pageview-web', 'event_label': 'pageview-web-all' });
-		}
-	}
-
-	if (test && !isInStandaloneMode()) {
-		document.getElementById("install-app-prompt-ios").style.display = "block";
-
-		document.getElementById("install-button-ios").addEventListener('click', async () => {
-			gtag('event', 'app-install-ios', { 'event_category': 'app-install-ios', 'event_label': 'app-install-all' });
-			gtag_report_conversion();
-			document.getElementById("install-app-prompt-ios").style.display = "none";
-			// Show the install prompt
-			document.getElementById("install-app-instructions-ios").style.display = "block";
-			document.getElementById("install-app-screen").style.display = "block";
-		});
-	}
+  if (standalone) {
+    display('language-selector', 'none');
+    track('app_open', { source: ios ? 'ios' : 'browser' });
+  } else if (ios) {
+    display('install-app-prompt-ios', 'block');
+    element('install-button-ios')?.addEventListener('click', () => {
+      display('install-app-prompt-ios', 'none');
+      display('install-app-instructions-ios', 'block');
+      display('install-app-screen', 'block');
+      track('install_instructions_open', { source: 'ios' });
+    });
+  }
+})();

@@ -50,6 +50,7 @@
  <div class="tuner-feedback"><p id="tunerStatus" role="status" aria-live="polite"></p>
  <button id="stopButton" type="button" hidden>{{ i18n "tunerStop" }}</button></div>
  <div id="stringTargets" role="group" aria-label="{{ i18n "tunerReference" }}"></div>
+ <a id="tunerFeedback" href="https://strungtune.canny.io/bug-or-idea" target="_blank" rel="noopener noreferrer">{{ i18n "tunerFeedback" }}</a>
 </div>
 <button id="installAppBtn" class="button is-small is-primary"
 	style="display:none; margin: 10px auto; text-align: center;">
@@ -57,8 +58,9 @@
 </button>
 {{ partial "script.html" "js/tuner/screenlock.js" }}
 {{ partial "script.html" "js/lang.js" }}
-{{ partial "script.html" "js/tuner/tuner.js?v=10" }}
+{{ partial "script.html" "js/tuner/tuner.js?v=11" }}
 {{ partial "script.html" "js/tuner/meter.js?v=10" }}
 {{ partial "script.html" "js/tuner/frequency-line.js?v=10" }}
-{{ partial "script.html" "js/tuner/notes.js?v=10" }}
-{{ partial "script.html" "js/tuner/application.js?v=10" }}
+{{ partial "script.html" "js/tuner/notes.js?v=11" }}
+{{ partial "script.html" "js/tuner/usage.js?v=11" }}
+{{ partial "script.html" "js/tuner/application.js?v=11" }}

@@ -17,6 +17,9 @@
 
 {{ partial "favicons" . }}
 
+<meta name="stringtune-analytics" content="{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}enabled{{ else }}disabled{{ end }}">
+{{ partial "script.html" "js/analytics.js?v=11" }}
+
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

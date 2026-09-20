@@ -1,7 +1,7 @@
 {{- /* Static hosting cannot mint per-response nonces. Trust exact script hashes. */ -}}
 {{- $main := resources.Get "js/main.js" | resources.Fingerprint "sha256" -}}
 {{- $hashes := slice (printf "'%s'" $main.Data.Integrity) -}}
-{{- range slice "js/installapp.js" "js/guitar-notes.js" "js/production.js" "js/tuner/screenlock.js" "js/lang.js" "js/tuner/tuner.js" "js/tuner/meter.js" "js/tuner/frequency-line.js" "js/tuner/notes.js" "js/tuner/application.js" -}}
+{{- range slice "js/analytics.js" "js/tuner/usage.js" "js/installapp.js" "js/guitar-notes.js" "js/production.js" "js/tuner/screenlock.js" "js/lang.js" "js/tuner/tuner.js" "js/tuner/meter.js" "js/tuner/frequency-line.js" "js/tuner/notes.js" "js/tuner/application.js" -}}
   {{- $resource := partialCached "script-resource.html" . . -}}
   {{- $hashes = $hashes | append (printf "'%s'" $resource.Data.Integrity) -}}
 {{- end -}}

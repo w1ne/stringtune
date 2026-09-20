@@ -13,6 +13,14 @@ At StringTune.com, available at [https://www.StringTune.com/](https://www.String
 
 If you have any questions about this privacy policy, please don't hesitate to contact us here: stringtune.online [at] gmail.com
 
+## Tuner usage and microphone audio
+
+Microphone audio is processed in your browser to detect pitch. StringTune does not upload or record that audio.
+
+We use Google Analytics to understand whether tuning starts successfully, whether a stable note is displayed, and where people encounter problems. Usage events include the selected instrument, interface language, web or installed-app mode, coarse failure categories, and elapsed time. We also measure reference-tone use, feedback-link clicks, install-prompt choices and browser-confirmed installations. These events do not contain audio samples, note sequences, microphone device names, raw error messages or feedback text.
+
+The “Something wrong?” link opens our Canny feedback board. Information you choose to submit there is handled by Canny; it is not copied into tuner analytics.
+
 ## Regulation on the protection of personal data (GDPR)
 
 We are the administrator of your personal data.

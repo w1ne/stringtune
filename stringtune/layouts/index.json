@@ -2,7 +2,7 @@
 {{ $js := resources.Get "js/main.js" | resources.Fingerprint "sha256" }}
 
 {{ $mic := resources.Get "/images/mic.png" }}
-{{ $manifest := slice "/" "/index.html" $css.RelPermalink $js.RelPermalink $mic.RelPermalink "/js/tuner/screenlock.js" "/js/lang.js" "/js/installapp.js" "/js/guitar-notes.js" "/js/tuner/tuner.js?v=10" "/js/tuner/meter.js?v=10" "/js/tuner/frequency-line.js?v=10" "/js/tuner/notes.js?v=10" "/js/tuner/application.js?v=10" "/js/audio-worklet/processor.js?v=10" "/tuner-core/tuner_core_bg.wasm?v=10" }}
+{{ $manifest := slice "/" "/index.html" $css.RelPermalink $js.RelPermalink $mic.RelPermalink "/js/tuner/screenlock.js" "/js/lang.js" "/js/analytics.js?v=11" "/js/tuner/usage.js?v=11" "/js/installapp.js?v=11" "/js/guitar-notes.js?v=11" "/js/tuner/tuner.js?v=11" "/js/tuner/meter.js?v=10" "/js/tuner/frequency-line.js?v=10" "/js/tuner/notes.js?v=11" "/js/tuner/application.js?v=11" "/js/audio-worklet/processor.js?v=10" "/tuner-core/tuner_core_bg.wasm?v=10" }}
 {{ range .AllTranslations }}
   {{ $manifest = $manifest | append .RelPermalink }}
 {{ end }}

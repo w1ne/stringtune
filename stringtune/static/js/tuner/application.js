@@ -1,5 +1,6 @@
 const Application = function () {
   this.startId = 0;
+  this.usage = new window.TuningUsage((name, fields) => this.track(name, fields));
   this.$root = document.querySelector('.tuner');
   this.$status = document.getElementById('tunerStatus');
   this.$start = document.getElementById('startButton');
@@ -11,6 +12,15 @@ const Application = function () {
   this.meter = new Meter('.tuner .meter');
   this.frequencyBars = new FrequencyLines('.tuner .frequency-lines');
   this.clearReading();
+};
+
+Application.prototype.track = function (name, fields = {}) {
+  try { window.StringTuneAnalytics?.track(name, {instrument: this.notes?.instrument, ...fields}); }
+  catch (_) { /* Optional analytics must not affect the tuner. */ }
+};
+
+Application.prototype.syncUsageListening = function () {
+  this.usage.setListening(!document.hidden && this.notes.isAutoMode && !this.recordingReferenceActive && this.tuner.state === 'listening');
 };
 
 Application.prototype.message = function (key, fallback) {
@@ -40,6 +50,7 @@ Application.prototype.clearReading = function () {
 };
 
 Application.prototype.showError = function (error) {
+  this.usage.error(error, this.tuner.failureStage);
   this.clearReading();
   this.$start.style.display = '';
   this.$start.disabled = false;
@@ -53,11 +64,21 @@ Application.prototype.showError = function (error) {
 
 Application.prototype.start = function () {
   this.tuner.onError = error => this.showError(error);
+  this.tuner.onMicrophoneReady = () => this.usage.microphoneReady();
+  this.notes.onModeChange = () => this.syncUsageListening();
+  document.addEventListener('visibilitychange', () => this.syncUsageListening());
+  document.addEventListener('stringtune:reference', event => {
+    this.recordingReferenceActive = event.detail.playing;
+    if (this.recordingReferenceActive) this.clearReading();
+    this.syncUsageListening();
+  });
+  document.getElementById('tunerFeedback')?.addEventListener('click', () => this.track('feedback_open', {source: 'tuner'}));
   this.tuner.onNoteDetected = note => {
-    if (this.notes.isAutoMode) this.update(note);
+    if (this.notes.isAutoMode && !this.recordingReferenceActive) this.update(note);
   };
   this.$start.addEventListener('click', async () => {
     const startId = ++this.startId;
+    this.usage.start(this.notes.instrument);
     this.notes.setAutoMode(true);
     document.querySelector('.auto input').checked = true;
     this.clearReading();
@@ -68,6 +89,7 @@ Application.prototype.start = function () {
     try {
       await this.tuner.init();
       if (startId !== this.startId || this.tuner.state !== 'listening') return;
+      this.usage.ready(!document.hidden && this.notes.isAutoMode && !this.recordingReferenceActive);
       this.frequencyData = new Uint8Array(this.tuner.analyser.frequencyBinCount);
       this.$start.style.display = 'none';
       this.setStatus(this.message('listening', 'Listening — play one string.'));
@@ -78,7 +100,7 @@ Application.prototype.start = function () {
     }
   });
   this.$stop.addEventListener('click', () => this.stop());
-  window.addEventListener('pagehide', () => this.stop());
+  window.addEventListener('pagehide', () => this.stop('pagehide'));
 
   document.querySelector('.auto input').addEventListener('change', event => {
     this.notes.setAutoMode(event.target.checked);
@@ -88,26 +110,34 @@ Application.prototype.start = function () {
       : this.message('reference', 'Tap a note to hear a reference tone.'));
   });
   this.notes.onReference = playing => {
+    if (playing) this.track('reference_play', {source: 'tuner'});
     document.querySelector('.auto input').checked = false;
     clearTimeout(this.silenceTimer);
     this.meter.reset();
     this.$stop.hidden = !playing && this.tuner.state !== 'listening';
     this.setStatus(this.message('reference', 'Tap a note to hear a reference tone.'));
   };
-  this.notes.onError = error => this.setStatus(error.message);
+  this.notes.onError = error => {
+    this.track('reference_error', {source: 'tuner', stage: 'reference', reason: window.TuningUsage.errorReason(error)});
+    this.setStatus(error.message);
+  };
   const select = document.getElementById('instrumentSelect');
   const setInstrument = () => {
     this.notes.setInstrument(select.value);
     this.clearReading();
   };
-  select.addEventListener('change', setInstrument);
+  select.addEventListener('change', () => {
+    setInstrument();
+    this.track('instrument_change');
+    this.syncUsageListening();
+  });
   setInstrument();
   this.initCalibration();
-  this.initInstall();
   this.updateFrequencyBars();
 };
 
-Application.prototype.stop = function () {
+Application.prototype.stop = function (reason = 'stop') {
+  this.usage.finish(reason);
   ++this.startId;
   this.notes.setAutoMode(true);
   document.querySelector('.auto input').checked = true;
@@ -150,24 +180,6 @@ Application.prototype.initCalibration = function () {
   });
 };
 
-Application.prototype.initInstall = function () {
-  const button = document.getElementById('installAppBtn');
-  let prompt;
-  window.addEventListener('beforeinstallprompt', event => {
-    event.preventDefault();
-    prompt = event;
-    button.style.display = 'block';
-  });
-  button.addEventListener('click', async () => {
-    if (!prompt) return;
-    const current = prompt;
-    prompt = null;
-    button.style.display = 'none';
-    try { await current.prompt(); await current.userChoice; }
-    catch (error) { this.setStatus(error.message); }
-  });
-};
-
 Application.prototype.updateFrequencyBars = function () {
   if (this.tuner.state === 'listening' && this.frequencyData) {
     this.tuner.analyser.getByteFrequencyData(this.frequencyData);
@@ -177,6 +189,7 @@ Application.prototype.updateFrequencyBars = function () {
 };
 
 Application.prototype.update = function (note) {
+  if (this.notes.$notesMap[note.value]) this.usage.note();
   this.notes.update(note);
   this.meter.update((note.cents / 50) * 45);
   this.setStatus(Math.abs(note.cents) <= 3 ? this.message('inTune', 'In tune')

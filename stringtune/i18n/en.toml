@@ -97,3 +97,6 @@ other = "Stop audio"
 
 [tunerNotes]
 other = "Chromatic notes"
+
+[tunerFeedback]
+other = "Something wrong?"

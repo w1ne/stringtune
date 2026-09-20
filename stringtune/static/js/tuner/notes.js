@@ -141,6 +141,7 @@ Notes.prototype.setAutoMode = function (enabled) {
     document.querySelectorAll('#stringTargets button').forEach(button => button.setAttribute('aria-pressed', 'false'));
   }
   this.isAutoMode = enabled;
+  if (this.onModeChange) this.onModeChange();
   this.$notes.forEach(note => { note.disabled = enabled; });
 };
 

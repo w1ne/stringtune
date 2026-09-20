@@ -48,3 +48,13 @@ test('a queued error from a previous worklet cannot stop a new session',async()=
  const {tuner}=setup(); await tuner.init(); const staleError=tuner.workletNode.onprocessorerror;
  await tuner.stop(); await tuner.init(); staleError(); assert.equal(tuner.state,'listening'); await tuner.stop();
 });
+
+test('microphone-ready observer fires after acquisition and cannot break capture', async () => {
+ const {tuner}=setup();let calls=0;tuner.onMicrophoneReady=()=>{calls++;assert.ok(tuner.stream);throw Error('observer blocked')};
+ await tuner.init();assert.equal(calls,1);assert.equal(tuner.state,'listening');await tuner.stop();
+});
+test('failure stage distinguishes permission from engine download without exposing message', async () => {
+ const {tuner,env}=setup();env.navigator.mediaDevices.getUserMedia=async()=>{throw Error('denied')};
+ await assert.rejects(()=>tuner.init());assert.equal(tuner.failureStage,'microphone');
+ const next=setup();next.env.fetch=async()=>({ok:false,status:503});await assert.rejects(()=>next.tuner.init());assert.equal(next.tuner.failureStage,'download');
+});

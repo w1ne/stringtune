@@ -22,7 +22,7 @@ html {
 
 .tuner {
   width: 100%;
-  height: 640px;
+  height: calc(455px + var(--meter-radius));
   --meter-radius: min(38vw, 280px);
   margin: auto;
   position: relative;
@@ -460,10 +460,12 @@ strong {
 #calibrationDialog::backdrop { background: rgba(0,0,0,.7); }
 #calibrationDialog input { display: block; margin: 12px 0; width: 100%; padding: 8px; }
 .tuner button:focus-visible, .tuner select:focus-visible { outline: 2px solid #F48FB1; outline-offset: 3px; }
-@media (max-width: 768px) { .tuner { height: calc(415px + var(--meter-radius)); } }
 /* Bulma columns have negative gutters; contain the footer's outer rows. */
 footer .columns { margin-left: 0; margin-right: 0; }
 
 /* Give footer navigation separate, finger-sized targets. */
 .language-selection { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
 .language-link, .footer li a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; min-width: 48px; padding: 8px; }
+
+#tunerFeedback { position: absolute; top: calc(390px + var(--meter-radius)); left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 12px; color: #F48FB1; text-decoration: underline; white-space: nowrap; }
+#tunerFeedback:focus-visible { outline: 2px solid #F48FB1; outline-offset: 2px; }

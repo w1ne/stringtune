@@ -171,6 +171,7 @@ jobs:
           hugo --minify
           cd ..
           TUNER_PRODUCTION=1 node scripts/verify-site.cjs
+          node scripts/verify-analytics.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

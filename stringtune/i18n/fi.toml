@@ -32,3 +32,6 @@ other = "Kitara"
 
 [ukulele]
 other = "Ukulele"
+
+[tunerFeedback]
+other = "Onko jokin vialla?"
