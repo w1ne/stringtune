@@ -37,7 +37,9 @@
 {{ partial "ld+json/website.html" . }}
 {{ partial "ld+json/software_app.html" . }}
 {{ else }}
-<meta name="description" content="{{ .Description }}">
+{{ $description := .Description }}
+{{ if not $description }}{{ $description = .Summary | plainify | htmlUnescape | truncate 160 }}{{ end }}
+{{ with $description }}<meta name="description" content="{{ . }}">{{ end }}
 {{ if .Params.breadcrumb }}
 {{- partial "ld+json/breadcrumb.html" . -}}
 {{ end }}
