@@ -138,3 +138,47 @@ other = "thickest"
 
 [stringThinnest]
 other = "thinnest"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Violin"
+
+[viola]
+other = "Viola"
+
+[cello]
+other = "Cello"
+
+[mandolin]
+other = "Mandolin"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
+# Instrument pages
+[colString]
+other = "String"
+
+[colNote]
+other = "Note"
+
+[colFrequency]
+other = "Frequency (Hz)"
+
+[tableCaption]
+other = "Frequencies for A4 = 440 Hz"
+
+[otherInstruments]
+other = "Tune another instrument"
+
+[guitarTuner]
+other = "Guitar tuner"

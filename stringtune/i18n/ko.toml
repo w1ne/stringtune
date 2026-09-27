@@ -113,3 +113,28 @@ other = "가장 가는 줄"
 
 [bass]
 other = "베이스"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "바이올린"
+
+[viola]
+other = "비올라"
+
+[cello]
+other = "첼로"
+
+[mandolin]
+other = "만돌린"
+
+[bouzouki]
+other = "부주키"
+
+[banjo]
+other = "밴조"
+
+[charango]
+other = "차랑고"
+
+[bandura]
+other = "반두라"

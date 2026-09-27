@@ -139,3 +139,47 @@ other = "найтовща"
 
 [stringThinnest]
 other = "найтонша"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Скрипка"
+
+[viola]
+other = "Альт"
+
+[cello]
+other = "Віолончель"
+
+[mandolin]
+other = "Мандоліна"
+
+[bouzouki]
+other = "Бузукі"
+
+[banjo]
+other = "Банджо"
+
+[charango]
+other = "Чаранго"
+
+[bandura]
+other = "Бандура"
+
+# Instrument pages
+[colString]
+other = "Струна"
+
+[colNote]
+other = "Нота"
+
+[colFrequency]
+other = "Частота (Гц)"
+
+[tableCaption]
+other = "Частоти для A4 = 440 Гц"
+
+[otherInstruments]
+other = "Тюнери для інших інструментів"
+
+[guitarTuner]
+other = "Тюнер для гітари"

@@ -1,0 +1,50 @@
+{{- /*
+  Instrument landing page: the same tuner with the instrument's preset
+  selected, the string table from data/instruments.json and a localized
+  guide. Front matter:
+    seo_title  <title> (the H1 is .Title, printed by baseof.html)
+    intro      one paragraph under the H1 (markdown)
+    tunings    list of {preset, heading, labels, note, column}; the first preset is
+               selected in the tuner menu. labels name each string, in the
+               order of the preset; column overrides the first header.
+*/ -}}
+{{ define "main" }}
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-full has-text-centered">
+                        {{ partial "tuner.html" . }}
+                        <div class="about tuning-guide">
+                            {{ with .Params.intro }}<p>{{ . | markdownify }}</p>{{ end }}
+                            {{ range .Params.tunings }}
+                            {{ $midi := index site.Data.instruments .preset }}
+                            {{ if not $midi }}{{ errorf "instrument page: unknown preset %q" .preset }}{{ end }}
+                            {{ $labels := .labels }}
+                            {{ if ne (len $labels) (len $midi) }}{{ errorf "instrument page: preset %q has %d strings, %d labels" .preset (len $midi) (len $labels) }}{{ end }}
+                            <h2>{{ .heading }}</h2>
+                            <table class="string-table">
+                                <caption>{{ i18n "tableCaption" }}</caption>
+                                <thead>
+                                    <tr><th scope="col">{{ .column | default (i18n "colString") }}</th><th scope="col">{{ i18n "colNote" }}</th><th scope="col">{{ i18n "colFrequency" }}</th></tr>
+                                </thead>
+                                <tbody>
+                                    {{ range $i, $v := $midi }}
+                                    {{ $m := int $v }}
+                                    {{ $name := index (slice "C" "C♯" "D" "D♯" "E" "F" "F♯" "G" "G♯" "A" "A♯" "B") (mod $m 12) }}
+                                    {{ $hz := mul 440.0 (math.Pow 2 (div (float (sub $m 69)) 12.0)) }}
+                                    <tr><td>{{ index $labels $i }}</td><td>{{ $name }}{{ sub (div $m 12) 1 }}</td><td>{{ lang.FormatNumber 2 $hz }}</td></tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                            {{ with .note }}<p>{{ . | markdownify }}</p>{{ end }}
+                            {{ end }}
+                            {{ .Content }}
+                            {{ partial "instrument-links.html" . }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{{ end }}

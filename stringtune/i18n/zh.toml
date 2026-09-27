@@ -113,3 +113,28 @@ other = "最细"
 
 [bass]
 other = "贝斯"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "小提琴"
+
+[viola]
+other = "中提琴"
+
+[cello]
+other = "大提琴"
+
+[mandolin]
+other = "曼陀林"
+
+[bouzouki]
+other = "布祖基琴"
+
+[banjo]
+other = "班卓琴"
+
+[charango]
+other = "恰朗戈"
+
+[bandura]
+other = "班杜拉琴"

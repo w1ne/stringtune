@@ -1,0 +1,16 @@
+{{- /* Links to the instrument pages of the current language (and the home tuner). */ -}}
+{{- $current := . -}}
+{{- $pages := where (where site.RegularPages "Type" "instrument") "Permalink" "ne" .Permalink -}}
+{{- if $pages }}
+<nav class="instrument-links" aria-labelledby="otherInstruments">
+    <h2 id="otherInstruments">{{ i18n "otherInstruments" }}</h2>
+    <ul>
+        {{- if not .IsHome }}
+        <li><a href="{{ site.Home.RelPermalink }}">{{ i18n "guitarTuner" }}</a></li>
+        {{- end }}
+        {{- range $pages.ByWeight }}
+        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{- end }}
+    </ul>
+</nav>
+{{- end }}

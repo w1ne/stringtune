@@ -113,3 +113,47 @@ other = "η πιο λεπτή"
 
 [bass]
 other = "Μπάσο"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Βιολί"
+
+[viola]
+other = "Βιόλα"
+
+[cello]
+other = "Τσέλο"
+
+[mandolin]
+other = "Μαντολίνο"
+
+[bouzouki]
+other = "Μπουζούκι"
+
+[banjo]
+other = "Μπάντζο"
+
+[charango]
+other = "Τσαράνγκο"
+
+[bandura]
+other = "Μπαντούρα"
+
+# Instrument pages
+[colString]
+other = "Χορδή"
+
+[colNote]
+other = "Νότα"
+
+[colFrequency]
+other = "Συχνότητα (Hz)"
+
+[tableCaption]
+other = "Συχνότητες για A4 = 440 Hz"
+
+[otherInstruments]
+other = "Κουρδιστήρια για άλλα όργανα"
+
+[guitarTuner]
+other = "Κουρδιστήρι κιθάρας"

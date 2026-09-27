@@ -4,6 +4,8 @@
 <title>
     {{- if .IsHome -}}
     {{ .Site.Title }}
+    {{- else if .Params.seo_title -}}
+    {{ .Params.seo_title }}
     {{- else -}}
     {{ .Title }} | StringTune.com
     {{- end -}}
@@ -27,8 +29,8 @@
 
 <meta name="stringtune-analytics" content="{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}enabled{{ else }}disabled{{ end }}">
 {{- /* Deferred: not render-blocking. Deferred scripts run before DOMContentLoaded, and callers hold earlier events until then. */ -}}
-{{- $analytics := partialCached "script-resource.html" "js/analytics.js?v=11" "js/analytics.js?v=11" }}
-<script defer src="/js/analytics.js?v=11" integrity="{{ $analytics.Data.Integrity }}"></script>
+{{- $analytics := partialCached "script-resource.html" "js/analytics.js?v=12" "js/analytics.js?v=12" }}
+<script defer src="/js/analytics.js?v=12" integrity="{{ $analytics.Data.Integrity }}"></script>
 
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">

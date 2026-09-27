@@ -139,3 +139,47 @@ other = "paksuin"
 
 [stringThinnest]
 other = "ohuin"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Viulu"
+
+[viola]
+other = "Alttoviulu"
+
+[cello]
+other = "Sello"
+
+[mandolin]
+other = "Mandoliini"
+
+[bouzouki]
+other = "Buzuki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
+# Instrument pages
+[colString]
+other = "Kieli"
+
+[colNote]
+other = "Sävel"
+
+[colFrequency]
+other = "Taajuus (Hz)"
+
+[tableCaption]
+other = "Taajuudet, kun A4 = 440 Hz"
+
+[otherInstruments]
+other = "Viritä muita soittimia"
+
+[guitarTuner]
+other = "Kitaran viritys"

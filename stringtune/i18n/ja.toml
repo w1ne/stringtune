@@ -139,3 +139,28 @@ other = """
 - バンドで A4 = 442 Hz に合わせる場合は、「A4 = 440 Hz」をタップして基準ピッチを変更できます。
 - マイクが起動しないときは、ブラウザのサイト設定でマイクを許可し、もう一度ボタンを押してください。
 """
+
+# Instrument presets in the tuner menu
+[violin]
+other = "バイオリン"
+
+[viola]
+other = "ビオラ"
+
+[cello]
+other = "チェロ"
+
+[mandolin]
+other = "マンドリン"
+
+[bouzouki]
+other = "ブズーキ"
+
+[banjo]
+other = "バンジョー"
+
+[charango]
+other = "チャランゴ"
+
+[bandura]
+other = "バンドゥーラ"

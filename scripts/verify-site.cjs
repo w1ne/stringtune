@@ -21,13 +21,23 @@ const base = process.env.TUNER_URL || 'http://127.0.0.1:8094';
    window.__violations = [];
    document.addEventListener('securitypolicyviolation', e => window.__violations.push(e.effectiveDirective));
   });
-  for (const path of ['/', '/uk/', '/ar/', '/posts/', '/about/privacy/']) {
+  for (const path of ['/', '/uk/', '/ar/', '/posts/', '/about/privacy/', '/violin-tuner/', '/el/bouzouki-tuner/', '/uk/bandura-tuner/']) {
    await page.goto(base + path, {waitUntil: 'networkidle'});
    assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'), 'https://stringtune.com' + path);
    assert.equal(await page.locator('link[rel=manifest]').count(), 1);
    assert.deepEqual(await page.evaluate(() => window.__violations), [], `CSP violations on ${path}`);
    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Overflow on ${path}`);
   }
+  // Instrument pages: own title, reciprocal hreflang, linked from the home page.
+  await page.goto(base + '/it/cello-tuner/', {waitUntil: 'networkidle'});
+  assert.match(await page.title(), /violoncello/i);
+  assert.equal(await page.locator('#instrumentSelect').inputValue(), 'cello');
+  const alternates = await page.locator('link[rel=alternate][hreflang]').evaluateAll(links => links.map(l => l.hreflang + ' ' + l.href));
+  for (const alternate of ['it https://stringtune.com/it/cello-tuner/', 'en https://stringtune.com/cello-tuner/', 'x-default https://stringtune.com/cello-tuner/']) {
+   assert.ok(alternates.includes(alternate), `Missing hreflang ${alternate}`);
+  }
+  await page.goto(base + '/it/', {waitUntil: 'networkidle'});
+  assert.equal(await page.locator('.instrument-links a[href="/it/cello-tuner/"]').count(), 1);
   await page.goto(base, {waitUntil: 'networkidle'});
   assert.equal(await page.locator('script[src="/js/production.js"]').count(), production ? 1 : 0);
   if (production) {

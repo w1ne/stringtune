@@ -113,3 +113,28 @@ other = "tynnest"
 
 [bass]
 other = "Bass"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Fiolin"
+
+[viola]
+other = "Bratsj"
+
+[cello]
+other = "Cello"
+
+[mandolin]
+other = "Mandolin"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"

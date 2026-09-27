@@ -114,3 +114,28 @@ other = "en ince"
 [bass]
 other = "Bas"
 
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Keman"
+
+[viola]
+other = "Viyola"
+
+[cello]
+other = "Çello"
+
+[mandolin]
+other = "Mandolin"
+
+[bouzouki]
+other = "Buzuki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"

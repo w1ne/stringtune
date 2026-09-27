@@ -139,3 +139,47 @@ other = "la più grossa"
 
 [stringThinnest]
 other = "la più sottile"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Violino"
+
+[viola]
+other = "Viola"
+
+[cello]
+other = "Violoncello"
+
+[mandolin]
+other = "Mandolino"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
+# Instrument pages
+[colString]
+other = "Corda"
+
+[colNote]
+other = "Nota"
+
+[colFrequency]
+other = "Frequenza (Hz)"
+
+[tableCaption]
+other = "Frequenze con A4 = 440 Hz"
+
+[otherInstruments]
+other = "Accordatori per altri strumenti"
+
+[guitarTuner]
+other = "Accordatore per chitarra"

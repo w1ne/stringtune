@@ -49,6 +49,24 @@ const base = process.env.TUNER_URL || 'http://127.0.0.1:8094';
  await page.evaluate(()=>window.__input.gain.gain.value=0);await page.waitForFunction(()=>document.querySelector('#freqValue').textContent==='—',{},{timeout:5000});
  await page.locator('#stopButton').click();assert.equal(await page.evaluate(()=>window.__input.stream.getTracks()[0].readyState),'ended');
  await page.evaluate(()=>window.__input.context.close());
+ // An instrument page opens with its preset selected and runs the same tuner.
+ for (const width of [320,390]) {
+  await page.setViewportSize({width,height:844});await page.goto(base+'/cello-tuner/',{waitUntil:'networkidle'});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow on /cello-tuner/ at ${width}`);
+ }
+ assert.equal(await page.locator('#instrumentSelect').inputValue(),'cello');
+ assert.deepEqual(await page.locator('#stringTargets button').allTextContents(),['C2','G2','D3','A3']);
+ await page.evaluate(()=>window.__micMode='allowed');await page.locator('#startButton').click();
+ await page.waitForFunction(()=>app.tuner.state==='listening' && Math.abs(Number(document.querySelector('#freqValue').textContent)-110)<0.3,{},{timeout:15000});
+ await page.locator('#stopButton').click();
+ await page.evaluate(()=>window.__input.context.close());
+ await page.goto(base+'/el/bouzouki-tuner/',{waitUntil:'networkidle'});
+ assert.equal(await page.locator('#instrumentSelect').inputValue(),'bouzouki4');
+ assert.deepEqual(await page.locator('#stringTargets button').allTextContents(),['C3','F3','A3','D4']);
+ await page.selectOption('#instrumentSelect','bouzouki3');
+ assert.deepEqual(await page.locator('#stringTargets button').allTextContents(),['D3','A3','D4']);
+ await page.goto(base,{waitUntil:'networkidle'});
+ assert.equal(await page.locator('#instrumentSelect').inputValue(),'guitar');
  await page.screenshot({path:process.env.TUNER_SCREENSHOT || '/tmp/stringtune-fixed-mobile.png',fullPage:true});
  const offlineContext = await browser.newContext({serviceWorkers:'allow'});
  await offlineContext.addInitScript(fakeMicrophone);
@@ -65,6 +83,6 @@ const base = process.env.TUNER_URL || 'http://127.0.0.1:8094';
  await offlinePage.evaluate(() => window.__input.context.close());
  await offlineContext.close();
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({viewports:[320,390,768,1280],manualPlayback:true,presets:true,calibration:true,permissionRetry:true,realWorkletSyntheticHz:tuning,silence:true,tracksStopped:true,offlineStartup:true,browserErrors:errors},null,2));
+ console.log(JSON.stringify({viewports:[320,390,768,1280],manualPlayback:true,presets:true,instrumentPages:true,calibration:true,permissionRetry:true,realWorkletSyntheticHz:tuning,silence:true,tracksStopped:true,offlineStartup:true,browserErrors:errors},null,2));
  } finally { await browser.close(); }
 })().catch(error=>{console.error(error);process.exitCode=1});

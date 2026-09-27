@@ -115,6 +115,31 @@ other = "a mais fina"
 [bass]
 other = "Baixo"
 
+# Instrument presets in the tuner menu
+[violin]
+other = "Violino"
+
+[viola]
+other = "Viola de arco"
+
+[cello]
+other = "Violoncelo"
+
+[mandolin]
+other = "Bandolim"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
 [h1]
 other = "Afinador online para violão, guitarra, baixo e ukulele"
 

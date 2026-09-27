@@ -113,3 +113,28 @@ other = "الأرفع"
 
 [bass]
 other = "باص"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "كمان"
+
+[viola]
+other = "فيولا"
+
+[cello]
+other = "تشيلو"
+
+[mandolin]
+other = "ماندولين"
+
+[bouzouki]
+other = "بوزوكي"
+
+[banjo]
+other = "بانجو"
+
+[charango]
+other = "شارانغو"
+
+[bandura]
+other = "باندورا"

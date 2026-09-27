@@ -41,10 +41,28 @@
 	</label>
 
 	<div class="instrument-selector">
-		<select id="instrumentSelect" aria-label="{{ i18n "tunerInstrument" }}">
-			<option value="guitar" selected>{{ i18n "guitar" }} ({{ i18n "tunerStandard" }})</option>
-			<option value="ukulele">{{ i18n "ukulele" }} (GCEA)</option>
-			<option value="bass">{{ i18n "bass" }} ({{ i18n "tunerStandard" }})</option>
+		{{- /* An instrument page pre-selects the preset of its first tuning. */ -}}
+		{{- $preset := "guitar" -}}
+		{{- with .Params.tunings }}{{ $preset = (index . 0).preset }}{{ end }}
+		{{- $options := slice
+			(slice "guitar" (printf "%s (%s)" (i18n "guitar") (i18n "tunerStandard")))
+			(slice "ukulele" (printf "%s (GCEA)" (i18n "ukulele")))
+			(slice "bass" (printf "%s (%s)" (i18n "bass") (i18n "tunerStandard")))
+			(slice "violin" (printf "%s (GDAE)" (i18n "violin")))
+			(slice "viola" (printf "%s (CGDA)" (i18n "viola")))
+			(slice "cello" (printf "%s (CGDA)" (i18n "cello")))
+			(slice "mandolin" (printf "%s (GDAE)" (i18n "mandolin")))
+			(slice "bouzouki4" (printf "%s (CFAD)" (i18n "bouzouki")))
+			(slice "bouzouki3" (printf "%s (DAD)" (i18n "bouzouki")))
+			(slice "banjo5" (printf "%s (gDGBD)" (i18n "banjo")))
+			(slice "banjo4" (printf "%s (CGDA)" (i18n "banjo")))
+			(slice "charango" (printf "%s (GCEAE)" (i18n "charango")))
+			(slice "bandura" (printf "%s (C4–B4)" (i18n "bandura")))
+		}}
+		<select id="instrumentSelect" autocomplete="off" aria-label="{{ i18n "tunerInstrument" }}">
+			{{- range $options }}
+			<option value="{{ index . 0 }}"{{ if eq (index . 0) $preset }} selected{{ end }}>{{ index . 1 }}</option>
+			{{- end }}
 		</select>
 	</div>
 
@@ -62,6 +80,6 @@
 {{ partial "script.html" "js/tuner/tuner.js?v=11" }}
 {{ partial "script.html" "js/tuner/meter.js?v=10" }}
 {{ partial "script.html" "js/tuner/frequency-line.js?v=10" }}
-{{ partial "script.html" "js/tuner/notes.js?v=12" }}
+{{ partial "script.html" "js/tuner/notes.js?v=13" }}
 {{ partial "script.html" "js/tuner/usage.js?v=11" }}
 {{ partial "script.html" "js/tuner/application.js?v=12" }}
