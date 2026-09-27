@@ -15,7 +15,6 @@ theme = "viko"
 [params]
     copyright = "Copyright {year}, Stringtune.com"
     author = "strintune.com"
-    description = "StringTune Online Tuner - Best Online Instrument Tuner with microphone"
     # Needed for analytics
     facebook_app_id = "123456789"
 
@@ -64,22 +63,28 @@ feedback_url = "https://strungtune.canny.io/"
 
 [languages]
   [languages.en]
-    title = "StringTune Online Tuner - Best Online Instrument Tuner with mic"
-    description = "Tune your guitar, bass, ukulele, or any other string instrument with our free, easy-to-use online tuner which shows the note frequency. Optimized for mobile devices!"
+    title = "StringTune – Free Online Tuner for Guitar, Bass & Ukulele"
+    description = "Free online tuner that listens through your microphone. Tune your guitar, bass or ukulele in seconds, with no app and no sign-up. Reference tones included."
     languageName = "English"
     contentDir = "content/en"
+    [languages.en.params]
+      guide = true
 
   [languages.es]
-    title = "Afinador en línea StringTune - El mejor afinador de instrumentos en línea con micrófono"
-    description = "Afiná tu guitarra, bajo, ukelele, o cualquier otro instrumento de cuerda con nuestro afinador online gratuito y fácil de usar, que muestra la frecuencia de la nota. ¡Optimizado para dispositivos móviles!"
+    title = "Afinador online gratis para guitarra, bajo y ukelele"
+    description = "Afinador en línea gratis con micrófono: afina tu guitarra, bajo o ukelele en segundos, sin instalar ni registrarte. Con la nota de referencia de cada cuerda."
     languageName = "Español"
     contentDir = "content/es"
+    [languages.es.params]
+      guide = true
 
   [languages.fr]
-    title = "Accordeur en ligne StringTune - Le meilleur accordeur d'instruments en ligne avec micro"
-    description = "Accordez votre guitare, basse, ukulélé ou tout autre instrument à cordes avec notre accordeur en ligne gratuit et facile à utiliser qui affiche la fréquence de la note. Optimisé pour les appareils mobiles!"
+    title = "Accordeur en ligne gratuit – guitare, basse, ukulélé"
+    description = "Accordeur en ligne gratuit avec micro : accordez guitare, basse ou ukulélé en quelques secondes, sans appli ni inscription. Note de référence pour chaque corde."
     languageName = "Français"
     contentDir = "content/fr"
+    [languages.fr.params]
+      guide = true
 
   [languages.de]
     title = "StringTune Online-Stimmer - Bester Online-Instrumentenstimmer mit Mikrofon"
@@ -94,10 +99,12 @@ feedback_url = "https://strungtune.canny.io/"
     contentDir = "content/zh"
 
   [languages.it]
-    title = "StringTune Accordatore Online - Il miglior accordatore di strumenti online con microfono"
-    description = "Accorda la tua chitarra, basso, ukulele, o qualsiasi altro strumento a corde con il nostro accordatore online gratuito e facile da usare, che mostra la frequenza della nota. Ottimizzato per dispositivi mobili!"
+    title = "Accordatore online gratis per chitarra, basso e ukulele"
+    description = "Accordatore online gratuito con microfono: accorda chitarra, basso o ukulele in pochi secondi, senza app né iscrizione. Riconosce anche violino e violoncello."
     languageName = "Italiano"
     contentDir = "content/it"
+    [languages.it.params]
+      guide = true
 
   [languages.pt]
     title = "Afinador Online StringTune - Melhor Afinador de Instrumentos Online com Microfone"
@@ -118,16 +125,21 @@ feedback_url = "https://strungtune.canny.io/"
     contentDir = "content/ar"
 
   [languages.pl]
-    title = "Onlineowy stroik StringTune - Najlepszy internetowy stroik do instrumentów z mikrofonem"
-    description = "Dopasuj swoją gitarę, bas, ukulele lub inny instrument strunowy za pomocą naszego bezpłatnego, łatwego w obsłudze stroika online, który pokazuje częstotliwość nuty. Zoptymalizowany dla urządzeń mobilnych!"
+    title = "Stroik online do gitary, basu i ukulele – za darmo"
+    description = "Darmowy stroik online z mikrofonem: nastroisz gitarę, bas lub ukulele w kilka sekund, bez instalacji i rejestracji. Rozpozna też skrzypce i wiolonczelę."
     languageName = "Polski"
     contentDir = "content/pl"
+    [languages.pl.params]
+      guide = true
 
   [languages.uk]
-    title = "Онлайн-тюнер StringTune - Найкращий онлайн-тюнер для інструментів з використанням мікрофону"
-    description = "Налаштуйте вашу гітару, бас-гітару, укулеле або будь-який інший струнний інструмент за допомогою нашого безкоштовного, простого в користуванні онлайн-тюнера, який показує частоту ноти. Оптимізовано для мобільних пристроїв!"
+    title = "Тюнер онлайн для гітари, бас-гітари та укулеле | StringTune"
+    description = "Безкоштовний тюнер онлайн з мікрофоном: налаштуйте гітару, бас-гітару чи укулеле без встановлення й реєстрації. Еталонна нота для кожної струни."
     languageName = "Українська"
     contentDir = "content/uk"
+    [languages.uk.params]
+      guide = true
+
     
   [languages.ko]
     title = "StringTune 온라인 튜너 - 마이크를 이용한 최고의 온라인 악기 튜너"
@@ -136,10 +148,12 @@ feedback_url = "https://strungtune.canny.io/"
     contentDir = "content/ko"
 
   [languages.nl]
-    title = "StringTune Online Tuner - Beste Online Instrumenten Tuner met microfoon"
-    description = "Stem uw gitaar, bas, ukulele, of elk ander snaarinstrument met onze gratis, eenvoudig te gebruiken online tuner die de nootfrequentie toont met behulp van een microfoon. Geoptimaliseerd voor mobiele apparaten!"
+    title = "Gitaar stemmen online – gratis stemapparaat met microfoon"
+    description = "Gitaar stemmen online met je microfoon: gratis stemapparaat voor gitaar, basgitaar en ukelele. Geen app of account nodig, met referentietonen per snaar."
     languageName = "Nederlands"
     contentDir = "content/nl"
+    [languages.nl.params]
+      guide = true
 
   [languages.tr]
     title = "StringTune Çevrimiçi Akort Aleti - Mikrofon Kullanılan En İyi Çevrimiçi Enstrüman Akort Aleti"
@@ -154,10 +168,12 @@ feedback_url = "https://strungtune.canny.io/"
     contentDir = "content/el"
 
   [languages.sv]
-    title = "StringTune Online Stämapparat - Bästa onlineinstrumentstämaren med mikrofon"
-    description = "Stäm din gitarr, bas, ukulele, eller något annat stränginstrument med vår gratis, lättanvända online stämapparat som visar notfrekvensen med hjälp av en mikrofon. Optimerad för mobila enheter!"
+    title = "Gitarrstämmare online – gratis stämapparat med mikrofon"
+    description = "Gratis gitarrstämmare online som lyssnar via mikrofonen. Stäm gitarr, bas eller ukulele på några sekunder – ingen app, inget konto. Referenstoner ingår."
     languageName = "Svenska"
     contentDir = "content/sv"
+    [languages.sv.params]
+      guide = true
 
   [languages.no]
     title = "StringTune Online Tuner - Beste online instrument tuner med mikrofon"
@@ -172,7 +188,10 @@ feedback_url = "https://strungtune.canny.io/"
     contentDir = "content/da"
 
   [languages.fi]
-    title = "StringTune Online-viritin - Paras online-soitin viritin mikrofonilla"
-    description = "Viritä kitarasi, bassosi, ukulelesi tai mikä tahansa muu jousisoitin käyttämällä ilmaista, helppokäyttöistä online-virittimemme, joka näyttää nuotin taajuuden mikrofonin avulla. Optimoidut mobiililaitteille!"
+    title = "Ilmainen kitaran viritysmittari netissä | StringTune"
+    description = "Ilmainen online-viritysmittari kitaralle, bassolle ja ukulelelle. Viritä mikrofonin avulla suoraan selaimessa – ei sovellusta, ei rekisteröitymistä."
     languageName = "Suomi"
     contentDir = "content/fi"
+    [languages.fi.params]
+      guide = true
+

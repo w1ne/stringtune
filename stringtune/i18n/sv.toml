@@ -35,3 +35,32 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Är något fel?"
+
+[h1]
+other = "Gitarrstämmare online för gitarr, bas och ukulele"
+
+[guide]
+other = """
+## Stäm gitarren online i 3 steg
+
+1. Tryck på mikrofonknappen och tillåt mikrofonen när webbläsaren frågar.
+2. Spela en lös sträng och låt den klinga. Stämapparaten känner igen tonen och visar om den är för låg eller för hög.
+3. Vrid långsamt på stämskruven tills visaren stannar i mitten. Upprepa för varje sträng.
+
+## Standardstämning för gitarr: E A D G H E
+
+Från den tjockaste strängen (6:e) till den tunnaste (1:a): **E – A – D – G – H – E**. Stämapparaten använder engelska tonnamn, så H visas som B: E2 – A2 – D3 – G3 – B3 – E4. Bas: E1 – A1 – D2 – G2. Ukulele: G4 – C4 – E4 – A4. Välj instrument i menyn: tonerna visas som knappar, tryck på en för att höra referenstonen.
+
+## Tips för exakt stämning
+
+- Stäm i ett tyst rum och stäng av musik och tv.
+- Håll telefonen eller datorn nära instrumentet: vid ljudhålet på en akustisk gitarr eller vid förstärkarens högtalare.
+- Spela en sträng i taget och dämpa de andra med handen.
+- Stäm alltid uppåt mot tonen: om strängen är för hög, sänk den lite under tonen och dra sedan åt igen.
+- Fiol, altfiol eller cello? Stämapparaten känner igen alla toner (fiol G D A E, altfiol och cello C G D A).
+- Stämmer bandet i A = 442 Hz? Tryck på "A4 = 440 Hz" för att ändra stämtonen.
+- Startar inte mikrofonen? Tillåt den i webbläsarens webbplatsinställningar och tryck på knappen igen.
+"""
+
+[bass]
+other = "Bas"

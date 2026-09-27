@@ -100,3 +100,29 @@ other = "Chromatic notes"
 
 [tunerFeedback]
 other = "Something wrong?"
+
+[h1]
+other = "Online Tuner for Guitar, Bass and Ukulele"
+
+[guide]
+other = """
+## How to tune a guitar online in 3 steps
+
+1. Press the microphone button and allow microphone access when your browser asks.
+2. Play one open string and let it ring. The tuner detects the note and shows whether it is too low (flat) or too high (sharp).
+3. Turn the tuning peg slowly until the needle stays in the centre. Repeat for every string.
+
+## Standard guitar tuning: E A D G B E
+
+From the thickest string (6th) to the thinnest (1st): **E2 – A2 – D3 – G3 – B3 – E4**. Bass guitar: E1 – A1 – D2 – G2. Ukulele: G4 – C4 – E4 – A4. Pick your instrument in the menu and the notes appear as buttons; tap one to hear its reference tone.
+
+## Tips for accurate tuning
+
+- Tune in a quiet room and turn off music or the TV.
+- Hold your phone or laptop close to the instrument: near the sound hole of an acoustic guitar, or near the amp speaker of an electric one.
+- Play one string at a time and mute the others with your hand.
+- Tune up to the note: if a string is too high, loosen it a little below the note, then tighten it back up.
+- Violin, viola or cello? The tuner recognises any note (violin G D A E, viola and cello C G D A).
+- Does your band tune to A4 = 442 Hz? Tap "A4 = 440 Hz" to change the reference pitch.
+- If the microphone does not start, allow it in your browser's site settings and press the button again.
+"""
