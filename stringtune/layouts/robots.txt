@@ -1,6 +1,11 @@
 User-agent: *
+Allow: /
 {{- range where site.AllPages "Params.no_index" true }}
 Disallow: {{ .RelPermalink }}
 {{- end }}
+{{- /* A Sitemap line must hold an absolute URL. CI builds with baseURL "/", so leave it out there. */}}
+{{- $sitemap := "sitemap.xml" | absURL }}
+{{- if hasPrefix $sitemap "http" }}
 
-Sitemap: {{ "sitemap.xml" | absURL }}
+Sitemap: {{ $sitemap }}
+{{- end }}
