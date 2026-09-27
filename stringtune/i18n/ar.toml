@@ -35,3 +35,81 @@ other = "أوكليلي"
 
 [tunerFeedback]
 other = "هل هناك مشكلة؟"
+
+[tunerStarting]
+other = "جارٍ التشغيل…"
+
+[tunerRetry]
+other = "أعد تجربة الميكروفون"
+
+[tunerPermission]
+other = "اسمح بالوصول إلى الميكروفون في المتصفح، ثم أعد المحاولة."
+
+[tunerAllow]
+other = "اسمح بالوصول إلى الميكروفون لبدء الضبط."
+
+[tunerListening]
+other = "جارٍ الاستماع — اعزف وترًا واحدًا."
+
+[tunerReference]
+other = "اضغط على نغمة لسماع النغمة المرجعية."
+
+[tunerInTune]
+other = "مضبوط"
+
+[tunerFlat]
+other = "منخفض جدًا — شُدّ الوتر"
+
+[tunerSharp]
+other = "مرتفع جدًا — أرخِ الوتر"
+
+[tunerCalibration]
+other = "طبقة الصوت المرجعية"
+
+[tunerSave]
+other = "حفظ"
+
+[tunerCancel]
+other = "إلغاء"
+
+[tunerInstrument]
+other = "الآلة"
+
+[tunerStop]
+other = "إيقاف الصوت"
+
+[tunerNotes]
+other = "النغمات الكروماتية"
+
+[tunerReferenceTone]
+other = "النغمة المرجعية %s"
+
+[tunerStandard]
+other = "الضبط القياسي"
+
+[string1]
+other = "الوتر الأول"
+
+[string2]
+other = "الوتر الثاني"
+
+[string3]
+other = "الوتر الثالث"
+
+[string4]
+other = "الوتر الرابع"
+
+[string5]
+other = "الوتر الخامس"
+
+[string6]
+other = "الوتر السادس"
+
+[stringThickest]
+other = "الأسمك"
+
+[stringThinnest]
+other = "الأرفع"
+
+[bass]
+other = "باص"

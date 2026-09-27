@@ -3,7 +3,8 @@
  data-starting="{{ i18n "tunerStarting" }}" data-retry="{{ i18n "tunerRetry" }}"
  data-permission="{{ i18n "tunerPermission" }}" data-allow="{{ i18n "tunerAllow" }}"
  data-listening="{{ i18n "tunerListening" }}" data-reference="{{ i18n "tunerReference" }}"
- data-in-tune="{{ i18n "tunerInTune" }}" data-flat="{{ i18n "tunerFlat" }}" data-sharp="{{ i18n "tunerSharp" }}">
+ data-in-tune="{{ i18n "tunerInTune" }}" data-flat="{{ i18n "tunerFlat" }}" data-sharp="{{ i18n "tunerSharp" }}"
+ data-reference-tone="{{ i18n "tunerReferenceTone" }}">
 	<div class="meter">
 		<div id="tunedArea" class="meter-scale-tuned"></div>
 		<button id="startButton">
@@ -41,9 +42,9 @@
 
 	<div class="instrument-selector">
 		<select id="instrumentSelect" aria-label="{{ i18n "tunerInstrument" }}">
-			<option value="guitar" selected>Guitar (Standard)</option>
-			<option value="ukulele">Ukulele (GCEA)</option>
-			<option value="bass">Bass (Standard)</option>
+			<option value="guitar" selected>{{ i18n "guitar" }} ({{ i18n "tunerStandard" }})</option>
+			<option value="ukulele">{{ i18n "ukulele" }} (GCEA)</option>
+			<option value="bass">{{ i18n "bass" }} ({{ i18n "tunerStandard" }})</option>
 		</select>
 	</div>
 
@@ -54,13 +55,13 @@
 </div>
 <button id="installAppBtn" class="button is-small is-primary"
 	style="display:none; margin: 10px auto; text-align: center;">
-	Install App
+	{{ i18n "install_app" }}
 </button>
 {{ partial "script.html" "js/tuner/screenlock.js" }}
 {{ partial "script.html" "js/lang.js" }}
 {{ partial "script.html" "js/tuner/tuner.js?v=11" }}
 {{ partial "script.html" "js/tuner/meter.js?v=10" }}
 {{ partial "script.html" "js/tuner/frequency-line.js?v=10" }}
-{{ partial "script.html" "js/tuner/notes.js?v=11" }}
+{{ partial "script.html" "js/tuner/notes.js?v=12" }}
 {{ partial "script.html" "js/tuner/usage.js?v=11" }}
 {{ partial "script.html" "js/tuner/application.js?v=11" }}

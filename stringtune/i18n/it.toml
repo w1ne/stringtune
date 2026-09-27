@@ -64,3 +64,78 @@ Dalla corda più grossa (6ª) alla più sottile (1ª): **Mi – La – Re – So
 
 [bass]
 other = "Basso"
+
+[tunerStarting]
+other = "Avvio…"
+
+[tunerRetry]
+other = "Riprova con il microfono"
+
+[tunerPermission]
+other = "Consenti l'accesso al microfono nel browser, poi riprova."
+
+[tunerAllow]
+other = "Consenti l'accesso al microfono per iniziare ad accordare."
+
+[tunerListening]
+other = "In ascolto — suona una corda."
+
+[tunerReference]
+other = "Tocca una nota per ascoltare la nota di riferimento."
+
+[tunerInTune]
+other = "Accordata"
+
+[tunerFlat]
+other = "Troppo bassa — tendi la corda"
+
+[tunerSharp]
+other = "Troppo alta — allenta la corda"
+
+[tunerCalibration]
+other = "Diapason"
+
+[tunerSave]
+other = "Salva"
+
+[tunerCancel]
+other = "Annulla"
+
+[tunerInstrument]
+other = "Strumento"
+
+[tunerStop]
+other = "Ferma l'audio"
+
+[tunerNotes]
+other = "Note cromatiche"
+
+[tunerReferenceTone]
+other = "Nota di riferimento %s"
+
+[tunerStandard]
+other = "standard"
+
+[string1]
+other = "1ª corda"
+
+[string2]
+other = "2ª corda"
+
+[string3]
+other = "3ª corda"
+
+[string4]
+other = "4ª corda"
+
+[string5]
+other = "5ª corda"
+
+[string6]
+other = "6ª corda"
+
+[stringThickest]
+other = "la più grossa"
+
+[stringThinnest]
+other = "la più sottile"

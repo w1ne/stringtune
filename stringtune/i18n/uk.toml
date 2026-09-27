@@ -64,3 +64,78 @@ other = """
 
 [bass]
 other = "Бас-гітара"
+
+[tunerStarting]
+other = "Запуск…"
+
+[tunerRetry]
+other = "Спробувати мікрофон ще раз"
+
+[tunerPermission]
+other = "Дозвольте доступ до мікрофона в браузері й спробуйте ще раз."
+
+[tunerAllow]
+other = "Дозвольте доступ до мікрофона, щоб почати налаштування."
+
+[tunerListening]
+other = "Слухаю — зіграйте одну струну."
+
+[tunerReference]
+other = "Натисніть ноту, щоб почути еталонний звук."
+
+[tunerInTune]
+other = "Налаштовано"
+
+[tunerFlat]
+other = "Занизько — підтягніть струну"
+
+[tunerSharp]
+other = "Зависоко — послабте струну"
+
+[tunerCalibration]
+other = "Еталонна висота"
+
+[tunerSave]
+other = "Зберегти"
+
+[tunerCancel]
+other = "Скасувати"
+
+[tunerInstrument]
+other = "Інструмент"
+
+[tunerStop]
+other = "Зупинити звук"
+
+[tunerNotes]
+other = "Хроматичні ноти"
+
+[tunerReferenceTone]
+other = "Еталонний звук %s"
+
+[tunerStandard]
+other = "стандартний стрій"
+
+[string1]
+other = "1-ша струна"
+
+[string2]
+other = "2-га струна"
+
+[string3]
+other = "3-тя струна"
+
+[string4]
+other = "4-та струна"
+
+[string5]
+other = "5-та струна"
+
+[string6]
+other = "6-та струна"
+
+[stringThickest]
+other = "найтовща"
+
+[stringThinnest]
+other = "найтонша"

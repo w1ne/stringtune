@@ -20,8 +20,8 @@ other = "Oto"
 [clickmic]
 other = "Ayarlamayı başlatmak için mikrofona basın"
 
-[install_app.tr]
-  other = "Uygulamayı yükle"
+[install_app]
+other = "Uygulamayı yükle"
 
 # Türkçe (tr)
 [guitar_sounds]
@@ -35,3 +35,82 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Bir sorun mu var?"
+
+[tunerStarting]
+other = "Başlatılıyor…"
+
+[tunerRetry]
+other = "Mikrofonu yeniden dene"
+
+[tunerPermission]
+other = "Tarayıcınızda mikrofon erişimine izin verin ve tekrar deneyin."
+
+[tunerAllow]
+other = "Akort etmeye başlamak için mikrofon erişimine izin verin."
+
+[tunerListening]
+other = "Dinleniyor — bir tel çalın."
+
+[tunerReference]
+other = "Referans sesi duymak için bir notaya dokunun."
+
+[tunerInTune]
+other = "Akortlu"
+
+[tunerFlat]
+other = "Çok pes — teli gerin"
+
+[tunerSharp]
+other = "Çok tiz — teli gevşetin"
+
+[tunerCalibration]
+other = "Referans perde"
+
+[tunerSave]
+other = "Kaydet"
+
+[tunerCancel]
+other = "İptal"
+
+[tunerInstrument]
+other = "Enstrüman"
+
+[tunerStop]
+other = "Sesi durdur"
+
+[tunerNotes]
+other = "Kromatik notalar"
+
+[tunerReferenceTone]
+other = "%s referans sesi"
+
+[tunerStandard]
+other = "standart"
+
+[string1]
+other = "1. tel"
+
+[string2]
+other = "2. tel"
+
+[string3]
+other = "3. tel"
+
+[string4]
+other = "4. tel"
+
+[string5]
+other = "5. tel"
+
+[string6]
+other = "6. tel"
+
+[stringThickest]
+other = "en kalın"
+
+[stringThinnest]
+other = "en ince"
+
+[bass]
+other = "Bas"
+

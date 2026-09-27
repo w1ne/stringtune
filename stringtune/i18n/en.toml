@@ -20,24 +20,6 @@ other = "Ukulele"
 [bass]
 other = "Bass"
 
-[guitarNotes]
-other = [
-  { file = "Guitar_E1.mp3", note = "E1", description = "6th string - thickest" },
-  { file = "Guitar_A.mp3", note = "A", description = "5th string" },
-  { file = "Guitar_D.mp3", note = "D", description = "4th string" },
-  { file = "Guitar_G.mp3", note = "G", description = "3rd string" },
-  { file = "Guitar_B.mp3", note = "B", description = "2nd string" },
-  { file = "Guitar_E2.mp3", note = "E2", description = "1st string - thinnest" }
-]
-
-[ukuleleNotes]
-other = [
-  { file = "Ukulele_G.mp3", note = "G", description = "4th string" },
-  { file = "Ukulele_C.mp3", note = "C", description = "3rd string" },
-  { file = "Ukulele_E.mp3", note = "E", description = "2nd string" },
-  { file = "Ukulele_A.mp3", note = "A", description = "1st string" }
-]
-
 [guitar_sounds]
 other = "If you do not have accees to a mic, here are standard guitar string sounds to tune by ear:"
 
@@ -126,3 +108,33 @@ From the thickest string (6th) to the thinnest (1st): **E2 – A2 – D3 – G3 
 - Does your band tune to A4 = 442 Hz? Tap "A4 = 440 Hz" to change the reference pitch.
 - If the microphone does not start, allow it in your browser's site settings and press the button again.
 """
+
+[tunerReferenceTone]
+other = "%s reference tone"
+
+[tunerStandard]
+other = "Standard"
+
+[string1]
+other = "1st string"
+
+[string2]
+other = "2nd string"
+
+[string3]
+other = "3rd string"
+
+[string4]
+other = "4th string"
+
+[string5]
+other = "5th string"
+
+[string6]
+other = "6th string"
+
+[stringThickest]
+other = "thickest"
+
+[stringThinnest]
+other = "thinnest"

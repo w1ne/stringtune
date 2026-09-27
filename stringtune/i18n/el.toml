@@ -35,3 +35,81 @@ other = "Ουκουλέλε"
 
 [tunerFeedback]
 other = "Κάτι δεν λειτουργεί;"
+
+[tunerStarting]
+other = "Εκκίνηση…"
+
+[tunerRetry]
+other = "Δοκιμάστε ξανά το μικρόφωνο"
+
+[tunerPermission]
+other = "Επιτρέψτε την πρόσβαση στο μικρόφωνο από το πρόγραμμα περιήγησης και δοκιμάστε ξανά."
+
+[tunerAllow]
+other = "Επιτρέψτε την πρόσβαση στο μικρόφωνο για να ξεκινήσει το κούρδισμα."
+
+[tunerListening]
+other = "Ακούει — παίξτε μία χορδή."
+
+[tunerReference]
+other = "Πατήστε μια νότα για να ακούσετε τον ήχο αναφοράς."
+
+[tunerInTune]
+other = "Κουρδισμένο"
+
+[tunerFlat]
+other = "Πολύ χαμηλά — σφίξτε τη χορδή"
+
+[tunerSharp]
+other = "Πολύ ψηλά — χαλαρώστε τη χορδή"
+
+[tunerCalibration]
+other = "Τόνος αναφοράς"
+
+[tunerSave]
+other = "Αποθήκευση"
+
+[tunerCancel]
+other = "Ακύρωση"
+
+[tunerInstrument]
+other = "Όργανο"
+
+[tunerStop]
+other = "Διακοπή ήχου"
+
+[tunerNotes]
+other = "Χρωματικές νότες"
+
+[tunerReferenceTone]
+other = "Ήχος αναφοράς %s"
+
+[tunerStandard]
+other = "κανονικό κούρδισμα"
+
+[string1]
+other = "1η χορδή"
+
+[string2]
+other = "2η χορδή"
+
+[string3]
+other = "3η χορδή"
+
+[string4]
+other = "4η χορδή"
+
+[string5]
+other = "5η χορδή"
+
+[string6]
+other = "6η χορδή"
+
+[stringThickest]
+other = "η πιο χοντρή"
+
+[stringThinnest]
+other = "η πιο λεπτή"
+
+[bass]
+other = "Μπάσο"

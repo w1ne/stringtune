@@ -35,3 +35,81 @@ other = "尤克里里"
 
 [tunerFeedback]
 other = "遇到问题？"
+
+[tunerStarting]
+other = "正在启动…"
+
+[tunerRetry]
+other = "重试麦克风"
+
+[tunerPermission]
+other = "请在浏览器中允许使用麦克风，然后重试。"
+
+[tunerAllow]
+other = "允许使用麦克风即可开始调音。"
+
+[tunerListening]
+other = "正在聆听——请弹一根弦。"
+
+[tunerReference]
+other = "点按音符即可听到参考音。"
+
+[tunerInTune]
+other = "音准正确"
+
+[tunerFlat]
+other = "偏低——拧紧琴弦"
+
+[tunerSharp]
+other = "偏高——放松琴弦"
+
+[tunerCalibration]
+other = "参考音高"
+
+[tunerSave]
+other = "保存"
+
+[tunerCancel]
+other = "取消"
+
+[tunerInstrument]
+other = "乐器"
+
+[tunerStop]
+other = "停止声音"
+
+[tunerNotes]
+other = "半音阶音符"
+
+[tunerReferenceTone]
+other = "%s 参考音"
+
+[tunerStandard]
+other = "标准调弦"
+
+[string1]
+other = "1弦"
+
+[string2]
+other = "2弦"
+
+[string3]
+other = "3弦"
+
+[string4]
+other = "4弦"
+
+[string5]
+other = "5弦"
+
+[string6]
+other = "6弦"
+
+[stringThickest]
+other = "最粗"
+
+[stringThinnest]
+other = "最细"
+
+[bass]
+other = "贝斯"

@@ -35,3 +35,81 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Er noe galt?"
+
+[tunerStarting]
+other = "Starter…"
+
+[tunerRetry]
+other = "Prøv mikrofonen igjen"
+
+[tunerPermission]
+other = "Gi nettleseren tilgang til mikrofonen, og prøv igjen."
+
+[tunerAllow]
+other = "Gi tilgang til mikrofonen for å begynne å stemme."
+
+[tunerListening]
+other = "Lytter – spill én streng."
+
+[tunerReference]
+other = "Trykk på en tone for å høre referansetonen."
+
+[tunerInTune]
+other = "Stemt"
+
+[tunerFlat]
+other = "For lavt – stram strengen"
+
+[tunerSharp]
+other = "For høyt – slakk strengen"
+
+[tunerCalibration]
+other = "Stemmetone"
+
+[tunerSave]
+other = "Lagre"
+
+[tunerCancel]
+other = "Avbryt"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Stopp lyden"
+
+[tunerNotes]
+other = "Kromatiske toner"
+
+[tunerReferenceTone]
+other = "Referansetone %s"
+
+[tunerStandard]
+other = "standard"
+
+[string1]
+other = "1. streng"
+
+[string2]
+other = "2. streng"
+
+[string3]
+other = "3. streng"
+
+[string4]
+other = "4. streng"
+
+[string5]
+other = "5. streng"
+
+[string6]
+other = "6. streng"
+
+[stringThickest]
+other = "tykkest"
+
+[stringThinnest]
+other = "tynnest"
+
+[bass]
+other = "Bass"
