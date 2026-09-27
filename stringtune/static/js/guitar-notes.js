@@ -29,7 +29,13 @@ function trackReferenceRecording(name, instrument, error) {
             fields.stage = 'reference';
             fields.reason = window.TuningUsage?.errorReason(error) || 'unknown';
         }
-        window.StringTuneAnalytics?.track(name, fields);
+        const send = () => { try { window.StringTuneAnalytics?.track(name, fields); } catch (_) { /* Optional. */ } };
+        // analytics.js is deferred: hold events fired while the page still parses.
+        if (!window.StringTuneAnalytics && window.document?.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', send, { once: true });
+        } else {
+            send();
+        }
     } catch (_) {
         // Measurement must never interrupt audio controls.
     }

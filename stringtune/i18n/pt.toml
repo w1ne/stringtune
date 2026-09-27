@@ -1,34 +1,35 @@
 [description]
 other = """
-Bem-vindo ao StringTune, o afinador online mais fácil de usar. Para começar, permita o acesso ao microfone. Toque cada corda uma de cada vez. O afinador irá detectar automaticamente a altura da nota sendo tocada e indicar se está aguda ou desafinada. Continue ajustando até que o afinador aponte diretamente para o centro. Aqui estão alguns padrões de afinação comuns para vários instrumentos de cordas:
+Bem-vindo ao StringTune, o afinador online mais fácil de usar. Para começar, permita o acesso ao microfone e toque uma corda de cada vez. O afinador detecta automaticamente a nota tocada e mostra se ela está grave ou aguda. Continue ajustando até o ponteiro ficar no centro. Afinações padrão de vários instrumentos de corda:
 
-- Afinação padrão da guitarra: E - A - D - G - B - E
-- Afinação padrão do baixo: E - A - D - G
-- Afinação padrão do ukulele: G - C - E - A
-- Afinação padrão do violino: G - D - A - E
-- Afinação padrão do violoncelo: C - G - D - A
-- Afinação padrão da viola: C - G - D - A
-- Afinação padrão do bandolim: G - D - A - E
-- Afinação padrão do banjo (5 cordas): G - D - G - B - D
+- Violão e guitarra: E - A - D - G - B - E
+- Baixo: E - A - D - G
+- Ukulele: G - C - E - A
+- Cavaquinho: D - G - B - D
+- Violino: G - D - A - E
+- Violoncelo: C - G - D - A
+- Viola: C - G - D - A
+- Bandolim: G - D - A - E
+- Banjo (5 cordas): G - D - G - B - D
 """
 [keepScreenOn]
-other = "Manter ecrã ligado"
+other = "Manter a tela ligada"
 
 [auto]
 other = "Auto"
 
 [clickmic]
-other = "Pressione o microfone para começar a sintonizar"
+other = "Toque no microfone para começar a afinar"
 
 [install_app]
   other = "Instalar aplicativo"
 
 # Português (pt)
 [guitar_sounds]
-other = "Se você não tem acesso a um microfone, aqui estão os sons padrão das cordas de guitarra para afinar de ouvido:"
+other = "Está sem microfone? Aqui estão os sons das cordas do violão na afinação padrão para afinar de ouvido:"
 
 [guitar]
-other = "Guitarra"
+other = "Violão/Guitarra"
 
 [ukulele]
 other = "Ukulele"
@@ -113,3 +114,29 @@ other = "a mais fina"
 
 [bass]
 other = "Baixo"
+
+[h1]
+other = "Afinador online para violão, guitarra, baixo e ukulele"
+
+[guide]
+other = """
+## Como afinar o violão online em 3 passos
+
+1. Toque no botão do microfone e permita o acesso quando o navegador pedir.
+2. Toque uma corda solta e deixe soar. O afinador reconhece a nota e mostra se ela está grave ou aguda demais.
+3. Gire a tarraxa devagar até o ponteiro parar no centro. Repita em cada corda.
+
+## Afinação padrão do violão: Mi Lá Ré Sol Si Mi
+
+Da corda mais grossa (6ª) para a mais fina (1ª): **Mi – Lá – Ré – Sol – Si – Mi**, ou seja, E2 – A2 – D3 – G3 – B3 – E4 na cifra que o afinador usa. A guitarra elétrica usa a mesma afinação. Baixo: Mi Lá Ré Sol (E1 – A1 – D2 – G2). Ukulele: Sol Dó Mi Lá (G4 – C4 – E4 – A4). Escolha o instrumento no menu: as notas aparecem como botões; toque em uma para ouvir a nota de referência.
+
+## Dicas para afinar com precisão
+
+- Afine em um lugar silencioso, sem música nem TV ligada.
+- Deixe o celular ou o notebook perto do instrumento: na frente da boca do violão ou perto da caixa do amplificador.
+- Toque uma corda de cada vez e abafe as outras com a mão.
+- Afine sempre subindo até a nota: se a corda estiver aguda, afrouxe um pouco abaixo da nota e depois estique de novo.
+- Cavaquinho, bandolim ou violino? O afinador reconhece qualquer nota (cavaquinho Ré Sol Si Ré, bandolim e violino Sol Ré Lá Mi, viola e violoncelo Dó Sol Ré Lá).
+- Sua banda afina em Lá 442 Hz? Toque em “A4 = 440 Hz” para mudar a frequência de referência.
+- Se o microfone não funcionar, libere o acesso nas configurações do site no navegador e toque no botão de novo.
+"""
