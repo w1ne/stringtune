@@ -15,8 +15,14 @@ const Application = function () {
 };
 
 Application.prototype.track = function (name, fields = {}) {
-  try { window.StringTuneAnalytics?.track(name, {instrument: this.notes?.instrument, ...fields}); }
-  catch (_) { /* Optional analytics must not affect the tuner. */ }
+  const params = {instrument: this.notes?.instrument, ...fields};
+  const send = () => {
+    try { window.StringTuneAnalytics?.track(name, params); }
+    catch (_) { /* Optional analytics must not affect the tuner. */ }
+  };
+  // analytics.js is deferred: hold events fired while the page still parses.
+  if (!window.StringTuneAnalytics && document.readyState === 'loading') window.addEventListener('DOMContentLoaded', send, {once: true});
+  else send();
 };
 
 Application.prototype.syncUsageListening = function () {

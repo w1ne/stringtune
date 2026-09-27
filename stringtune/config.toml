@@ -63,8 +63,8 @@ feedback_url = "https://strungtune.canny.io/"
 
 [languages]
   [languages.en]
-    title = "StringTune – Free Online Tuner for Guitar, Bass & Ukulele"
-    description = "Free online tuner that listens through your microphone. Tune your guitar, bass or ukulele in seconds, with no app and no sign-up. Reference tones included."
+    title = "StringTune – Free Online String & Instrument Tuner"
+    description = "StringTune is a free online instrument tuner: tune guitar, bass or ukulele with your microphone in the browser. No app, no sign-up, reference tones included."
     languageName = "English"
     contentDir = "content/en"
     [languages.en.params]
@@ -90,12 +90,13 @@ feedback_url = "https://strungtune.canny.io/"
       guide = true
 
   [languages.de]
-    title = "StringTune Online-Stimmer - Bester Online-Instrumentenstimmer mit Mikrofon"
-    description = "Stimmen Sie Ihre Gitarre, Ihren Bass, Ihr Ukulele oder jedes andere Saiteninstrument mit unserem kostenlosen, benutzerfreundlichen Online-Stimmer, der die Notenfrequenz anzeigt. Optimiert für mobile Geräte!"
+    title = "Stimmgerät online – Gitarre, Bass & Ukulele gratis stimmen"
+    description = "Kostenloses Online-Stimmgerät mit Mikrofon: Gitarre, Bass oder Ukulele direkt im Browser stimmen, ohne App und ohne Anmeldung. Mit Referenzton für jede Saite."
     languageName = "Deutsch"
     contentDir = "content/de"
     [languages.de.params]
       ogLocale = "de_DE"
+      guide = true
 
   [languages.zh]
     title = "StringTune在线调谐器 - 最好的在线乐器调谐器，带麦克风"
@@ -115,12 +116,13 @@ feedback_url = "https://strungtune.canny.io/"
       guide = true
 
   [languages.pt]
-    title = "Afinador Online StringTune - Melhor Afinador de Instrumentos Online com Microfone"
-    description = "Afine sua guitarra, baixo, ukulele, ou qualquer outro instrumento de cordas com nosso afinador online gratuito e fácil de usar, que mostra a frequência da nota. Otimizado para dispositivos móveis!"
+    title = "Afinador online grátis – violão, guitarra, baixo e ukulele"
+    description = "Afinador online grátis pelo microfone: afine violão, guitarra, baixo ou ukulele em segundos, sem baixar app nem se cadastrar. Com nota de referência por corda."
     languageName = "Português"
     contentDir = "content/pt"
     [languages.pt.params]
       ogLocale = "pt_BR"
+      guide = true
 
   [languages.ja]
     title = "オンラインチューナー｜ギター・ベース・ウクレレ対応・無料"

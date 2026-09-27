@@ -7,10 +7,18 @@
     if (node) node.style.display = value;
   };
   const track = (name, fields) => {
-    try {
-      window.StringTuneAnalytics?.track(name, fields);
-    } catch (_) {
-      // Measurement must never interrupt installation.
+    const send = () => {
+      try {
+        window.StringTuneAnalytics?.track(name, fields);
+      } catch (_) {
+        // Measurement must never interrupt installation.
+      }
+    };
+    // analytics.js is deferred: hold events fired while the page still parses.
+    if (!window.StringTuneAnalytics && window.document?.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', send, { once: true });
+    } else {
+      send();
     }
   };
 
