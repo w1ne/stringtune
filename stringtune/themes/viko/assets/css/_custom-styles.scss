@@ -305,6 +305,29 @@ h3 {
   padding-left: 20px;
 }
 
+/* Localized "how to tune" guide under the tuner. Headings stay below the h1 size. */
+.tuning-guide h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 24px 0 10px;
+  text-align: left;
+}
+
+.tuning-guide p,
+.tuning-guide ol,
+.tuning-guide ul {
+  margin-bottom: 10px;
+}
+
+.tuning-guide ol {
+  list-style: decimal;
+  padding-left: 20px;
+}
+
+.tuning-guide ul {
+  list-style: disc;
+}
+
 .footer {
   position: relative;
   left: 0;

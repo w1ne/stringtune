@@ -35,3 +35,32 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Coś nie działa?"
+
+[h1]
+other = "Stroik online do gitary, basu i ukulele"
+
+[guide]
+other = """
+## Jak nastroić gitarę online w 3 krokach
+
+1. Naciśnij przycisk mikrofonu i zezwól przeglądarce na dostęp do mikrofonu.
+2. Zagraj jedną pustą strunę i pozwól jej wybrzmieć. Stroik rozpozna dźwięk i pokaże, czy jest za nisko, czy za wysoko.
+3. Powoli kręć kluczem, aż wskazówka zatrzyma się na środku. Powtórz to dla każdej struny.
+
+## Standardowy strój gitary: E A D G H E
+
+Od najgrubszej struny (6.) do najcieńszej (1.): **E – A – D – G – H – E**. Stroik używa angielskich nazw dźwięków, więc H wyświetla się jako B: E2 – A2 – D3 – G3 – B3 – E4. Gitara basowa: E1 – A1 – D2 – G2. Ukulele: G4 – C4 – E4 – A4. Wybierz instrument z menu: dźwięki pojawią się jako przyciski, dotknij jednego, by usłyszeć dźwięk wzorcowy.
+
+## Wskazówki, jak stroić dokładnie
+
+- Strój w cichym pomieszczeniu, bez muzyki i telewizora w tle.
+- Trzymaj telefon lub laptop blisko instrumentu: przy otworze rezonansowym gitary akustycznej albo przy głośniku wzmacniacza.
+- Graj po jednej strunie, a pozostałe tłum dłonią.
+- Zawsze strój od dołu: jeśli struna brzmi za wysoko, poluzuj ją trochę poniżej dźwięku, a potem podciągnij.
+- Skrzypce, altówka lub wiolonczela? Stroik rozpoznaje każdy dźwięk (skrzypce G D A E, altówka i wiolonczela C G D A).
+- Zespół stroi do a1 = 442 Hz? Dotknij „A4 = 440 Hz”, aby zmienić dźwięk odniesienia.
+- Jeśli mikrofon się nie włącza, zezwól na niego w ustawieniach witryny w przeglądarce i naciśnij przycisk ponownie.
+"""
+
+[bass]
+other = "Gitara basowa"

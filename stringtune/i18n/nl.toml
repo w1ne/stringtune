@@ -35,3 +35,32 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Werkt iets niet?"
+
+[h1]
+other = "Gitaar stemmen online met je microfoon"
+
+[guide]
+other = """
+## Zo stem je je gitaar online in 3 stappen
+
+1. Druk op de microfoonknop en geef je browser toestemming om de microfoon te gebruiken.
+2. Speel één losse snaar en laat hem uitklinken. Het stemapparaat herkent de toon en laat zien of die te laag of te hoog is.
+3. Draai rustig aan de stemmechaniek tot de naald in het midden blijft staan. Herhaal dit voor elke snaar.
+
+## Standaardstemming van de gitaar: E A D G B E
+
+Van de dikste snaar (6e) naar de dunste (1e): **E2 – A2 – D3 – G3 – B3 – E4**. Basgitaar: E1 – A1 – D2 – G2. Ukelele: G4 – C4 – E4 – A4. Kies je instrument in het menu: de tonen verschijnen als knoppen, tik erop om de referentietoon te horen.
+
+## Tips voor zuiver stemmen
+
+- Stem in een stille ruimte en zet muziek of tv uit.
+- Houd je telefoon of laptop dicht bij het instrument: bij het klankgat van een akoestische gitaar of bij de speaker van je versterker.
+- Speel één snaar tegelijk en demp de andere met je hand.
+- Stem altijd omhoog naar de toon: is de snaar te hoog, draai hem dan iets onder de toon en span hem daarna weer aan.
+- Viool, altviool of cello? Het stemapparaat herkent elke toon (viool G D A E, altviool en cello C G D A).
+- Stemt je band op A = 442 Hz? Tik op "A4 = 440 Hz" om de stemtoon aan te passen.
+- Start de microfoon niet? Sta hem toe in de site-instellingen van je browser en druk opnieuw op de knop.
+"""
+
+[bass]
+other = "Basgitaar"

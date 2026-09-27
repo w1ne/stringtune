@@ -35,3 +35,32 @@ other = "Ukulélé"
 
 [tunerFeedback]
 other = "Un problème ?"
+
+[h1]
+other = "Accordeur en ligne pour guitare, basse et ukulélé"
+
+[guide]
+other = """
+## Accorder sa guitare en ligne en 3 étapes
+
+1. Appuyez sur le bouton du micro et autorisez l'accès au microphone lorsque votre navigateur le demande.
+2. Jouez une corde à vide et laissez-la sonner. L'accordeur reconnaît la note et indique si elle est trop grave ou trop aiguë.
+3. Tournez doucement la mécanique jusqu'à ce que l'aiguille reste au centre. Recommencez pour chaque corde.
+
+## Accordage standard de la guitare : Mi La Ré Sol Si Mi
+
+De la corde la plus grave (6e) à la plus aiguë (1re) : **Mi – La – Ré – Sol – Si – Mi**, soit E2 – A2 – D3 – G3 – B3 – E4 en notation anglaise, celle qu'affiche l'accordeur. Basse : Mi La Ré Sol (E1 – A1 – D2 – G2). Ukulélé : Sol Do Mi La (G4 – C4 – E4 – A4). Choisissez votre instrument dans le menu : chaque note apparaît sous forme de bouton, touchez-la pour entendre la note de référence.
+
+## Conseils pour un accordage précis
+
+- Accordez dans une pièce calme, sans musique ni télévision.
+- Placez le téléphone ou l'ordinateur près de l'instrument : devant la rosace d'une guitare acoustique, ou près du haut-parleur de l'ampli pour une guitare électrique.
+- Jouez une seule corde à la fois et étouffez les autres avec la main.
+- Montez toujours vers la note : si la corde est trop aiguë, détendez-la un peu en dessous, puis retendez-la.
+- Violon, alto ou violoncelle ? L'accordeur reconnaît toutes les notes (violon Sol Ré La Mi, alto et violoncelle Do Sol Ré La).
+- Votre groupe s'accorde en La 442 Hz ? Touchez « A4 = 440 Hz » pour changer le diapason.
+- Si le micro ne démarre pas, autorisez-le dans les paramètres du site de votre navigateur, puis appuyez de nouveau sur le bouton.
+"""
+
+[bass]
+other = "Basse"

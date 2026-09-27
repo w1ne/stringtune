@@ -35,3 +35,32 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Onko jokin vialla?"
+
+[h1]
+other = "Ilmainen kitaran viritysmittari netissä"
+
+[guide]
+other = """
+## Kitaran viritys netissä kolmessa vaiheessa
+
+1. Paina mikrofonipainiketta ja salli mikrofonin käyttö, kun selain kysyy lupaa.
+2. Soita yksi avoin kieli ja anna sen soida. Viritysmittari tunnistaa sävelen ja näyttää, onko se liian matala vai liian korkea.
+3. Käännä viritystappia rauhallisesti, kunnes osoitin pysyy keskellä. Toista sama jokaiselle kielelle.
+
+## Kitaran perusviritys: E A D G H E
+
+Paksuimmasta (6.) kielestä ohuimpaan (1.): **E – A – D – G – H – E**. Viritysmittari käyttää englantilaisia sävelnimiä, joten H näkyy B:nä: E2 – A2 – D3 – G3 – B3 – E4. Basso: E1 – A1 – D2 – G2. Ukulele: G4 – C4 – E4 – A4. Valitse soitin valikosta: sävelet näkyvät painikkeina, ja painiketta napauttamalla kuulet vertailusävelen.
+
+## Vinkkejä tarkkaan viritykseen
+
+- Viritä hiljaisessa huoneessa ja sulje musiikki ja televisio.
+- Pidä puhelin tai tietokone lähellä soitinta: akustisen kitaran kaikuaukon edessä tai vahvistimen kaiuttimen vieressä.
+- Soita yksi kieli kerrallaan ja vaimenna muut kädellä.
+- Viritä aina alhaalta ylöspäin: jos kieli on liian korkealla, löysää se hieman sävelen alle ja kiristä sitten takaisin.
+- Viulu, alttoviulu tai sello? Viritysmittari tunnistaa minkä tahansa sävelen (viulu G D A E, alttoviulu ja sello C G D A).
+- Viritättekö bändissä A = 442 Hz:iin? Napauta "A4 = 440 Hz" ja vaihda vertailusävel.
+- Jos mikrofoni ei käynnisty, salli se selaimen sivustoasetuksista ja paina painiketta uudelleen.
+"""
+
+[bass]
+other = "Basso"

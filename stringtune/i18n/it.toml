@@ -35,3 +35,32 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Qualcosa non funziona?"
+
+[h1]
+other = "Accordatore online per chitarra, basso e ukulele"
+
+[guide]
+other = """
+## Come accordare la chitarra online in 3 passaggi
+
+1. Premi il pulsante del microfono e consenti l'accesso quando il browser te lo chiede.
+2. Suona una corda a vuoto e lasciala vibrare. L'accordatore riconosce la nota e ti dice se è troppo bassa o troppo alta.
+3. Gira piano la chiavetta finché la lancetta resta al centro. Ripeti per ogni corda.
+
+## Accordatura standard della chitarra: Mi La Re Sol Si Mi
+
+Dalla corda più grossa (6ª) alla più sottile (1ª): **Mi – La – Re – Sol – Si – Mi**, cioè E2 – A2 – D3 – G3 – B3 – E4 nella notazione anglosassone usata dall'accordatore. Basso: Mi La Re Sol (E1 – A1 – D2 – G2). Ukulele: Sol Do Mi La (G4 – C4 – E4 – A4). Scegli lo strumento dal menu: le note compaiono come pulsanti, toccane una per ascoltare la nota di riferimento.
+
+## Consigli per un'accordatura precisa
+
+- Accorda in una stanza silenziosa, senza musica né TV accesa.
+- Tieni il telefono o il portatile vicino allo strumento: davanti alla buca della chitarra acustica o vicino all'altoparlante dell'amplificatore.
+- Suona una corda alla volta e smorza le altre con la mano.
+- Arriva alla nota salendo: se la corda è troppo alta, allentala un po' sotto la nota e poi tendila di nuovo.
+- Violino, viola o violoncello? L'accordatore riconosce qualsiasi nota (violino Sol Re La Mi, viola e violoncello Do Sol Re La).
+- Il tuo gruppo accorda a La 442 Hz? Tocca "A4 = 440 Hz" per cambiare il diapason.
+- Se il microfono non parte, consentilo nelle impostazioni del sito del browser e premi di nuovo il pulsante.
+"""
+
+[bass]
+other = "Basso"

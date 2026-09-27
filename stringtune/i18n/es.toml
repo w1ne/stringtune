@@ -35,3 +35,32 @@ other = "Ukelele"
 
 [tunerFeedback]
 other = "¿Algo no funciona?"
+
+[h1]
+other = "Afinador en línea para guitarra, bajo y ukelele"
+
+[guide]
+other = """
+## Cómo afinar la guitarra online en 3 pasos
+
+1. Pulsa el botón del micrófono y permite el acceso cuando el navegador te lo pida.
+2. Toca una cuerda al aire y deja que suene. El afinador detecta la nota y te indica si está baja o alta.
+3. Gira despacio la clavija hasta que la aguja se quede en el centro. Repite con cada cuerda.
+
+## Afinación estándar de la guitarra: Mi La Re Sol Si Mi
+
+De la cuerda más gruesa (6.ª) a la más fina (1.ª): **Mi – La – Re – Sol – Si – Mi**, es decir, E2 – A2 – D3 – G3 – B3 – E4 en la notación americana que usa el afinador. Bajo: Mi La Re Sol (E1 – A1 – D2 – G2). Ukelele: Sol Do Mi La (G4 – C4 – E4 – A4). Elige tu instrumento en el menú: las notas aparecen como botones; toca una para escuchar la nota de referencia.
+
+## Consejos para afinar con precisión
+
+- Afina en un lugar silencioso, sin música ni tele de fondo.
+- Acerca el móvil o el portátil al instrumento: junto a la boca de la guitarra acústica o al altavoz del amplificador.
+- Toca una sola cuerda cada vez y apaga las demás con la mano.
+- Afina siempre subiendo hacia la nota: si la cuerda está alta, aflójala un poco por debajo y vuelve a tensarla.
+- ¿Violín, viola o violonchelo? El afinador reconoce cualquier nota (violín Sol Re La Mi, viola y violonchelo Do Sol Re La).
+- ¿Tu grupo afina en La 442 Hz? Toca «A4 = 440 Hz» para cambiar la frecuencia de referencia.
+- Si el micrófono no arranca, permítelo en la configuración del sitio de tu navegador y vuelve a pulsar el botón.
+"""
+
+[bass]
+other = "Bajo"
