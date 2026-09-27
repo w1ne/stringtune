@@ -1,15 +1,15 @@
 [description]
 other = """
-Willkommen bei StringTune, dem einfachsten Online-Stimmer. Um zu beginnen, erlaube den Zugriff auf das Mikrofon. Spiele jede Saite einzeln. Der Stimmgabel erkennt automatisch die Tonhöhe der gespielten Note und zeigt an, ob sie zu hoch oder zu tief ist. Bleiben Sie dabei, bis der Stimmer genau in die Mitte zeigt. Hier sind einige gängige Stimmungsmuster für verschiedene Saiteninstrumente:
+Willkommen bei StringTune, dem einfachen Online-Stimmgerät. Erlauben Sie zuerst den Zugriff auf das Mikrofon und spielen Sie dann jede Saite einzeln. Das Stimmgerät erkennt automatisch die Tonhöhe und zeigt an, ob der Ton zu hoch oder zu tief ist. Stimmen Sie nach, bis die Anzeige genau in der Mitte steht. Gängige Stimmungen für Saiteninstrumente:
 
-- Gitarre Standard-Stimmung: E - A - D - G - B - E
-- Bassgitarre Standard-Stimmung: E - A - D - G
-- Ukulele Standard-Stimmung: G - C - E - A
-- Geige Standard-Stimmung: G - D - A - E
-- Cello Standard-Stimmung: C - G - D - A
-- Bratsche Standard-Stimmung: C - G - D - A
-- Mandoline Standard-Stimmung: G - D - A - E
-- Banjo Standard-Stimmung (5-Saiten): G - D - G - B - D
+- Gitarre (Standardstimmung): E - A - D - G - H - E
+- E-Bass (Standardstimmung): E - A - D - G
+- Ukulele (Standardstimmung): G - C - E - A
+- Geige: G - D - A - E
+- Cello: C - G - D - A
+- Bratsche: C - G - D - A
+- Mandoline: G - D - A - E
+- Banjo (5-saitig): G - D - G - H - D
 """
 [keepScreenOn]
 other = "Bildschirm anlassen"
@@ -18,14 +18,14 @@ other = "Bildschirm anlassen"
 other = "Auto"
 
 [clickmic]
-other = "Drücken Sie das Mikrofon, um das Stimmen zu starten"
+other = "Tippen Sie auf das Mikrofon, um mit dem Stimmen zu beginnen"
 
 [install_app]
   other = "App installieren"
 
 # Deutsch (de)
 [guitar_sounds]
-other = "Wenn Sie keinen Zugriff auf ein Mikrofon haben, hier sind die Standard-Gitarrensaitenklänge, um nach Gehör zu stimmen:"
+other = "Kein Mikrofon zur Hand? Hier sind die Töne der Gitarrensaiten in Standardstimmung zum Stimmen nach Gehör:"
 
 [guitar]
 other = "Gitarre"
@@ -138,3 +138,29 @@ other = "Charango"
 
 [bandura]
 other = "Bandura"
+
+[h1]
+other = "Stimmgerät online für Gitarre, Bass und Ukulele"
+
+[guide]
+other = """
+## Gitarre online stimmen in 3 Schritten
+
+1. Tippen Sie auf den Mikrofon-Button und erlauben Sie den Zugriff auf das Mikrofon, wenn der Browser danach fragt.
+2. Schlagen Sie eine leere Saite an und lassen Sie sie klingen. Das Stimmgerät erkennt den Ton und zeigt an, ob er zu tief oder zu hoch ist.
+3. Drehen Sie langsam am Stimmwirbel, bis die Nadel in der Mitte stehen bleibt. Wiederholen Sie das für jede Saite.
+
+## Standardstimmung der Gitarre: E A D G H E
+
+Von der dicksten Saite (6.) zur dünnsten (1.): **E – A – D – G – H – E**. Das Stimmgerät verwendet die englischen Tonnamen, deshalb erscheint das H als B: E2 – A2 – D3 – G3 – B3 – E4. Bass: E1 – A1 – D2 – G2. Ukulele: G4 – C4 – E4 – A4. Wählen Sie Ihr Instrument im Menü: Die Töne erscheinen als Buttons. Tippen Sie auf einen, um den Referenzton zu hören.
+
+## Tipps für genaues Stimmen
+
+- Stimmen Sie in einem ruhigen Raum, ohne Musik oder Fernseher im Hintergrund.
+- Halten Sie Handy oder Laptop nah ans Instrument: vor das Schallloch der Akustikgitarre oder an den Lautsprecher des Verstärkers.
+- Spielen Sie immer nur eine Saite und dämpfen Sie die anderen mit der Hand ab.
+- Stimmen Sie von unten an den Ton heran: Ist die Saite zu hoch, lassen Sie sie etwas unter den Ton ab und spannen Sie sie dann wieder.
+- Geige, Bratsche oder Cello? Das Stimmgerät erkennt jeden Ton (Geige G D A E, Bratsche und Cello C G D A).
+- Ihr Ensemble stimmt auf 442 Hz? Tippen Sie auf „A4 = 440 Hz“, um den Kammerton zu ändern.
+- Startet das Mikrofon nicht? Erlauben Sie es in den Website-Einstellungen Ihres Browsers und tippen Sie erneut auf den Button.
+"""

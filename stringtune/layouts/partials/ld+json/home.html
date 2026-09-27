@@ -1,0 +1,44 @@
+{{- /*
+  schema.org graph for every locale home page: the site (WebSite), its
+  publisher (Organization) and the tuner itself (WebApplication).
+  The names make the brand explicit: "StringTune" is an online instrument tuner.
+  No ratings or reviews: the site does not collect them.
+*/ -}}
+{{- $root := "https://stringtune.com/" -}}
+{{- $logo := resources.Get "images/logos/google-org-logo.png" -}}
+{{- $org := dict
+  "@type" "Organization"
+  "@id" (printf "%s#organization" $root)
+  "name" "StringTune"
+  "alternateName" (slice "String Tune" "StringTune.com")
+  "url" $root
+  "logo" (dict "@type" "ImageObject" "url" $logo.Permalink "width" $logo.Width "height" $logo.Height)
+  "sameAs" (slice site.Params.social.facebook_url)
+-}}
+{{- $website := dict
+  "@type" "WebSite"
+  "@id" (printf "%s#website" $root)
+  "name" "StringTune"
+  "alternateName" (slice "String Tune" "StringTune.com")
+  "url" $root
+  "publisher" (dict "@id" (printf "%s#organization" $root))
+-}}
+{{- $app := dict
+  "@type" "WebApplication"
+  "@id" (printf "%s#app" .Permalink)
+  "name" "StringTune"
+  "alternateName" "String Tune"
+  "url" .Permalink
+  "description" site.Params.description
+  "inLanguage" .Lang
+  "applicationCategory" "MultimediaApplication"
+  "applicationSubCategory" "Instrument tuner"
+  "operatingSystem" "Any (web browser)"
+  "browserRequirements" "Requires a modern web browser with microphone access (Web Audio API)."
+  "isAccessibleForFree" true
+  "featureList" (slice "Chromatic tuner using the device microphone" "Guitar, bass and ukulele standard tunings" "Reference tone for each string" "Adjustable A4 reference pitch (400–500 Hz)")
+  "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+  "publisher" (dict "@id" (printf "%s#organization" $root))
+  "isPartOf" (dict "@id" (printf "%s#website" $root))
+-}}
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" (slice $website $org $app) | jsonify | safeJS }}</script>

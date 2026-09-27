@@ -28,7 +28,9 @@
 {{ partial "favicons" . }}
 
 <meta name="stringtune-analytics" content="{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}enabled{{ else }}disabled{{ end }}">
-{{ partial "script.html" "js/analytics.js?v=12" }}
+{{- /* Deferred: not render-blocking. Deferred scripts run before DOMContentLoaded, and callers hold earlier events until then. */ -}}
+{{- $analytics := partialCached "script-resource.html" "js/analytics.js?v=12" "js/analytics.js?v=12" }}
+<script defer src="/js/analytics.js?v=12" integrity="{{ $analytics.Data.Integrity }}"></script>
 
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
@@ -43,9 +45,7 @@
 
 {{- if .IsHome -}}
 <meta name="description" content="{{ .Site.Params.description }}">
-{{ partial "ld+json/organisation.html" . }}
-{{ partial "ld+json/website.html" . }}
-{{ partial "ld+json/software_app.html" . }}
+{{ partial "ld+json/home.html" . }}
 {{ else }}
 {{ $description := .Description }}
 {{ if not $description }}{{ $description = .Summary | plainify | htmlUnescape | truncate 160 }}{{ end }}
@@ -69,3 +69,4 @@
 {{ printf "<!-- twitter & facebook -->" | safeHTML }}
 {{ partial "social/twitter_card.html" . }}
 {{ partial "social/facebook_card.html" . }}
+<meta property="og:site_name" content="StringTune">

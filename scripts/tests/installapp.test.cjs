@@ -89,3 +89,14 @@ test('standalone launch reports app_open and hides language selector', () => {
   assert.deepEqual(app.events, [['app_open', { source: 'ios' }]]);
   assert.equal(app.elements['language-selector'].style.display, 'none');
 });
+test('app_open waits for deferred analytics while the page still parses', async () => {
+  const events = [];
+  const window = Object.assign(target(), { navigator: { platform: 'Linux', userAgent: '', standalone: true }, location: { pathname: '/' }, matchMedia: () => ({ matches: true }) });
+  window.document = { readyState: 'loading', getElementById: () => null };
+  vm.runInNewContext(script, { window, navigator: window.navigator, document: window.document, console: { log() {} } });
+  assert.deepEqual(events, []);
+  // The deferred analytics.js runs, then DOMContentLoaded fires.
+  window.StringTuneAnalytics = { track(name, fields) { events.push([name, { ...fields }]); } };
+  await window.emit('DOMContentLoaded');
+  assert.deepEqual(events, [['app_open', { source: 'browser' }]]);
+});
