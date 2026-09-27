@@ -139,3 +139,28 @@ other = "najgrubsza"
 
 [stringThinnest]
 other = "najcieńsza"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Skrzypce"
+
+[viola]
+other = "Altówka"
+
+[cello]
+other = "Wiolonczela"
+
+[mandolin]
+other = "Mandolina"
+
+[bouzouki]
+other = "Buzuki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"

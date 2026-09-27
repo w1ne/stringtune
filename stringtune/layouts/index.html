@@ -12,6 +12,7 @@
                             {{ if site.Params.guide }}<div class="tuning-guide">{{ i18n "guide" | markdownify }}</div>{{ end }}
 			                {{ i18n "guitar_sounds" | markdownify }}
 			                {{ partial "guitar-notes.html" . }}
+			                {{ partial "instrument-links.html" . }}
                         </div>
                     </div>
                 </div>

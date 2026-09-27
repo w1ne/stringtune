@@ -113,3 +113,28 @@ other = "die dünnste"
 
 [bass]
 other = "Bass"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Geige"
+
+[viola]
+other = "Bratsche"
+
+[cello]
+other = "Cello"
+
+[mandolin]
+other = "Mandoline"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"

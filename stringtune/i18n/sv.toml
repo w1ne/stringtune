@@ -139,3 +139,47 @@ other = "tjockast"
 
 [stringThinnest]
 other = "tunnast"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Fiol"
+
+[viola]
+other = "Altfiol"
+
+[cello]
+other = "Cello"
+
+[mandolin]
+other = "Mandolin"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
+# Instrument pages
+[colString]
+other = "Sträng"
+
+[colNote]
+other = "Ton"
+
+[colFrequency]
+other = "Frekvens (Hz)"
+
+[tableCaption]
+other = "Frekvenser vid A4 = 440 Hz"
+
+[otherInstruments]
+other = "Stäm ett annat instrument"
+
+[guitarTuner]
+other = "Gitarrstämmare"

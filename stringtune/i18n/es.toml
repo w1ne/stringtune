@@ -139,3 +139,47 @@ other = "la más gruesa"
 
 [stringThinnest]
 other = "la más fina"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Violín"
+
+[viola]
+other = "Viola"
+
+[cello]
+other = "Violonchelo"
+
+[mandolin]
+other = "Mandolina"
+
+[bouzouki]
+other = "Buzuki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"
+
+# Instrument pages
+[colString]
+other = "Cuerda"
+
+[colNote]
+other = "Nota"
+
+[colFrequency]
+other = "Frecuencia (Hz)"
+
+[tableCaption]
+other = "Frecuencias con A4 = 440 Hz"
+
+[otherInstruments]
+other = "Afinadores para otros instrumentos"
+
+[guitarTuner]
+other = "Afinador de guitarra"

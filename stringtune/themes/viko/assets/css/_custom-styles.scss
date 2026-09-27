@@ -479,7 +479,11 @@ strong {
 .tuner .note:disabled { opacity: 1; }
 .tuner .tuner-feedback { position: absolute; top: calc(265px + var(--meter-radius)); width: 100%; text-align: center; padding: 0 12px; }
 #tunerStatus { min-height: 24px; }
-#stringTargets { position: absolute; top: calc(340px + var(--meter-radius)); display: flex; justify-content: center; gap: 8px; width: 100%; padding: 0 8px; }
+#stringTargets { position: absolute; top: calc(340px + var(--meter-radius)); display: flex; justify-content: flex-start; gap: 8px; width: 100%; padding: 0 8px; overflow-x: auto; }
+/* Centred while the buttons fit; a long preset (bandura, 12 notes) scrolls instead of widening the page. */
+#stringTargets button { flex-shrink: 0; }
+#stringTargets button:first-child { margin-left: auto; }
+#stringTargets button:last-child { margin-right: auto; }
 #stringTargets button, #stopButton, #calibrationDialog button {
   min-width: 40px; min-height: 44px; border: 1px solid #78909C; border-radius: 6px;
   background: #202629; color: #F48FB1; padding: 6px 10px; cursor: pointer;
@@ -499,3 +503,54 @@ footer .columns { margin-left: 0; margin-right: 0; }
 
 #tunerFeedback { position: absolute; top: calc(390px + var(--meter-radius)); left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 12px; color: #F48FB1; text-decoration: underline; white-space: nowrap; }
 #tunerFeedback:focus-visible { outline: 2px solid #F48FB1; outline-offset: 2px; }
+
+/* Instrument pages: string table and links to the other instrument pages. */
+.string-table {
+  width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  color: inherit;
+  background: transparent;
+}
+
+.string-table caption {
+  text-align: left;
+  font-size: 14px;
+  padding-bottom: 6px;
+}
+
+.string-table th,
+.string-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(196, 211, 219, 0.3);
+  text-align: left;
+  color: inherit;
+}
+
+.string-table td:nth-child(2),
+.string-table td:nth-child(3) {
+  white-space: nowrap;
+}
+
+.instrument-links {
+  margin-top: 24px;
+  text-align: left;
+}
+
+.instrument-links ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.instrument-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid rgba(196, 211, 219, 0.5);
+  border-radius: 6px;
+  text-decoration: underline;
+}

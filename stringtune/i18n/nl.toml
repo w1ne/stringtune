@@ -139,3 +139,28 @@ other = "de dikste"
 
 [stringThinnest]
 other = "de dunste"
+
+# Instrument presets in the tuner menu
+[violin]
+other = "Viool"
+
+[viola]
+other = "Altviool"
+
+[cello]
+other = "Cello"
+
+[mandolin]
+other = "Mandoline"
+
+[bouzouki]
+other = "Bouzouki"
+
+[banjo]
+other = "Banjo"
+
+[charango]
+other = "Charango"
+
+[bandura]
+other = "Bandura"

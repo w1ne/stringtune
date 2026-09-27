@@ -10,7 +10,7 @@
     'app_installed', 'app_open'
   ]);
   const values = {
-    instrument: ['guitar', 'bass', 'ukulele'],
+    instrument: ['guitar', 'bass', 'ukulele', 'violin', 'viola', 'cello', 'mandolin', 'bouzouki4', 'bouzouki3', 'banjo5', 'banjo4', 'charango', 'bandura'],
     stage: ['audio_context', 'microphone', 'download', 'worklet', 'connection', 'capture', 'reference'],
     reason: ['not_allowed', 'not_found', 'not_readable', 'unsupported', 'aborted', 'timeout', 'unknown'],
     source: ['tuner', 'footer', 'browser', 'ios', 'recording'],

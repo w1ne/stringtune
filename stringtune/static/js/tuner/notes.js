@@ -52,10 +52,23 @@ Notes.prototype.createNotes = function () {
   });
 };
 
+// MIDI note numbers, lowest-numbered string first. Keep in sync with
+// data/instruments.json (the instrument pages print their string tables
+// from it); scripts/tests/presets.test.cjs checks that both agree.
 Notes.presets = {
   guitar: [40, 45, 50, 55, 59, 64],
   bass: [28, 33, 38, 43],
-  ukulele: [67, 60, 64, 69]
+  ukulele: [67, 60, 64, 69],
+  violin: [55, 62, 69, 76],
+  viola: [48, 55, 62, 69],
+  cello: [36, 43, 50, 57],
+  mandolin: [55, 62, 69, 76],
+  bouzouki4: [48, 53, 57, 62],
+  bouzouki3: [50, 57, 62],
+  banjo5: [67, 50, 55, 59, 62],
+  banjo4: [48, 55, 62, 69],
+  charango: [67, 72, 76, 69, 76],
+  bandura: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]
 };
 
 // Localized "%s reference tone" label from the tuner root (see partials/tuner.html).

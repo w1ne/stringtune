@@ -4,6 +4,8 @@
 <title>
     {{- if .IsHome -}}
     {{ .Site.Title }}
+    {{- else if .Params.seo_title -}}
+    {{ .Params.seo_title }}
     {{- else -}}
     {{ .Title }} | StringTune.com
     {{- end -}}
@@ -26,7 +28,7 @@
 {{ partial "favicons" . }}
 
 <meta name="stringtune-analytics" content="{{ if eq (urls.Parse .Site.BaseURL).Host "stringtune.com" }}enabled{{ else }}disabled{{ end }}">
-{{ partial "script.html" "js/analytics.js?v=11" }}
+{{ partial "script.html" "js/analytics.js?v=12" }}
 
 <!-- CSS & JS -->
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
