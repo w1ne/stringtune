@@ -64,3 +64,78 @@ De la corde la plus grave (6e) à la plus aiguë (1re) : **Mi – La – Ré –
 
 [bass]
 other = "Basse"
+
+[tunerStarting]
+other = "Démarrage…"
+
+[tunerRetry]
+other = "Réessayer le micro"
+
+[tunerPermission]
+other = "Autorisez l'accès au micro dans votre navigateur, puis réessayez."
+
+[tunerAllow]
+other = "Autorisez l'accès au micro pour commencer l'accordage."
+
+[tunerListening]
+other = "À l'écoute — jouez une corde."
+
+[tunerReference]
+other = "Touchez une note pour entendre la note de référence."
+
+[tunerInTune]
+other = "Juste"
+
+[tunerFlat]
+other = "Trop grave — tendez la corde"
+
+[tunerSharp]
+other = "Trop aigu — détendez la corde"
+
+[tunerCalibration]
+other = "Diapason"
+
+[tunerSave]
+other = "Enregistrer"
+
+[tunerCancel]
+other = "Annuler"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Arrêter le son"
+
+[tunerNotes]
+other = "Notes chromatiques"
+
+[tunerReferenceTone]
+other = "Note de référence %s"
+
+[tunerStandard]
+other = "standard"
+
+[string1]
+other = "1re corde"
+
+[string2]
+other = "2e corde"
+
+[string3]
+other = "3e corde"
+
+[string4]
+other = "4e corde"
+
+[string5]
+other = "5e corde"
+
+[string6]
+other = "6e corde"
+
+[stringThickest]
+other = "la plus grosse"
+
+[stringThinnest]
+other = "la plus fine"

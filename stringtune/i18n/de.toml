@@ -35,3 +35,81 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Stimmt etwas nicht?"
+
+[tunerStarting]
+other = "Wird gestartet…"
+
+[tunerRetry]
+other = "Mikrofon erneut versuchen"
+
+[tunerPermission]
+other = "Erlauben Sie den Mikrofonzugriff im Browser und versuchen Sie es erneut."
+
+[tunerAllow]
+other = "Erlauben Sie den Mikrofonzugriff, um mit dem Stimmen zu beginnen."
+
+[tunerListening]
+other = "Hört zu – spielen Sie eine Saite."
+
+[tunerReference]
+other = "Tippen Sie auf eine Note, um den Referenzton zu hören."
+
+[tunerInTune]
+other = "Gestimmt"
+
+[tunerFlat]
+other = "Zu tief – Saite spannen"
+
+[tunerSharp]
+other = "Zu hoch – Saite lockern"
+
+[tunerCalibration]
+other = "Kammerton"
+
+[tunerSave]
+other = "Speichern"
+
+[tunerCancel]
+other = "Abbrechen"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Ton stoppen"
+
+[tunerNotes]
+other = "Chromatische Töne"
+
+[tunerReferenceTone]
+other = "Referenzton %s"
+
+[tunerStandard]
+other = "Standard"
+
+[string1]
+other = "1. Saite"
+
+[string2]
+other = "2. Saite"
+
+[string3]
+other = "3. Saite"
+
+[string4]
+other = "4. Saite"
+
+[string5]
+other = "5. Saite"
+
+[string6]
+other = "6. Saite"
+
+[stringThickest]
+other = "die dickste"
+
+[stringThinnest]
+other = "die dünnste"
+
+[bass]
+other = "Bass"

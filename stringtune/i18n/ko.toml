@@ -35,3 +35,81 @@ other = "우쿨렐레"
 
 [tunerFeedback]
 other = "문제가 있나요?"
+
+[tunerStarting]
+other = "시작하는 중…"
+
+[tunerRetry]
+other = "마이크 다시 시도"
+
+[tunerPermission]
+other = "브라우저에서 마이크 접근을 허용한 후 다시 시도하세요."
+
+[tunerAllow]
+other = "튜닝을 시작하려면 마이크 접근을 허용하세요."
+
+[tunerListening]
+other = "듣는 중 — 줄을 하나 튕겨 보세요."
+
+[tunerReference]
+other = "음을 탭하면 기준음을 들을 수 있습니다."
+
+[tunerInTune]
+other = "맞음"
+
+[tunerFlat]
+other = "너무 낮음 — 줄을 조이세요"
+
+[tunerSharp]
+other = "너무 높음 — 줄을 푸세요"
+
+[tunerCalibration]
+other = "기준 음높이"
+
+[tunerSave]
+other = "저장"
+
+[tunerCancel]
+other = "취소"
+
+[tunerInstrument]
+other = "악기"
+
+[tunerStop]
+other = "소리 끄기"
+
+[tunerNotes]
+other = "반음계 음"
+
+[tunerReferenceTone]
+other = "%s 기준음"
+
+[tunerStandard]
+other = "표준 튜닝"
+
+[string1]
+other = "1번 줄"
+
+[string2]
+other = "2번 줄"
+
+[string3]
+other = "3번 줄"
+
+[string4]
+other = "4번 줄"
+
+[string5]
+other = "5번 줄"
+
+[string6]
+other = "6번 줄"
+
+[stringThickest]
+other = "가장 굵은 줄"
+
+[stringThinnest]
+other = "가장 가는 줄"
+
+[bass]
+other = "베이스"

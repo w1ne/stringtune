@@ -35,3 +35,81 @@ other = "Ukulele"
 
 [tunerFeedback]
 other = "Algo não funciona?"
+
+[tunerStarting]
+other = "Iniciando…"
+
+[tunerRetry]
+other = "Tentar o microfone de novo"
+
+[tunerPermission]
+other = "Permita o acesso ao microfone no navegador e tente de novo."
+
+[tunerAllow]
+other = "Permita o acesso ao microfone para começar a afinar."
+
+[tunerListening]
+other = "Ouvindo — toque uma corda."
+
+[tunerReference]
+other = "Toque em uma nota para ouvir o tom de referência."
+
+[tunerInTune]
+other = "Afinado"
+
+[tunerFlat]
+other = "Grave demais — aperte a corda"
+
+[tunerSharp]
+other = "Agudo demais — afrouxe a corda"
+
+[tunerCalibration]
+other = "Frequência de referência"
+
+[tunerSave]
+other = "Salvar"
+
+[tunerCancel]
+other = "Cancelar"
+
+[tunerInstrument]
+other = "Instrumento"
+
+[tunerStop]
+other = "Parar áudio"
+
+[tunerNotes]
+other = "Notas cromáticas"
+
+[tunerReferenceTone]
+other = "Tom de referência %s"
+
+[tunerStandard]
+other = "padrão"
+
+[string1]
+other = "1ª corda"
+
+[string2]
+other = "2ª corda"
+
+[string3]
+other = "3ª corda"
+
+[string4]
+other = "4ª corda"
+
+[string5]
+other = "5ª corda"
+
+[string6]
+other = "6ª corda"
+
+[stringThickest]
+other = "a mais grossa"
+
+[stringThinnest]
+other = "a mais fina"
+
+[bass]
+other = "Baixo"

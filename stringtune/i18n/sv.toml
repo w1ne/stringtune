@@ -64,3 +64,78 @@ Från den tjockaste strängen (6:e) till den tunnaste (1:a): **E – A – D –
 
 [bass]
 other = "Bas"
+
+[tunerStarting]
+other = "Startar…"
+
+[tunerRetry]
+other = "Försök med mikrofonen igen"
+
+[tunerPermission]
+other = "Tillåt mikrofonen i webbläsaren och försök igen."
+
+[tunerAllow]
+other = "Tillåt mikrofonen för att börja stämma."
+
+[tunerListening]
+other = "Lyssnar – spela en sträng."
+
+[tunerReference]
+other = "Tryck på en ton för att höra referenstonen."
+
+[tunerInTune]
+other = "Stämd"
+
+[tunerFlat]
+other = "För lågt – spänn strängen"
+
+[tunerSharp]
+other = "För högt – slacka strängen"
+
+[tunerCalibration]
+other = "Stämton"
+
+[tunerSave]
+other = "Spara"
+
+[tunerCancel]
+other = "Avbryt"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Stoppa ljudet"
+
+[tunerNotes]
+other = "Kromatiska toner"
+
+[tunerReferenceTone]
+other = "Referenston %s"
+
+[tunerStandard]
+other = "standard"
+
+[string1]
+other = "1:a strängen"
+
+[string2]
+other = "2:a strängen"
+
+[string3]
+other = "3:e strängen"
+
+[string4]
+other = "4:e strängen"
+
+[string5]
+other = "5:e strängen"
+
+[string6]
+other = "6:e strängen"
+
+[stringThickest]
+other = "tjockast"
+
+[stringThinnest]
+other = "tunnast"

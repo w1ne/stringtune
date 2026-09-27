@@ -64,3 +64,78 @@ De la cuerda más gruesa (6.ª) a la más fina (1.ª): **Mi – La – Re – So
 
 [bass]
 other = "Bajo"
+
+[tunerStarting]
+other = "Iniciando…"
+
+[tunerRetry]
+other = "Reintentar con el micrófono"
+
+[tunerPermission]
+other = "Permite el acceso al micrófono en tu navegador y vuelve a intentarlo."
+
+[tunerAllow]
+other = "Permite el acceso al micrófono para empezar a afinar."
+
+[tunerListening]
+other = "Escuchando: toca una cuerda."
+
+[tunerReference]
+other = "Toca una nota para escuchar el tono de referencia."
+
+[tunerInTune]
+other = "Afinada"
+
+[tunerFlat]
+other = "Muy baja: tensa la cuerda"
+
+[tunerSharp]
+other = "Muy alta: afloja la cuerda"
+
+[tunerCalibration]
+other = "Frecuencia de referencia"
+
+[tunerSave]
+other = "Guardar"
+
+[tunerCancel]
+other = "Cancelar"
+
+[tunerInstrument]
+other = "Instrumento"
+
+[tunerStop]
+other = "Detener sonido"
+
+[tunerNotes]
+other = "Notas cromáticas"
+
+[tunerReferenceTone]
+other = "Tono de referencia %s"
+
+[tunerStandard]
+other = "estándar"
+
+[string1]
+other = "1.ª cuerda"
+
+[string2]
+other = "2.ª cuerda"
+
+[string3]
+other = "3.ª cuerda"
+
+[string4]
+other = "4.ª cuerda"
+
+[string5]
+other = "5.ª cuerda"
+
+[string6]
+other = "6.ª cuerda"
+
+[stringThickest]
+other = "la más gruesa"
+
+[stringThinnest]
+other = "la más fina"

@@ -1,7 +1,10 @@
 {{ $defaultImage := resources.Get "/images/social-card-2x1.png" }}
 
 <meta property="og:url" content="{{ .Permalink }}" />
-<meta property="og:locale" content="en_GB" />
+{{ with .Site.Params.ogLocale }}<meta property="og:locale" content="{{ . }}" />{{ end }}
+{{ range .Translations }}{{ with .Site.Params.ogLocale }}
+<meta property="og:locale:alternate" content="{{ . }}" />
+{{- end }}{{ end }}
 <meta property="fb:app_id" content="{{ .Site.Params.facebook_app_id }}" />
 
 {{ if .IsHome }}

@@ -58,6 +58,12 @@ Notes.presets = {
   ukulele: [67, 60, 64, 69]
 };
 
+// Localized "%s reference tone" label from the tuner root (see partials/tuner.html).
+Notes.prototype.referenceToneLabel = function () {
+  const root = document.querySelector('.tuner');
+  return (root && root.dataset.referenceTone) || '%s reference tone';
+};
+
 Notes.prototype.setInstrument = function (instrument) {
   this.tuner.stopOscillator();
   this.playingNote = null;
@@ -70,7 +76,7 @@ Notes.prototype.setInstrument = function (instrument) {
     button.type = 'button';
     button.dataset.value = value;
     button.textContent = name;
-    button.setAttribute('aria-label', name + ' reference tone');
+    button.setAttribute('aria-label', this.referenceToneLabel().replace('%s', name));
     button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => this.playReference(value));
     targets.appendChild(button);

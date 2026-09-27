@@ -64,3 +64,78 @@ Van de dikste snaar (6e) naar de dunste (1e): **E2 – A2 – D3 – G3 – B3 �
 
 [bass]
 other = "Basgitaar"
+
+[tunerStarting]
+other = "Bezig met starten…"
+
+[tunerRetry]
+other = "Microfoon opnieuw proberen"
+
+[tunerPermission]
+other = "Geef je browser toegang tot de microfoon en probeer het opnieuw."
+
+[tunerAllow]
+other = "Geef toegang tot de microfoon om te beginnen met stemmen."
+
+[tunerListening]
+other = "Luistert — speel één snaar."
+
+[tunerReference]
+other = "Tik op een toon om de referentietoon te horen."
+
+[tunerInTune]
+other = "Gestemd"
+
+[tunerFlat]
+other = "Te laag — span de snaar aan"
+
+[tunerSharp]
+other = "Te hoog — draai de snaar losser"
+
+[tunerCalibration]
+other = "Stemtoon"
+
+[tunerSave]
+other = "Opslaan"
+
+[tunerCancel]
+other = "Annuleren"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Geluid stoppen"
+
+[tunerNotes]
+other = "Chromatische tonen"
+
+[tunerReferenceTone]
+other = "Referentietoon %s"
+
+[tunerStandard]
+other = "standaard"
+
+[string1]
+other = "1e snaar"
+
+[string2]
+other = "2e snaar"
+
+[string3]
+other = "3e snaar"
+
+[string4]
+other = "4e snaar"
+
+[string5]
+other = "5e snaar"
+
+[string6]
+other = "6e snaar"
+
+[stringThickest]
+other = "de dikste"
+
+[stringThinnest]
+other = "de dunste"

@@ -64,3 +64,78 @@ Paksuimmasta (6.) kielestä ohuimpaan (1.): **E – A – D – G – H – E**.
 
 [bass]
 other = "Basso"
+
+[tunerStarting]
+other = "Käynnistetään…"
+
+[tunerRetry]
+other = "Kokeile mikrofonia uudelleen"
+
+[tunerPermission]
+other = "Salli mikrofonin käyttö selaimessa ja yritä uudelleen."
+
+[tunerAllow]
+other = "Salli mikrofonin käyttö aloittaaksesi virityksen."
+
+[tunerListening]
+other = "Kuuntelee – soita yksi kieli."
+
+[tunerReference]
+other = "Napauta säveltä kuullaksesi vertailusävelen."
+
+[tunerInTune]
+other = "Vireessä"
+
+[tunerFlat]
+other = "Liian matala – kiristä kieltä"
+
+[tunerSharp]
+other = "Liian korkea – löysää kieltä"
+
+[tunerCalibration]
+other = "Vertailusävel"
+
+[tunerSave]
+other = "Tallenna"
+
+[tunerCancel]
+other = "Peruuta"
+
+[tunerInstrument]
+other = "Soitin"
+
+[tunerStop]
+other = "Pysäytä ääni"
+
+[tunerNotes]
+other = "Kromaattiset sävelet"
+
+[tunerReferenceTone]
+other = "Vertailusävel %s"
+
+[tunerStandard]
+other = "perusviritys"
+
+[string1]
+other = "1. kieli"
+
+[string2]
+other = "2. kieli"
+
+[string3]
+other = "3. kieli"
+
+[string4]
+other = "4. kieli"
+
+[string5]
+other = "5. kieli"
+
+[string6]
+other = "6. kieli"
+
+[stringThickest]
+other = "paksuin"
+
+[stringThinnest]
+other = "ohuin"

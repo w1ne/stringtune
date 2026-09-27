@@ -64,3 +64,78 @@ Od najgrubszej struny (6.) do najcieńszej (1.): **E – A – D – G – H –
 
 [bass]
 other = "Gitara basowa"
+
+[tunerStarting]
+other = "Uruchamianie…"
+
+[tunerRetry]
+other = "Spróbuj ponownie z mikrofonem"
+
+[tunerPermission]
+other = "Zezwól na dostęp do mikrofonu w przeglądarce i spróbuj ponownie."
+
+[tunerAllow]
+other = "Zezwól na dostęp do mikrofonu, aby zacząć strojenie."
+
+[tunerListening]
+other = "Słucham — zagraj jedną strunę."
+
+[tunerReference]
+other = "Dotknij dźwięku, aby usłyszeć dźwięk wzorcowy."
+
+[tunerInTune]
+other = "Nastrojona"
+
+[tunerFlat]
+other = "Za nisko — napnij strunę"
+
+[tunerSharp]
+other = "Za wysoko — poluzuj strunę"
+
+[tunerCalibration]
+other = "Dźwięk odniesienia"
+
+[tunerSave]
+other = "Zapisz"
+
+[tunerCancel]
+other = "Anuluj"
+
+[tunerInstrument]
+other = "Instrument"
+
+[tunerStop]
+other = "Zatrzymaj dźwięk"
+
+[tunerNotes]
+other = "Dźwięki chromatyczne"
+
+[tunerReferenceTone]
+other = "Dźwięk wzorcowy %s"
+
+[tunerStandard]
+other = "strój standardowy"
+
+[string1]
+other = "1. struna"
+
+[string2]
+other = "2. struna"
+
+[string3]
+other = "3. struna"
+
+[string4]
+other = "4. struna"
+
+[string5]
+other = "5. struna"
+
+[string6]
+other = "6. struna"
+
+[stringThickest]
+other = "najgrubsza"
+
+[stringThinnest]
+other = "najcieńsza"
