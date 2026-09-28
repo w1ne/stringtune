@@ -98,6 +98,7 @@ jobs:
           name: lighthouse-results
           path: .lighthouseci
           include-hidden-files: true
+          retention-days: 7
   
   a11y:
     needs: build
